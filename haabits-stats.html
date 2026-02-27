@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Haabits — Estadísticas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A2E;
+  --paper: #F7F5F0;
+  --sage: #7C956B;
+  --sage-light: #E8EDE4;
+  --sage-dark: #5A7049;
+  --coral: #E07A5F;
+  --coral-light: #FCF0EC;
+  --amber: #E8A838;
+  --amber-light: #FFF8E8;
+  --text: #2D2D3A;
+  --text2: #6B6B7B;
+  --text3: #9B9BAB;
+  --border: #E5E2DC;
+  --card: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--text);
+  font-family: 'Space Grotesk', sans-serif; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  max-width: 430px; margin: 0 auto; min-height: 100vh; overflow-x: hidden;
+}
+h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+a { text-decoration: none; color: inherit; }
+
+.status-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 24px 4px; font-size: 14px; font-weight: 600;
+}
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px 8px; }
+.header h1 { font-size: 28px; letter-spacing: -0.5px; }
+
+/* Big stats */
+.big-stats { display: flex; gap: 12px; padding: 20px 24px; }
+.big-stat {
+  flex: 1; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 20px; text-align: center;
+}
+.big-stat-num { font-family: 'DM Serif Display', serif; font-size: 38px; color: var(--ink); line-height: 1; }
+.big-stat-label { font-size: 12px; color: var(--text3); margin-top: 6px; font-weight: 500; }
+
+/* Weekly chart */
+.section-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 24px 24px 12px;
+}
+.section-header h2 { font-size: 22px; }
+.section-header .link { font-size: 13px; color: var(--sage); font-weight: 600; }
+
+.weekly-chart { padding: 0 24px 24px; }
+.chart-container {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 24px 20px 16px;
+}
+.bars { display: flex; justify-content: space-between; align-items: flex-end; height: 140px; gap: 8px; }
+.bar-col { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+.bar-track { width: 100%; height: 120px; background: var(--sage-light); border-radius: 8px; position: relative; display: flex; align-items: flex-end; }
+.bar-fill { width: 100%; border-radius: 8px; background: var(--sage); transition: height 0.6s ease; }
+.bar-fill.today { background: var(--ink); }
+.bar-label { font-size: 11px; color: var(--text3); font-weight: 500; }
+.bar-value { font-size: 11px; font-weight: 700; color: var(--ink); }
+
+/* Per-habit breakdown */
+.habit-breakdown { padding: 0 24px; display: flex; flex-direction: column; gap: 12px; }
+.hb-card {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 16px;
+}
+.hb-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.hb-icon svg { width: 20px; height: 20px; }
+.hb-icon.sage { background: var(--sage-light); color: var(--sage); }
+.hb-icon.coral { background: var(--coral-light); color: var(--coral); }
+.hb-icon.amber { background: var(--amber-light); color: var(--amber); }
+.hb-icon.ink { background: #EEEEF2; color: var(--ink); }
+.hb-info { flex: 1; }
+.hb-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.hb-bar-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.hb-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+.hb-pct { font-size: 14px; font-weight: 700; color: var(--ink); min-width: 40px; text-align: right; }
+
+/* Monthly trend */
+.trend-container {
+  margin: 24px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 20px;
+}
+.trend-svg { width: 100%; height: 80px; }
+
+/* Insight */
+.insight-card {
+  margin: 24px; padding: 24px;
+  background: var(--ink); border-radius: 24px; color: white;
+  position: relative; overflow: hidden;
+}
+.insight-card::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(124,149,107,0.3); filter: blur(30px);
+}
+.insight-tag {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--sage); margin-bottom: 12px;
+  background: rgba(124,149,107,0.15); padding: 4px 10px; border-radius: 6px;
+}
+.insight-card h3 { font-size: 20px; margin-bottom: 8px; color: white; }
+.insight-card p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: rgba(247,245,240,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 8px 24px 28px; display: flex; justify-content: space-around; align-items: center;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  color: var(--text3); font-size: 10px; font-weight: 500; cursor: pointer; transition: color 0.2s;
+}
+.nav-item.active { color: var(--ink); }
+.nav-item svg { width: 24px; height: 24px; }
+.nav-add {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--ink); display: flex; align-items: center; justify-content: center;
+  margin-top: -24px; cursor: pointer; box-shadow: 0 4px 16px rgba(26,26,46,0.25); transition: transform 0.2s;
+}
+.nav-add:hover { transform: scale(1.05); }
+.nav-add svg { width: 24px; height: 24px; color: white; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.animate { animation: slideUp 0.5s ease-out both; }
+.d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.1s; } .d3 { animation-delay: 0.15s; } .d4 { animation-delay: 0.2s; } .d5 { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<div class="status-bar">
+  <span>9:41</span>
+  <div style="display:flex; gap:6px; align-items:center;">
+    <svg width="16" height="12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="3" width="3" height="9" rx="1" opacity="0.3"/></svg>
+    <svg width="16" height="12" fill="currentColor"><path d="M8 2C5.2 2 2.8 3.2 1 5l1.4 1.4C3.8 5 5.7 4 8 4s4.2 1 5.6 2.4L15 5c-1.8-1.8-4.2-3-7-3zm0 4c-1.7 0-3.2.7-4.2 1.8L5.2 9.2C5.9 8.5 6.9 8 8 8s2.1.5 2.8 1.2l1.4-1.4C11.2 6.7 9.7 6 8 6zm0 4c-.8 0-1.6.3-2.1.9L8 13l2.1-2.1C9.6 10.3 8.8 10 8 10z"/></svg>
+    <svg width="22" height="12" fill="currentColor"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="19" y="4" width="2" height="4" rx="1"/><rect x="2" y="3" width="12" height="6" rx="1"/></svg>
+  </div>
+</div>
+
+<div class="header animate">
+  <h1>Estadísticas</h1>
+</div>
+
+<!-- Big stats -->
+<div class="big-stats animate d1">
+  <div class="big-stat">
+    <div class="big-stat-num" style="color:var(--coral);">21</div>
+    <div class="big-stat-label">Mejor racha</div>
+  </div>
+  <div class="big-stat">
+    <div class="big-stat-num" style="color:var(--sage);">847</div>
+    <div class="big-stat-label">Total completados</div>
+  </div>
+  <div class="big-stat">
+    <div class="big-stat-num" style="color:var(--amber);">88%</div>
+    <div class="big-stat-label">Media semanal</div>
+  </div>
+</div>
+
+<!-- Weekly chart -->
+<div class="section-header animate d2"><h2>Esta semana</h2><span class="link">Sem. 9</span></div>
+<div class="weekly-chart animate d2">
+  <div class="chart-container">
+    <div class="bars">
+      <div class="bar-col"><div class="bar-value">6</div><div class="bar-track"><div class="bar-fill" style="height:86%;"></div></div><div class="bar-label">Lun</div></div>
+      <div class="bar-col"><div class="bar-value">5</div><div class="bar-track"><div class="bar-fill" style="height:71%;"></div></div><div class="bar-label">Mar</div></div>
+      <div class="bar-col"><div class="bar-value">7</div><div class="bar-track"><div class="bar-fill" style="height:100%;"></div></div><div class="bar-label">Mié</div></div>
+      <div class="bar-col"><div class="bar-value">5</div><div class="bar-track"><div class="bar-fill today" style="height:71%;"></div></div><div class="bar-label">Jue</div></div>
+      <div class="bar-col"><div class="bar-value">—</div><div class="bar-track"><div class="bar-fill" style="height:0%;opacity:0.3;"></div></div><div class="bar-label">Vie</div></div>
+      <div class="bar-col"><div class="bar-value">—</div><div class="bar-track"><div class="bar-fill" style="height:0%;opacity:0.3;"></div></div><div class="bar-label">Sáb</div></div>
+      <div class="bar-col"><div class="bar-value">—</div><div class="bar-track"><div class="bar-fill" style="height:0%;opacity:0.3;"></div></div><div class="bar-label">Dom</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Per-habit breakdown -->
+<div class="section-header animate d3"><h2>Por hábito</h2><span class="link">Febrero</span></div>
+<div class="habit-breakdown animate d3">
+  <div class="hb-card">
+    <div class="hb-icon sage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+    <div class="hb-info"><div class="hb-name">Meditar 10 min</div><div class="hb-bar-track"><div class="hb-bar-fill" style="width:93%;background:var(--sage);"></div></div></div>
+    <div class="hb-pct">93%</div>
+  </div>
+  <div class="hb-card">
+    <div class="hb-icon coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+    <div class="hb-info"><div class="hb-name">Leer 30 páginas</div><div class="hb-bar-track"><div class="hb-bar-fill" style="width:85%;background:var(--coral);"></div></div></div>
+    <div class="hb-pct">85%</div>
+  </div>
+  <div class="hb-card">
+    <div class="hb-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M6 8H5a4 4 0 000 8h1"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="9" y1="8" x2="9" y2="16"/><line x1="15" y1="8" x2="15" y2="16"/></svg></div>
+    <div class="hb-info"><div class="hb-name">Ejercicio 45 min</div><div class="hb-bar-track"><div class="hb-bar-fill" style="width:78%;background:var(--amber);"></div></div></div>
+    <div class="hb-pct">78%</div>
+  </div>
+  <div class="hb-card">
+    <div class="hb-icon ink"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+    <div class="hb-info"><div class="hb-name">Escribir diario</div><div class="hb-bar-track"><div class="hb-bar-fill" style="width:62%;background:var(--ink);"></div></div></div>
+    <div class="hb-pct">62%</div>
+  </div>
+  <div class="hb-card">
+    <div class="hb-icon sage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 11h1a3 3 0 010 6h-1"/><path d="M9 12v6"/><path d="M13 12v6"/><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 010-5c.78 0 1.57.5 2.5.5S9.44 3 11 3s2 .5 3 .5 1.72-.5 2.5-.5a2.5 2.5 0 010 5c-.78 0-1.5-.5-2.5-.5z"/></svg></div>
+    <div class="hb-info"><div class="hb-name">Sin alcohol</div><div class="hb-bar-track"><div class="hb-bar-fill" style="width:100%;background:var(--sage);"></div></div></div>
+    <div class="hb-pct">100%</div>
+  </div>
+</div>
+
+<!-- Monthly trend -->
+<div class="section-header animate d4"><h2>Tendencia mensual</h2></div>
+<div class="trend-container animate d4">
+  <svg class="trend-svg" viewBox="0 0 340 80" fill="none">
+    <polyline points="0,60 40,55 80,40 120,45 160,30 200,25 240,20 280,15 320,10 340,12" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <polyline points="0,60 40,55 80,40 120,45 160,30 200,25 240,20 280,15 320,10 340,12" stroke="none" fill="url(#trendGrad)"/>
+    <defs><linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--sage)" stop-opacity="0.2"/><stop offset="100%" stop-color="var(--sage)" stop-opacity="0"/></linearGradient></defs>
+  </svg>
+  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:4px;">
+    <span>1 Feb</span><span>7</span><span>14</span><span>21</span><span>28</span>
+  </div>
+</div>
+
+<!-- Insights -->
+<div class="insight-card animate d5">
+  <div class="insight-tag">Descubrimiento</div>
+  <h3>Los miércoles son tu mejor día</h3>
+  <p>Completas un 96% de tus hábitos los miércoles. Los fines de semana bajan al 72% — intenta preparar la noche anterior.</p>
+</div>
+
+<div style="height: 100px;"></div>
+
+<nav class="bottom-nav">
+  <a href="haabits.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Hoy</span>
+  </a>
+  <a href="haabits-stats.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span>Stats</span>
+  </a>
+  <a href="haabits-add.html" class="nav-add">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </a>
+  <a href="haabits-calendar.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span>Calendar</span>
+  </a>
+  <a href="haabits-profile.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+</body>
+</html>

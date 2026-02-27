@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Haabits — Perfil</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A2E; --paper: #F7F5F0; --sage: #7C956B; --sage-light: #E8EDE4; --sage-dark: #5A7049;
+  --coral: #E07A5F; --coral-light: #FCF0EC; --amber: #E8A838; --amber-light: #FFF8E8;
+  --text: #2D2D3A; --text2: #6B6B7B; --text3: #9B9BAB; --border: #E5E2DC; --card: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--paper); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; max-width: 430px; margin: 0 auto; min-height: 100vh; overflow-x: hidden; }
+h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+a { text-decoration: none; color: inherit; }
+
+.status-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px 4px; font-size: 14px; font-weight: 600; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px 8px; }
+.header h1 { font-size: 28px; letter-spacing: -0.5px; }
+
+/* User card */
+.user-card {
+  margin: 20px 24px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 24px; padding: 28px; text-align: center;
+}
+.user-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 28px; margin: 0 auto 16px;
+  font-family: 'DM Serif Display', serif;
+}
+.user-name { font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 4px; }
+.user-since { font-size: 13px; color: var(--text3); }
+.user-stats { display: flex; justify-content: center; gap: 32px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+.us-stat { text-align: center; }
+.us-num { font-size: 22px; font-weight: 700; color: var(--ink); }
+.us-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* Streak records */
+.streak-records { margin: 0 24px 16px; display: flex; gap: 12px; }
+.streak-card {
+  flex: 1; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 16px; text-align: center;
+}
+.streak-icon { margin-bottom: 8px; }
+.streak-icon svg { width: 24px; height: 24px; }
+.streak-num { font-family: 'DM Serif Display', serif; font-size: 28px; line-height: 1; }
+.streak-label { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+/* Badges */
+.section-header { display: flex; justify-content: space-between; align-items: baseline; padding: 24px 24px 12px; }
+.section-header h2 { font-size: 22px; }
+.section-header .link { font-size: 13px; color: var(--sage); font-weight: 600; }
+
+.badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 0 24px; }
+.badge-item {
+  background: var(--card); border: 1.5px solid var(--border); border-radius: 16px;
+  padding: 16px 8px; text-align: center; transition: all 0.2s;
+}
+.badge-item.locked { opacity: 0.4; }
+.badge-icon {
+  width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.badge-icon svg { width: 22px; height: 22px; }
+.badge-name { font-size: 11px; font-weight: 600; line-height: 1.2; }
+
+/* Settings */
+.settings-list { padding: 0 24px; margin-bottom: 24px; }
+.settings-group {
+  background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+}
+.setting-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+  border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.2s;
+}
+.setting-item:last-child { border-bottom: none; }
+.setting-item:hover { background: var(--sage-light); }
+.setting-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.setting-icon svg { width: 18px; height: 18px; }
+.setting-info { flex: 1; }
+.setting-name { font-size: 15px; font-weight: 500; }
+.setting-desc { font-size: 12px; color: var(--text3); }
+.setting-arrow { color: var(--text3); }
+.setting-arrow svg { width: 18px; height: 18px; }
+
+/* Bottom nav */
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: rgba(247,245,240,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 8px 24px 28px; display: flex; justify-content: space-around; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text3); font-size: 10px; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+.nav-item.active { color: var(--ink); }
+.nav-item svg { width: 24px; height: 24px; }
+.nav-add { width: 52px; height: 52px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; margin-top: -24px; cursor: pointer; box-shadow: 0 4px 16px rgba(26,26,46,0.25); transition: transform 0.2s; }
+.nav-add:hover { transform: scale(1.05); }
+.nav-add svg { width: 24px; height: 24px; color: white; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.animate { animation: slideUp 0.5s ease-out both; }
+.d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.1s; } .d3 { animation-delay: 0.15s; } .d4 { animation-delay: 0.2s; }
+</style>
+</head>
+<body>
+
+<div class="status-bar">
+  <span>9:41</span>
+  <div style="display:flex; gap:6px; align-items:center;">
+    <svg width="16" height="12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="3" width="3" height="9" rx="1" opacity="0.3"/></svg>
+    <svg width="16" height="12" fill="currentColor"><path d="M8 2C5.2 2 2.8 3.2 1 5l1.4 1.4C3.8 5 5.7 4 8 4s4.2 1 5.6 2.4L15 5c-1.8-1.8-4.2-3-7-3zm0 4c-1.7 0-3.2.7-4.2 1.8L5.2 9.2C5.9 8.5 6.9 8 8 8s2.1.5 2.8 1.2l1.4-1.4C11.2 6.7 9.7 6 8 6zm0 4c-.8 0-1.6.3-2.1.9L8 13l2.1-2.1C9.6 10.3 8.8 10 8 10z"/></svg>
+    <svg width="22" height="12" fill="currentColor"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="19" y="4" width="2" height="4" rx="1"/><rect x="2" y="3" width="12" height="6" rx="1"/></svg>
+  </div>
+</div>
+
+<div class="header animate"><h1>Perfil</h1></div>
+
+<!-- User card -->
+<div class="user-card animate d1">
+  <div class="user-avatar">EP</div>
+  <div class="user-name">Eric Ponce</div>
+  <div class="user-since">Miembro desde enero 2026</div>
+  <div class="user-stats">
+    <div class="us-stat"><div class="us-num">7</div><div class="us-label">Hábitos</div></div>
+    <div class="us-stat"><div class="us-num">847</div><div class="us-label">Completados</div></div>
+    <div class="us-stat"><div class="us-num">58</div><div class="us-label">Días activo</div></div>
+  </div>
+</div>
+
+<!-- Streak records -->
+<div class="streak-records animate d2">
+  <div class="streak-card">
+    <div class="streak-icon" style="color:var(--coral);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+    <div class="streak-num" style="color:var(--coral);">21</div>
+    <div class="streak-label">Mejor racha</div>
+  </div>
+  <div class="streak-card">
+    <div class="streak-icon" style="color:var(--sage);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+    <div class="streak-num" style="color:var(--sage);">14</div>
+    <div class="streak-label">Racha actual</div>
+  </div>
+  <div class="streak-card">
+    <div class="streak-icon" style="color:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+    <div class="streak-num" style="color:var(--amber);">180</div>
+    <div class="streak-label">Sin alcohol</div>
+  </div>
+</div>
+
+<!-- Badges -->
+<div class="section-header animate d2"><h2>Logros</h2><span class="link">6 de 12</span></div>
+<div class="badges-grid animate d3">
+  <div class="badge-item">
+    <div class="badge-icon" style="background:var(--sage-light);color:var(--sage);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+    <div class="badge-name">7 días</div>
+  </div>
+  <div class="badge-item">
+    <div class="badge-icon" style="background:var(--coral-light);color:var(--coral);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <div class="badge-name">Constante</div>
+  </div>
+  <div class="badge-item">
+    <div class="badge-icon" style="background:var(--amber-light);color:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+    <div class="badge-name">Campeón</div>
+  </div>
+  <div class="badge-item">
+    <div class="badge-icon" style="background:#EEEEF2;color:var(--ink);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M6 8H5a4 4 0 000 8h1"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="9" y1="8" x2="9" y2="16"/><line x1="15" y1="8" x2="15" y2="16"/></svg></div>
+    <div class="badge-name">Atleta</div>
+  </div>
+  <div class="badge-item">
+    <div class="badge-icon" style="background:var(--sage-light);color:var(--sage);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+    <div class="badge-name">Lector</div>
+  </div>
+  <div class="badge-item">
+    <div class="badge-icon" style="background:var(--coral-light);color:var(--coral);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+    <div class="badge-name">Zen</div>
+  </div>
+  <div class="badge-item locked">
+    <div class="badge-icon" style="background:var(--border);color:var(--text3);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+    <div class="badge-name" style="color:var(--text3);">30 días</div>
+  </div>
+  <div class="badge-item locked">
+    <div class="badge-icon" style="background:var(--border);color:var(--text3);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+    <div class="badge-name" style="color:var(--text3);">Maestro</div>
+  </div>
+</div>
+
+<!-- Settings -->
+<div class="section-header animate d3"><h2>Ajustes</h2></div>
+<div class="settings-list animate d4">
+  <div class="settings-group">
+    <div class="setting-item">
+      <div class="setting-icon" style="background:var(--sage-light);color:var(--sage);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <div class="setting-info"><div class="setting-name">Notificaciones</div><div class="setting-desc">Recordatorios y alertas</div></div>
+      <div class="setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-icon" style="background:var(--amber-light);color:var(--amber);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+      <div class="setting-info"><div class="setting-name">Tema</div><div class="setting-desc">Claro (por defecto)</div></div>
+      <div class="setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-icon" style="background:var(--coral-light);color:var(--coral);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+      <div class="setting-info"><div class="setting-name">Exportar datos</div><div class="setting-desc">CSV o JSON</div></div>
+      <div class="setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+    <div class="setting-item">
+      <div class="setting-icon" style="background:#EEEEF2;color:var(--ink);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+      <div class="setting-info"><div class="setting-name">General</div><div class="setting-desc">Idioma, zona horaria</div></div>
+      <div class="setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<div style="height: 100px;"></div>
+
+<nav class="bottom-nav">
+  <a href="haabits.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Hoy</span></a>
+  <a href="haabits-stats.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Stats</span></a>
+  <a href="haabits-add.html" class="nav-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a>
+  <a href="haabits-calendar.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Calendar</span></a>
+  <a href="haabits-profile.html" class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></a>
+</nav>
+
+</body>
+</html>

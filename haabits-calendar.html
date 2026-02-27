@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Haabits — Calendario</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A2E; --paper: #F7F5F0; --sage: #7C956B; --sage-light: #E8EDE4; --sage-dark: #5A7049;
+  --coral: #E07A5F; --coral-light: #FCF0EC; --amber: #E8A838; --amber-light: #FFF8E8;
+  --text: #2D2D3A; --text2: #6B6B7B; --text3: #9B9BAB; --border: #E5E2DC; --card: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--paper); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; max-width: 430px; margin: 0 auto; min-height: 100vh; overflow-x: hidden; }
+h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+a { text-decoration: none; color: inherit; }
+
+.status-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px 4px; font-size: 14px; font-weight: 600; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px 8px; }
+.header h1 { font-size: 28px; letter-spacing: -0.5px; }
+.month-nav { display: flex; align-items: center; gap: 16px; }
+.month-nav svg { width: 20px; height: 20px; color: var(--text3); cursor: pointer; }
+
+/* Calendar */
+.calendar-wrap { padding: 16px 24px; }
+.cal-grid { background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 16px; }
+.cal-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+.cal-header span { text-align: center; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; }
+.cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-day {
+  aspect-ratio: 1; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; position: relative;
+}
+.cal-day.empty { cursor: default; }
+.cal-day.l0 { background: var(--border); color: var(--text3); }
+.cal-day.l1 { background: var(--sage-light); color: var(--sage-dark); }
+.cal-day.l2 { background: #B5CCA8; color: #3D5230; }
+.cal-day.l3 { background: var(--sage); color: white; }
+.cal-day.l4 { background: var(--sage-dark); color: white; }
+.cal-day.today { box-shadow: 0 0 0 2px var(--ink); }
+.cal-day.selected { box-shadow: 0 0 0 2.5px var(--coral); }
+.cal-day.future { background: transparent; color: var(--text3); border: 1px dashed var(--border); }
+
+/* Legend */
+.legend { display: flex; align-items: center; gap: 6px; padding: 12px 24px 0; justify-content: center; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text3); }
+.legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+/* Weekly summary */
+.week-summary {
+  margin: 16px 24px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 16px 20px; display: flex; justify-content: space-between;
+}
+.ws-stat { text-align: center; }
+.ws-num { font-size: 20px; font-weight: 700; color: var(--ink); }
+.ws-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* Day detail */
+.day-detail { margin: 0 24px 24px; background: var(--card); border: 1.5px solid var(--border); border-radius: 20px; padding: 20px; }
+.dd-title { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+.dd-habit { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.dd-habit:last-child { border-bottom: none; }
+.dd-check { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.dd-check.done { background: var(--sage); }
+.dd-check.missed { background: var(--border); }
+.dd-check svg { width: 12px; height: 12px; color: white; }
+.dd-name { font-size: 14px; }
+.dd-name.missed { color: var(--text3); text-decoration: line-through; }
+
+/* Bottom nav */
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: rgba(247,245,240,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 8px 24px 28px; display: flex; justify-content: space-around; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text3); font-size: 10px; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+.nav-item.active { color: var(--ink); }
+.nav-item svg { width: 24px; height: 24px; }
+.nav-add { width: 52px; height: 52px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; margin-top: -24px; cursor: pointer; box-shadow: 0 4px 16px rgba(26,26,46,0.25); transition: transform 0.2s; }
+.nav-add:hover { transform: scale(1.05); }
+.nav-add svg { width: 24px; height: 24px; color: white; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.animate { animation: slideUp 0.5s ease-out both; }
+.d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.1s; } .d3 { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<div class="status-bar">
+  <span>9:41</span>
+  <div style="display:flex; gap:6px; align-items:center;">
+    <svg width="16" height="12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="3" width="3" height="9" rx="1" opacity="0.3"/></svg>
+    <svg width="16" height="12" fill="currentColor"><path d="M8 2C5.2 2 2.8 3.2 1 5l1.4 1.4C3.8 5 5.7 4 8 4s4.2 1 5.6 2.4L15 5c-1.8-1.8-4.2-3-7-3zm0 4c-1.7 0-3.2.7-4.2 1.8L5.2 9.2C5.9 8.5 6.9 8 8 8s2.1.5 2.8 1.2l1.4-1.4C11.2 6.7 9.7 6 8 6zm0 4c-.8 0-1.6.3-2.1.9L8 13l2.1-2.1C9.6 10.3 8.8 10 8 10z"/></svg>
+    <svg width="22" height="12" fill="currentColor"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="19" y="4" width="2" height="4" rx="1"/><rect x="2" y="3" width="12" height="6" rx="1"/></svg>
+  </div>
+</div>
+
+<div class="header animate">
+  <h1>Calendario</h1>
+  <div class="month-nav">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+    <span style="font-weight:600;">Febrero 2026</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+</div>
+
+<div class="calendar-wrap animate d1">
+  <div class="cal-grid">
+    <div class="cal-header">
+      <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+    </div>
+    <div class="cal-days" id="calDays">
+      <!-- Feb 2026 starts on Sunday, so 6 empty cells (Mon-Sat) -->
+      <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+      <div class="cal-day l3" onclick="selectDay(1)">1</div>
+      <div class="cal-day l4" onclick="selectDay(2)">2</div>
+      <div class="cal-day l3" onclick="selectDay(3)">3</div>
+      <div class="cal-day l4" onclick="selectDay(4)">4</div>
+      <div class="cal-day l2" onclick="selectDay(5)">5</div>
+      <div class="cal-day l3" onclick="selectDay(6)">6</div>
+      <div class="cal-day l1" onclick="selectDay(7)">7</div>
+      <div class="cal-day l3" onclick="selectDay(8)">8</div>
+      <div class="cal-day l4" onclick="selectDay(9)">9</div>
+      <div class="cal-day l3" onclick="selectDay(10)">10</div>
+      <div class="cal-day l4" onclick="selectDay(11)">11</div>
+      <div class="cal-day l2" onclick="selectDay(12)">12</div>
+      <div class="cal-day l3" onclick="selectDay(13)">13</div>
+      <div class="cal-day l4" onclick="selectDay(14)">14</div>
+      <div class="cal-day l3" onclick="selectDay(15)">15</div>
+      <div class="cal-day l4" onclick="selectDay(16)">16</div>
+      <div class="cal-day l3" onclick="selectDay(17)">17</div>
+      <div class="cal-day l2" onclick="selectDay(18)">18</div>
+      <div class="cal-day l4" onclick="selectDay(19)">19</div>
+      <div class="cal-day l3" onclick="selectDay(20)">20</div>
+      <div class="cal-day l1" onclick="selectDay(21)">21</div>
+      <div class="cal-day l4" onclick="selectDay(22)">22</div>
+      <div class="cal-day l3" onclick="selectDay(23)">23</div>
+      <div class="cal-day l4" onclick="selectDay(24)">24</div>
+      <div class="cal-day l3" onclick="selectDay(25)">25</div>
+      <div class="cal-day l4" onclick="selectDay(26)">26</div>
+      <div class="cal-day l3 today selected" onclick="selectDay(27)">27</div>
+      <div class="cal-day future" onclick="selectDay(28)">28</div>
+    </div>
+  </div>
+</div>
+
+<div class="legend animate d1">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--border);"></div>0%</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--sage-light);"></div>25%</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B5CCA8;"></div>50%</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--sage);"></div>75%</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--sage-dark);"></div>100%</div>
+</div>
+
+<!-- Weekly summary -->
+<div class="week-summary animate d2">
+  <div class="ws-stat"><div class="ws-num">23</div><div class="ws-label">Completados</div></div>
+  <div class="ws-stat"><div class="ws-num">5</div><div class="ws-label">Fallados</div></div>
+  <div class="ws-stat"><div class="ws-num">82%</div><div class="ws-label">Tasa semanal</div></div>
+  <div class="ws-stat"><div class="ws-num">4</div><div class="ws-label">Días perfectos</div></div>
+</div>
+
+<!-- Day detail -->
+<div class="day-detail animate d3" id="dayDetail">
+  <div class="dd-title">Jueves 27 de Febrero</div>
+  <div class="dd-habit"><div class="dd-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="dd-name">Meditar 10 min</div></div>
+  <div class="dd-habit"><div class="dd-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="dd-name">Leer 30 páginas</div></div>
+  <div class="dd-habit"><div class="dd-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="dd-name">Ejercicio 45 min</div></div>
+  <div class="dd-habit"><div class="dd-check missed"></div><div class="dd-name missed">Escribir diario</div></div>
+  <div class="dd-habit"><div class="dd-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="dd-name">Sin alcohol</div></div>
+</div>
+
+<div style="height: 100px;"></div>
+
+<nav class="bottom-nav">
+  <a href="haabits.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Hoy</span></a>
+  <a href="haabits-stats.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Stats</span></a>
+  <a href="haabits-add.html" class="nav-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a>
+  <a href="haabits-calendar.html" class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Calendar</span></a>
+  <a href="haabits-profile.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></a>
+</nav>
+
+<script>
+function selectDay(day) {
+  document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
+  event.target.classList.add('selected');
+  const detail = document.getElementById('dayDetail');
+  const title = detail.querySelector('.dd-title');
+  const dias = ['','Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const d = new Date(2026, 1, day);
+  title.textContent = dias[d.getDay()] + ' ' + day + ' de Febrero';
+}
+</script>
+</body>
+</html>

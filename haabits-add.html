@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Haabits — Nuevo hábito</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A2E; --paper: #F7F5F0; --sage: #7C956B; --sage-light: #E8EDE4; --sage-dark: #5A7049;
+  --coral: #E07A5F; --coral-light: #FCF0EC; --amber: #E8A838; --amber-light: #FFF8E8;
+  --text: #2D2D3A; --text2: #6B6B7B; --text3: #9B9BAB; --border: #E5E2DC; --card: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--paper); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; max-width: 430px; margin: 0 auto; min-height: 100vh; overflow-x: hidden; }
+h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+a { text-decoration: none; color: inherit; }
+
+.status-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px 4px; font-size: 14px; font-weight: 600; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px 8px; }
+.header h1 { font-size: 28px; letter-spacing: -0.5px; }
+.close-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--card); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.close-btn svg { width: 18px; height: 18px; color: var(--text3); }
+
+/* Form */
+.form-section { padding: 0 24px; margin-bottom: 24px; }
+.form-label { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.form-input {
+  width: 100%; padding: 16px 20px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 16px; font-family: 'Space Grotesk', sans-serif; font-size: 16px;
+  color: var(--text); outline: none; transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--sage); }
+.form-input::placeholder { color: var(--text3); }
+
+/* Icon picker */
+.icon-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
+}
+.icon-option {
+  aspect-ratio: 1; border-radius: 14px; background: var(--card); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+}
+.icon-option svg { width: 22px; height: 22px; color: var(--text2); }
+.icon-option.selected { border-color: var(--sage); background: var(--sage-light); }
+.icon-option.selected svg { color: var(--sage); }
+
+/* Color picker */
+.color-row { display: flex; gap: 12px; }
+.color-option {
+  width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  border: 3px solid transparent; transition: all 0.2s; position: relative;
+}
+.color-option.selected { border-color: var(--ink); }
+.color-option.selected::after {
+  content: ''; position: absolute; inset: 4px; border-radius: 50%; border: 2px solid white;
+}
+
+/* Frequency */
+.freq-row { display: flex; gap: 8px; }
+.freq-option {
+  flex: 1; padding: 12px 8px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 12px; text-align: center; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.freq-option.selected { background: var(--ink); color: white; border-color: var(--ink); }
+
+/* Time of day */
+.time-row { display: flex; gap: 8px; }
+.time-option {
+  flex: 1; padding: 14px 8px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 14px; text-align: center; cursor: pointer; transition: all 0.2s;
+}
+.time-option.selected { border-color: var(--sage); background: var(--sage-light); }
+.time-icon { margin-bottom: 4px; }
+.time-icon svg { width: 20px; height: 20px; color: var(--text3); }
+.time-option.selected .time-icon svg { color: var(--sage); }
+.time-label { font-size: 12px; font-weight: 600; }
+
+/* Reminder toggle */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; background: var(--card); border: 1.5px solid var(--border); border-radius: 16px;
+}
+.toggle-info { font-size: 15px; font-weight: 500; }
+.toggle-sub { font-size: 12px; color: var(--text3); }
+.toggle {
+  width: 48px; height: 28px; border-radius: 14px; background: var(--border);
+  position: relative; cursor: pointer; transition: background 0.3s;
+}
+.toggle.on { background: var(--sage); }
+.toggle-knob {
+  width: 22px; height: 22px; border-radius: 50%; background: white;
+  position: absolute; top: 3px; left: 3px; transition: transform 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle.on .toggle-knob { transform: translateX(20px); }
+
+/* Preview */
+.preview-section { padding: 0 24px; margin-bottom: 24px; }
+.preview-label { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.preview-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 20px; background: var(--card); border: 1.5px solid var(--border);
+  border-radius: 20px;
+}
+.preview-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.preview-icon svg { width: 24px; height: 24px; }
+.preview-info { flex: 1; }
+.preview-name { font-size: 16px; font-weight: 600; }
+.preview-meta { font-size: 13px; color: var(--text3); }
+.preview-check {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border);
+}
+
+/* CTA button */
+.cta-btn {
+  display: block; width: calc(100% - 48px); margin: 0 24px 24px; padding: 18px;
+  background: var(--ink); color: white; border: none; border-radius: 16px;
+  font-family: 'DM Serif Display', serif; font-size: 18px; cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s; text-align: center;
+}
+.cta-btn:hover { transform: scale(0.98); }
+.cta-btn:active { opacity: 0.9; }
+
+/* Bottom nav */
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: rgba(247,245,240,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--border); padding: 8px 24px 28px; display: flex; justify-content: space-around; align-items: center; }
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text3); font-size: 10px; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+.nav-item.active { color: var(--ink); }
+.nav-item svg { width: 24px; height: 24px; }
+.nav-add { width: 52px; height: 52px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; margin-top: -24px; cursor: pointer; box-shadow: 0 4px 16px rgba(26,26,46,0.25); transition: transform 0.2s; }
+.nav-add:hover { transform: scale(1.05); }
+.nav-add svg { width: 24px; height: 24px; color: white; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.animate { animation: slideUp 0.5s ease-out both; }
+.d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.1s; } .d3 { animation-delay: 0.15s; } .d4 { animation-delay: 0.2s; } .d5 { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<div class="status-bar">
+  <span>9:41</span>
+  <div style="display:flex; gap:6px; align-items:center;">
+    <svg width="16" height="12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="3" width="3" height="9" rx="1" opacity="0.3"/></svg>
+    <svg width="16" height="12" fill="currentColor"><path d="M8 2C5.2 2 2.8 3.2 1 5l1.4 1.4C3.8 5 5.7 4 8 4s4.2 1 5.6 2.4L15 5c-1.8-1.8-4.2-3-7-3zm0 4c-1.7 0-3.2.7-4.2 1.8L5.2 9.2C5.9 8.5 6.9 8 8 8s2.1.5 2.8 1.2l1.4-1.4C11.2 6.7 9.7 6 8 6zm0 4c-.8 0-1.6.3-2.1.9L8 13l2.1-2.1C9.6 10.3 8.8 10 8 10z"/></svg>
+    <svg width="22" height="12" fill="currentColor"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="19" y="4" width="2" height="4" rx="1"/><rect x="2" y="3" width="12" height="6" rx="1"/></svg>
+  </div>
+</div>
+
+<div class="header animate">
+  <h1>Nuevo hábito</h1>
+  <a href="haabits.html" class="close-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+</div>
+
+<!-- Name -->
+<div class="form-section animate d1">
+  <div class="form-label">Nombre del hábito</div>
+  <input class="form-input" id="habitName" type="text" placeholder="Ej: Meditar 10 minutos" oninput="updatePreview()">
+</div>
+
+<!-- Icon picker -->
+<div class="form-section animate d1">
+  <div class="form-label">Icono</div>
+  <div class="icon-grid">
+    <div class="icon-option selected" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M6 8H5a4 4 0 000 8h1"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="9" y1="8" x2="9" y2="16"/><line x1="15" y1="8" x2="15" y2="16"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+    <div class="icon-option" onclick="selectIcon(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+  </div>
+</div>
+
+<!-- Color picker -->
+<div class="form-section animate d2">
+  <div class="form-label">Color</div>
+  <div class="color-row">
+    <div class="color-option selected" style="background:var(--sage);" onclick="selectColor(this,'sage')"></div>
+    <div class="color-option" style="background:var(--coral);" onclick="selectColor(this,'coral')"></div>
+    <div class="color-option" style="background:var(--amber);" onclick="selectColor(this,'amber')"></div>
+    <div class="color-option" style="background:var(--ink);" onclick="selectColor(this,'ink')"></div>
+  </div>
+</div>
+
+<!-- Frequency -->
+<div class="form-section animate d2">
+  <div class="form-label">Frecuencia</div>
+  <div class="freq-row">
+    <div class="freq-option selected" onclick="selectFreq(this)">Diario</div>
+    <div class="freq-option" onclick="selectFreq(this)">L-V</div>
+    <div class="freq-option" onclick="selectFreq(this)">Personalizado</div>
+  </div>
+</div>
+
+<!-- Time of day -->
+<div class="form-section animate d3">
+  <div class="form-label">Momento del día</div>
+  <div class="time-row">
+    <div class="time-option selected" onclick="selectTime(this)">
+      <div class="time-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
+      <div class="time-label">Mañana</div>
+    </div>
+    <div class="time-option" onclick="selectTime(this)">
+      <div class="time-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
+      <div class="time-label">Tarde</div>
+    </div>
+    <div class="time-option" onclick="selectTime(this)">
+      <div class="time-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div>
+      <div class="time-label">Noche</div>
+    </div>
+    <div class="time-option" onclick="selectTime(this)">
+      <div class="time-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="time-label">Flexible</div>
+    </div>
+  </div>
+</div>
+
+<!-- Reminder -->
+<div class="form-section animate d3">
+  <div class="toggle-row">
+    <div>
+      <div class="toggle-info">Recordatorio</div>
+      <div class="toggle-sub">Notificación push a la hora elegida</div>
+    </div>
+    <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+  </div>
+</div>
+
+<!-- Preview -->
+<div class="preview-section animate d4">
+  <div class="preview-label">Vista previa</div>
+  <div class="preview-card">
+    <div class="preview-icon" id="previewIcon" style="background:var(--sage-light);color:var(--sage);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <div class="preview-info">
+      <div class="preview-name" id="previewName">Nuevo hábito</div>
+      <div class="preview-meta" id="previewMeta">Mañana · Diario</div>
+    </div>
+    <div class="preview-check"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<button class="cta-btn animate d5">Crear hábito</button>
+
+<div style="height: 100px;"></div>
+
+<nav class="bottom-nav">
+  <a href="haabits.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Hoy</span></a>
+  <a href="haabits-stats.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Stats</span></a>
+  <a href="haabits-add.html" class="nav-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a>
+  <a href="haabits-calendar.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Calendar</span></a>
+  <a href="haabits-profile.html" class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Perfil</span></a>
+</nav>
+
+<script>
+let selectedColor = 'sage';
+const colorMap = { sage: ['var(--sage-light)','var(--sage)'], coral: ['var(--coral-light)','var(--coral)'], amber: ['var(--amber-light)','var(--amber)'], ink: ['#EEEEF2','var(--ink)'] };
+
+function selectIcon(el) {
+  document.querySelectorAll('.icon-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('previewIcon').innerHTML = el.innerHTML;
+}
+function selectColor(el, color) {
+  document.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedColor = color;
+  const pi = document.getElementById('previewIcon');
+  pi.style.background = colorMap[color][0];
+  pi.style.color = colorMap[color][1];
+}
+function selectFreq(el) {
+  document.querySelectorAll('.freq-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  updatePreview();
+}
+function selectTime(el) {
+  document.querySelectorAll('.time-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  updatePreview();
+}
+function updatePreview() {
+  const name = document.getElementById('habitName').value || 'Nuevo hábito';
+  document.getElementById('previewName').textContent = name;
+  const time = document.querySelector('.time-option.selected .time-label')?.textContent || 'Mañana';
+  const freq = document.querySelector('.freq-option.selected')?.textContent || 'Diario';
+  document.getElementById('previewMeta').textContent = time + ' · ' + freq;
+}
+</script>
+</body>
+</html>
