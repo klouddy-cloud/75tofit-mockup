@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Haabits — Track your life</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A2E;
+  --paper: #F7F5F0;
+  --sage: #7C956B;
+  --sage-light: #E8EDE4;
+  --sage-dark: #5A7049;
+  --coral: #E07A5F;
+  --coral-light: #FCF0EC;
+  --amber: #E8A838;
+  --amber-light: #FFF8E8;
+  --text: #2D2D3A;
+  --text2: #6B6B7B;
+  --text3: #9B9BAB;
+  --border: #E5E2DC;
+  --card: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { font-family: 'DM Serif Display', serif; font-weight: 400; }
+
+/* Status bar */
+.status-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 24px 4px; font-size: 14px; font-weight: 600;
+}
+
+/* Header */
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px 8px;
+}
+.header h1 { font-size: 28px; letter-spacing: -0.5px; }
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage), var(--sage-dark));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 600; font-size: 14px; cursor: pointer;
+}
+
+/* Date strip */
+.date-strip {
+  padding: 16px 24px 12px;
+}
+.date-label { font-size: 13px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; }
+.date-row {
+  display: flex; gap: 8px; margin-top: 10px; overflow-x: auto;
+  scrollbar-width: none; -ms-overflow-style: none;
+}
+.date-row::-webkit-scrollbar { display: none; }
+.day-chip {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 14px; border-radius: 16px; min-width: 52px;
+  background: var(--card); border: 1.5px solid var(--border);
+  cursor: pointer; transition: all 0.2s ease;
+}
+.day-chip.active {
+  background: var(--ink); border-color: var(--ink); color: white;
+}
+.day-chip .d-name { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; }
+.day-chip.active .d-name { color: rgba(255,255,255,0.6); }
+.day-chip .d-num { font-size: 18px; font-weight: 700; }
+
+/* Progress ring section */
+.progress-section {
+  padding: 24px; display: flex; flex-direction: column; align-items: center;
+}
+.ring-container { position: relative; width: 180px; height: 180px; }
+.ring-container svg { transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
+.ring-fill { fill: none; stroke: var(--sage); stroke-width: 10; stroke-linecap: round;
+  stroke-dasharray: 502; stroke-dashoffset: 150;
+  transition: stroke-dashoffset 1s ease;
+}
+.ring-text {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  text-align: center;
+}
+.ring-pct { font-family: 'DM Serif Display', serif; font-size: 42px; color: var(--ink); line-height: 1; }
+.ring-label { font-size: 13px; color: var(--text3); margin-top: 4px; }
+.progress-stats {
+  display: flex; gap: 32px; margin-top: 20px;
+}
+.stat { text-align: center; }
+.stat-num { font-size: 22px; font-weight: 700; color: var(--ink); }
+.stat-label { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+/* Section header */
+.section-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 24px 24px 12px;
+}
+.section-header h2 { font-size: 22px; }
+.section-header .link { font-size: 13px; color: var(--sage); font-weight: 600; cursor: pointer; text-decoration: none; }
+
+/* Habit cards */
+.habits-list { padding: 0 24px; display: flex; flex-direction: column; gap: 12px; }
+
+.habit-card {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 20px; background: var(--card);
+  border-radius: 20px; border: 1.5px solid var(--border);
+  cursor: pointer; transition: all 0.2s ease;
+  position: relative; overflow: hidden;
+}
+.habit-card:hover { border-color: var(--sage); }
+
+.habit-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.habit-icon svg { width: 24px; height: 24px; }
+.habit-icon.sage { background: var(--sage-light); color: var(--sage); }
+.habit-icon.coral { background: var(--coral-light); color: var(--coral); }
+.habit-icon.amber { background: var(--amber-light); color: var(--amber); }
+.habit-icon.ink { background: #EEEEF2; color: var(--ink); }
+
+.habit-info { flex: 1; }
+.habit-name { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+.habit-meta { font-size: 13px; color: var(--text3); }
+
+.habit-check {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid var(--border); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s ease; flex-shrink: 0;
+}
+.habit-check.done {
+  background: var(--sage); border-color: var(--sage);
+}
+.habit-check.done svg { opacity: 1; }
+.habit-check svg { width: 16px; height: 16px; color: white; opacity: 0; }
+
+.habit-streak {
+  position: absolute; top: 8px; right: 12px;
+  font-size: 11px; font-weight: 600; color: var(--coral);
+  display: flex; align-items: center; gap: 3px;
+}
+
+/* Insight card */
+.insight-card {
+  margin: 24px; padding: 24px;
+  background: var(--ink); border-radius: 24px; color: white;
+  position: relative; overflow: hidden;
+}
+.insight-card::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(124,149,107,0.3); filter: blur(30px);
+}
+.insight-tag {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--sage); margin-bottom: 12px;
+  background: rgba(124,149,107,0.15); padding: 4px 10px; border-radius: 6px;
+}
+.insight-card h3 { font-size: 20px; margin-bottom: 8px; color: white; }
+.insight-card p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* Mini heatmap */
+.heatmap-section { padding: 0 24px 24px; }
+.heatmap-label { font-size: 12px; color: var(--text3); margin-bottom: 8px; font-weight: 500; }
+.heatmap-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+}
+.hm-cell {
+  aspect-ratio: 1; border-radius: 4px; background: var(--border);
+}
+.hm-cell.l1 { background: var(--sage-light); }
+.hm-cell.l2 { background: #B5CCA8; }
+.hm-cell.l3 { background: var(--sage); }
+.hm-cell.l4 { background: var(--sage-dark); }
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: rgba(247,245,240,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 8px 24px 28px; display: flex; justify-content: space-around; align-items: center;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  color: var(--text3); font-size: 10px; font-weight: 500; cursor: pointer;
+  transition: color 0.2s;
+}
+.nav-item.active { color: var(--ink); }
+.nav-item svg { width: 24px; height: 24px; }
+.nav-add {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--ink); display: flex; align-items: center; justify-content: center;
+  margin-top: -24px; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26,26,46,0.25);
+  transition: transform 0.2s;
+}
+.nav-add:hover { transform: scale(1.05); }
+.nav-add svg { width: 24px; height: 24px; color: white; }
+
+/* Animations */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate { animation: slideUp 0.5s ease-out both; }
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.1s; }
+.d3 { animation-delay: 0.15s; }
+.d4 { animation-delay: 0.2s; }
+.d5 { animation-delay: 0.25s; }
+</style>
+</head>
+<body>
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <span>9:41</span>
+  <div style="display:flex; gap:6px; align-items:center;">
+    <svg width="16" height="12" fill="currentColor"><rect x="0" y="4" width="3" height="8" rx="1"/><rect x="4" y="2" width="3" height="10" rx="1"/><rect x="8" y="0" width="3" height="12" rx="1"/><rect x="12" y="3" width="3" height="9" rx="1" opacity="0.3"/></svg>
+    <svg width="16" height="12" fill="currentColor"><path d="M8 2C5.2 2 2.8 3.2 1 5l1.4 1.4C3.8 5 5.7 4 8 4s4.2 1 5.6 2.4L15 5c-1.8-1.8-4.2-3-7-3zm0 4c-1.7 0-3.2.7-4.2 1.8L5.2 9.2C5.9 8.5 6.9 8 8 8s2.1.5 2.8 1.2l1.4-1.4C11.2 6.7 9.7 6 8 6zm0 4c-.8 0-1.6.3-2.1.9L8 13l2.1-2.1C9.6 10.3 8.8 10 8 10z"/></svg>
+    <svg width="22" height="12" fill="currentColor"><rect x="0" y="1" width="18" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="19" y="4" width="2" height="4" rx="1"/><rect x="2" y="3" width="12" height="6" rx="1"/></svg>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header animate">
+  <div>
+    <h1>Hoy</h1>
+  </div>
+  <div class="avatar">EP</div>
+</div>
+
+<!-- Date Strip -->
+<div class="date-strip animate d1">
+  <div class="date-label">Febrero 2026</div>
+  <div class="date-row">
+    <div class="day-chip"><span class="d-name">Lun</span><span class="d-num">24</span></div>
+    <div class="day-chip"><span class="d-name">Mar</span><span class="d-num">25</span></div>
+    <div class="day-chip"><span class="d-name">Mié</span><span class="d-num">26</span></div>
+    <div class="day-chip active"><span class="d-name">Jue</span><span class="d-num">27</span></div>
+    <div class="day-chip"><span class="d-name">Vie</span><span class="d-num">28</span></div>
+    <div class="day-chip"><span class="d-name">Sáb</span><span class="d-num">1</span></div>
+    <div class="day-chip"><span class="d-name">Dom</span><span class="d-num">2</span></div>
+  </div>
+</div>
+
+<!-- Progress Ring -->
+<div class="progress-section animate d2">
+  <div class="ring-container">
+    <svg width="180" height="180" viewBox="0 0 180 180">
+      <circle class="ring-bg" cx="90" cy="90" r="80"/>
+      <circle class="ring-fill" cx="90" cy="90" r="80"/>
+    </svg>
+    <div class="ring-text">
+      <div class="ring-pct">70%</div>
+      <div class="ring-label">completado</div>
+    </div>
+  </div>
+  <div class="progress-stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">de 7 hábitos</div></div>
+    <div class="stat"><div class="stat-num">14</div><div class="stat-label">días de racha</div></div>
+    <div class="stat"><div class="stat-num">92%</div><div class="stat-label">esta semana</div></div>
+  </div>
+</div>
+
+<!-- Habits -->
+<div class="section-header animate d3">
+  <h2>Hábitos</h2>
+  <a class="link">Ver todos</a>
+</div>
+
+<div class="habits-list">
+  <!-- Meditation -->
+  <div class="habit-card animate d3">
+    <div class="habit-streak">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+      14 días
+    </div>
+    <div class="habit-icon sage">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <div class="habit-info">
+      <div class="habit-name">Meditar 10 min</div>
+      <div class="habit-meta">Mañana · 08:00</div>
+    </div>
+    <div class="habit-check done">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+  </div>
+
+  <!-- Read -->
+  <div class="habit-card animate d3">
+    <div class="habit-streak">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+      21 días
+    </div>
+    <div class="habit-icon coral">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    </div>
+    <div class="habit-info">
+      <div class="habit-name">Leer 30 páginas</div>
+      <div class="habit-meta">Tarde · Flexible</div>
+    </div>
+    <div class="habit-check done">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+  </div>
+
+  <!-- Exercise -->
+  <div class="habit-card animate d4">
+    <div class="habit-icon amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M6 8H5a4 4 0 000 8h1"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="9" y1="8" x2="9" y2="16"/><line x1="15" y1="8" x2="15" y2="16"/></svg>
+    </div>
+    <div class="habit-info">
+      <div class="habit-name">Ejercicio 45 min</div>
+      <div class="habit-meta">Mañana · 07:00</div>
+    </div>
+    <div class="habit-check done">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+  </div>
+
+  <!-- Journal -->
+  <div class="habit-card animate d4">
+    <div class="habit-icon ink">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </div>
+    <div class="habit-info">
+      <div class="habit-name">Escribir diario</div>
+      <div class="habit-meta">Noche · 22:00</div>
+    </div>
+    <div class="habit-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+  </div>
+
+  <!-- No alcohol -->
+  <div class="habit-card animate d5">
+    <div class="habit-streak" style="color:var(--sage);">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-2 15l-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8l-9 9z"/></svg>
+      180 días
+    </div>
+    <div class="habit-icon sage">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 11h1a3 3 0 010 6h-1"/><path d="M9 12v6"/><path d="M13 12v6"/><path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 010-5c.78 0 1.57.5 2.5.5S9.44 3 11 3s2 .5 3 .5 1.72-.5 2.5-.5a2.5 2.5 0 010 5c-.78 0-1.5-.5-2.5-.5z"/></svg>
+    </div>
+    <div class="habit-info">
+      <div class="habit-name">Sin alcohol</div>
+      <div class="habit-meta">Todo el día</div>
+    </div>
+    <div class="habit-check done">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- Insight -->
+<div class="insight-card animate d5">
+  <div class="insight-tag">Insight semanal</div>
+  <h3>Tu mejor racha hasta ahora</h3>
+  <p>Llevas 14 días seguidos meditando. Los martes son tu punto débil — programa un recordatorio extra.</p>
+</div>
+
+<!-- Heatmap -->
+<div class="section-header" style="padding-bottom:4px;">
+  <h2>Actividad</h2>
+  <a class="link">28 días</a>
+</div>
+<div class="heatmap-section">
+  <div class="heatmap-grid">
+    <div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l1"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div>
+    <div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l1"></div><div class="hm-cell l4"></div>
+    <div class="hm-cell l4"></div><div class="hm-cell l3"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div>
+    <div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell"></div>
+  </div>
+</div>
+
+<!-- Spacer for bottom nav -->
+<div style="height: 100px;"></div>
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Hoy</span>
+  </a>
+  <a class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span>Stats</span>
+  </a>
+  <div class="nav-add">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </div>
+  <a class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span>Calendar</span>
+  </a>
+  <a class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Perfil</span>
+  </a>
+</nav>
+
+</body>
+</html>
