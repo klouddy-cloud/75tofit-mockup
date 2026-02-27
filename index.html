@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>75toFit — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #00FF88;
+  --green-dark: #00CC6A;
+  --violet: #8B5CF6;
+  --violet-dark: #7C3AED;
+  --bg: #0A0A0F;
+  --surface: #111118;
+  --glass: rgba(30, 30, 40, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text: #FFFFFF;
+  --text2: #A1A1AA;
+  --text3: #71717A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: linear-gradient(135deg, #0A0A0F 0%, #111118 50%, #0A0A0F 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Background mesh */
+.bg-mesh {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(139,92,246,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,255,136,0.1) 0%, transparent 50%);
+  animation: meshPulse 20s ease infinite;
+}
+@keyframes meshPulse { 0%,100%{opacity:1} 50%{opacity:0.8} }
+
+/* Glass cards */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.glass-inner {
+  background: rgba(17,17,24,0.8);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+/* Gradient text */
+.gt { background: linear-gradient(135deg, var(--green), var(--green-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gt-v { background: linear-gradient(135deg, var(--violet), var(--violet-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Buttons */
+.btn-green {
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  color: #000; font-weight: 700; border-radius: 9999px; border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,255,136,0.3);
+  transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,255,136,0.4); }
+
+.btn-violet {
+  background: linear-gradient(135deg, var(--violet), var(--violet-dark));
+  color: #fff; font-weight: 600; border-radius: 9999px; border: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(139,92,246,0.25);
+  transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+
+/* Avatar ring */
+.avatar-ring { position: relative; display: inline-flex; }
+.avatar-ring::before {
+  content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px;
+  background: linear-gradient(135deg, var(--green), var(--violet)); border-radius: 50%; z-index: 0;
+}
+.avatar-ring .av {
+  position: relative; z-index: 1; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #000;
+}
+
+/* Badge */
+.badge {
+  display: inline-block; border-radius: 9999px; padding: 4px 12px; font-size: 12px; font-weight: 600;
+  border: 1px solid;
+}
+
+/* Countdown */
+.cd-box {
+  background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+  border-radius: 16px; padding: 12px 8px; text-align: center;
+  box-shadow: 0 4px 20px rgba(0,255,136,0.1), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.cd-num {
+  font-size: 28px; font-weight: 900;
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(0,255,136,0.5));
+}
+.cd-label { font-size: 11px; color: var(--text3); font-weight: 500; margin-top: 2px; }
+
+/* Positions */
+.pos { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+.pos-1 { background: linear-gradient(135deg, #FFD700, #FFA500); color: #000; box-shadow: 0 4px 16px rgba(255,215,0,0.4); }
+.pos-2 { background: linear-gradient(135deg, #C0C0C0, #A0A0A0); color: #000; box-shadow: 0 4px 16px rgba(192,192,192,0.4); }
+.pos-3 { background: linear-gradient(135deg, #CD7F32, #B87333); color: #fff; box-shadow: 0 4px 16px rgba(205,127,50,0.4); }
+
+/* Animations */
+.fade-in { animation: fadeIn 0.6s ease-out; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+.pulse { animation: pulse 2s ease-in-out infinite alternate; }
+@keyframes pulse { from { box-shadow: 0 0 10px rgba(0,255,136,0.2); } to { box-shadow: 0 0 20px rgba(0,255,136,0.4); } }
+
+/* Hero glow */
+.hero-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(0,255,136,0.12) 0%, transparent 70%);
+  border-radius: 50%; filter: blur(40px); pointer-events: none;
+  animation: heroG 4s ease-in-out infinite alternate;
+}
+@keyframes heroG { from{opacity:.5;transform:translate(-50%,-50%) scale(1)} to{opacity:.8;transform:translate(-50%,-50%) scale(1.1)} }
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px;
+  background: rgba(10,10,15,0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--glass-border);
+  padding: 8px 16px 24px; display: flex; justify-content: space-around; align-items: center; z-index: 100;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--text3); font-size: 10px; font-weight: 500; text-decoration: none; }
+.nav-item.active { color: var(--green); }
+.nav-item .icon { font-size: 22px; }
+.nav-pill {
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  border-radius: 50%; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-top: -20px;
+  box-shadow: 0 4px 20px rgba(0,255,136,0.4);
+}
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+
+<!-- HERO -->
+<section style="position:relative; padding: 60px 24px 40px; text-align:center; overflow:hidden;">
+  <div class="hero-glow"></div>
+  <div class="fade-in" style="position:relative; z-index:1;">
+    <h1 style="font-size:56px; font-weight:900; line-height:1;">
+      <span style="color:#fff">75to</span><span class="gt">Fit</span>
+    </h1>
+    <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin:16px 0;">
+      <div style="height:3px; width:32px; background:linear-gradient(90deg,var(--green),var(--violet)); border-radius:4px;"></div>
+      <p style="font-size:18px; font-weight:700;" class="gt">Compite. Supérate. Gana.</p>
+      <div style="height:3px; width:32px; background:linear-gradient(90deg,var(--violet),var(--green)); border-radius:4px;"></div>
+    </div>
+    <p style="font-size:16px; color:var(--text2); max-width:320px; margin:0 auto 32px;">
+      Únete a la comunidad fitness más competitiva. Retos semanales, supera tus límites y gana premios.
+    </p>
+    <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <a class="btn-green" style="font-size:17px; padding:16px 32px;">🚀 Únete al reto</a>
+      <a class="btn-violet" style="font-size:15px; padding:12px 24px;">📱 Descargar App</a>
+    </div>
+  </div>
+</section>
+
+<!-- RETO DE LA SEMANA -->
+<section style="padding: 16px 20px 32px;">
+  <div style="text-align:center; margin-bottom:24px;">
+    <h2 style="font-size:24px; font-weight:900;">🔥 <span class="gt">Reto de esta semana</span></h2>
+    <p style="color:var(--text3); font-size:14px;">El desafío que está encendiendo la comunidad</p>
+  </div>
+
+  <div class="glass" style="border-radius:24px; padding:28px 24px;">
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;">
+      <div style="flex:1;">
+        <h3 style="font-size:22px; font-weight:700; margin-bottom:8px;" class="gt">Reto 100 Sentadillas</h3>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="avatar-ring">
+            <div class="av" style="width:40px; height:40px; background:linear-gradient(135deg,var(--green),var(--green-dark)); font-size:13px;">CM</div>
+          </div>
+          <div>
+            <p style="font-weight:600; font-size:14px;">Carlos Mendoza</p>
+            <p style="color:var(--text3); font-size:12px;">Entrenador Certificado</p>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
+        <span class="badge" style="background:rgba(139,92,246,0.15); color:var(--violet); border-color:rgba(139,92,246,0.2);">Intermedio</span>
+        <span class="badge" style="background:rgba(0,255,136,0.15); color:var(--green); border-color:rgba(0,255,136,0.2);">Piernas</span>
+      </div>
+    </div>
+
+    <p style="color:var(--text2); font-size:15px; margin-bottom:24px; line-height:1.6;">
+      Completa 100 sentadillas en el menor tiempo posible. Técnica perfecta es clave.
+    </p>
+
+    <!-- Countdown -->
+    <div class="glass-inner" style="border-radius:16px; padding:20px 16px; margin-bottom:24px;">
+      <div style="text-align:center; margin-bottom:12px;">
+        <h4 style="font-size:15px; font-weight:700;">⏰ Tiempo restante</h4>
+        <p style="color:var(--text3); font-size:12px;">¡Date prisa antes de que termine!</p>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px;">
+        <div class="cd-box"><div class="cd-num">02</div><div class="cd-label">días</div></div>
+        <div class="cd-box"><div class="cd-num">14</div><div class="cd-label">horas</div></div>
+        <div class="cd-box"><div class="cd-num">37</div><div class="cd-label">min</div></div>
+        <div class="cd-box pulse"><div class="cd-num">52</div><div class="cd-label">seg</div></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;">
+      <div class="glass-inner" style="border-radius:16px; padding:16px; text-align:center;">
+        <div style="font-size:22px; font-weight:900;">1.247</div>
+        <div style="font-size:12px; color:var(--text3);">atletas compitiendo</div>
+      </div>
+      <div class="glass-inner" style="border-radius:16px; padding:16px; text-align:center;">
+        <div style="font-size:20px; font-weight:900;" class="gt">ProteínMax</div>
+        <div style="font-size:12px; color:var(--text3);">patrocinador oficial</div>
+      </div>
+    </div>
+
+    <!-- Prize -->
+    <div class="glass-inner" style="border-radius:16px; padding:16px; margin-bottom:24px; border-left:4px solid var(--green);">
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#FFD700,#FFA500); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;">🏆</div>
+        <div>
+          <h5 style="font-weight:700; font-size:14px; margin-bottom:4px;">Premio del ganador</h5>
+          <p style="color:var(--text2); font-size:13px;">Proteína Whey 2kg + Shaker oficial</p>
+        </div>
+      </div>
+    </div>
+
+    <a class="btn-green" style="width:100%; justify-content:center; padding:16px; font-size:16px; text-align:center;">
+      Ver detalles del reto →
+    </a>
+  </div>
+</section>
+
+<!-- RANKING -->
+<section style="padding: 8px 20px 32px;">
+  <div style="text-align:center; margin-bottom:24px;">
+    <h2 style="font-size:24px; font-weight:900;">🏆 <span class="gt">Ranking semanal</span></h2>
+    <p style="color:var(--text3); font-size:14px;">Los atletas que están dominando esta semana</p>
+  </div>
+
+  <!-- #1 -->
+  <div class="glass" style="border-radius:20px; padding:20px; margin-bottom:12px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div class="pos pos-1">1</div>
+      <div class="avatar-ring">
+        <div class="av" style="width:48px; height:48px; background:linear-gradient(135deg,var(--green),var(--violet)); font-size:14px;">AM</div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+          <h4 style="font-weight:700; font-size:15px;">Ana Martín</h4>
+          <span class="badge" style="padding:2px 8px; font-size:11px; background:var(--glass); border-color:var(--glass-border);">Nivel 9</span>
+        </div>
+        <p style="color:var(--text3); font-size:12px;">@ana_strong · 15 días de racha 🔥</p>
+      </div>
+      <div style="text-align:right;">
+        <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end; margin-bottom:4px;">
+          <span style="font-size:20px; font-weight:900;" class="gt">460</span>
+          <span style="font-size:11px; color:var(--text3);">pts</span>
+        </div>
+        <div style="font-size:16px;">🔥🏆⚡</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #2 -->
+  <div class="glass" style="border-radius:20px; padding:20px; margin-bottom:12px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div class="pos pos-2">2</div>
+      <div class="avatar-ring">
+        <div class="av" style="width:48px; height:48px; background:linear-gradient(135deg,var(--green),var(--violet)); font-size:14px;">MG</div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+          <h4 style="font-weight:700; font-size:15px;">María González</h4>
+          <span class="badge" style="padding:2px 8px; font-size:11px; background:var(--glass); border-color:var(--glass-border);">Nivel 8</span>
+        </div>
+        <p style="color:var(--text3); font-size:12px;">@mariag_fit · 12 días de racha 🔥</p>
+      </div>
+      <div style="text-align:right;">
+        <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end; margin-bottom:4px;">
+          <span style="font-size:20px; font-weight:900;" class="gt">420</span>
+          <span style="font-size:11px; color:var(--text3);">pts</span>
+        </div>
+        <div style="font-size:16px;">🔥💪🏆</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- #3 -->
+  <div class="glass" style="border-radius:20px; padding:20px; margin-bottom:24px;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div class="pos pos-3">3</div>
+      <div class="avatar-ring">
+        <div class="av" style="width:48px; height:48px; background:linear-gradient(135deg,var(--green),var(--violet)); font-size:14px;">LJ</div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+          <h4 style="font-weight:700; font-size:15px;">Laura Jiménez</h4>
+          <span class="badge" style="padding:2px 8px; font-size:11px; background:var(--glass); border-color:var(--glass-border);">Nivel 8</span>
+        </div>
+        <p style="color:var(--text3); font-size:12px;">@laurajimenez · 18 días de racha 🔥</p>
+      </div>
+      <div style="text-align:right;">
+        <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end; margin-bottom:4px;">
+          <span style="font-size:20px; font-weight:900;" class="gt">390</span>
+          <span style="font-size:11px; color:var(--text3);">pts</span>
+        </div>
+        <div style="font-size:16px;">🔥🎯💎</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <a class="btn-violet" style="padding:12px 24px; font-size:15px;">Ver ranking completo →</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding: 16px 20px 120px;">
+  <div class="glass" style="border-radius:24px; padding:48px 24px; text-align:center;">
+    <h2 style="font-size:28px; font-weight:900; margin-bottom:12px;">
+      ¿Listo para el <span class="gt">desafío</span>?
+    </h2>
+    <p style="color:var(--text2); font-size:15px; margin-bottom:28px; line-height:1.6;">
+      Únete a miles de atletas que ya están transformando sus vidas. Tu próximo límite te está esperando.
+    </p>
+    <div style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <a class="btn-green" style="font-size:16px; padding:16px 32px;">📱 Descargar App</a>
+      <a class="btn-violet" style="font-size:14px; padding:12px 24px;">Explorar retos</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a class="nav-item active"><span class="icon">🏠</span>Inicio</a>
+  <a class="nav-item"><span class="icon">🏆</span>Ranking</a>
+  <a class="nav-item"><div class="nav-pill">⚡</div></a>
+  <a class="nav-item"><span class="icon">👥</span>Comunidad</a>
+  <a class="nav-item"><span class="icon">👤</span>Perfil</a>
+</nav>
+
+</body>
+</html>
