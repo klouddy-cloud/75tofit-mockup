@@ -2,209 +2,283 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>75toFit — Perfil</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F7F7F2;--card:#FFFFFF;--coral:#FF6B6B;--teal:#4ECDC4;--yellow:#FFE66D;--green:#95E1D3;--text:#2D3436;--gray:#636E72;--shadow:0 2px 12px rgba(0,0,0,0.06);--radius:20px}
-body{font-family:'DM Sans',sans-serif;background:#EFEFEF;color:var(--text);min-height:100vh;display:flex;justify-content:center}
-.phone{width:100%;max-width:430px;background:var(--bg);min-height:100vh;position:relative;padding:24px 20px 100px;overflow-x:hidden}
-h1,h2,h3{font-family:'Nunito',sans-serif}
+body{background:#EFEFEF;font-family:'DM Sans',sans-serif;color:#2D3436;min-height:100vh;display:flex;justify-content:center}
+.phone{width:100%;max-width:430px;background:#F7F7F2;min-height:100vh;padding:0 16px 120px;position:relative}
+h1,h2,h3,.section-title{font-family:'Nunito',sans-serif}
+.header{display:flex;align-items:center;justify-content:center;position:relative;padding:16px 0 12px}
+.header h1{font-size:18px;font-weight:700}
+.header .gear{position:absolute;right:0;cursor:pointer;color:#636E72;transition:color .2s}
+.header .gear:hover{color:#2D3436}
+.card{background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:16px;overflow:hidden}
+.section-title{font-size:18px;font-weight:700;margin-bottom:12px}
 
-/* Header */
-.profile-header{text-align:center;margin-bottom:28px;animation:fadeUp .5s ease}
-.big-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--teal));padding:3px;margin:0 auto 14px}
-.big-avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#f8a,#8df);display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;color:#fff;font-size:28px}
-.profile-header h1{font-size:22px;font-weight:800;margin-bottom:10px}
-.badges{display:flex;justify-content:center;gap:8px}
-.badge-pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+/* Profile Card */
+.profile-top{background:linear-gradient(135deg,rgba(255,107,107,.12),rgba(255,230,109,.10));padding:24px 20px 18px;display:flex;flex-direction:column;align-items:center}
+.avatar-ring{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);padding:3px;margin-bottom:10px}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FFE66D);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:24px;color:#fff}
+.profile-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:22px;margin-bottom:10px}
+.pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.pill{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px}
+.pill-coral{background:rgba(255,107,107,.15);color:#FF6B6B}
+.pill-teal{background:rgba(78,205,196,.15);color:#3DBDB5}
+.pill-amber{background:rgba(255,230,109,.25);color:#C5A000}
+.pill-gray{background:rgba(99,110,114,.1);color:#636E72}
+.pill svg{width:12px;height:12px}
+
+.profile-data{display:flex;align-items:center;justify-content:center;padding:18px 20px}
+.data-col{flex:1;text-align:center}
+.data-col .val{font-family:'Nunito',sans-serif;font-weight:800;font-size:18px}
+.data-col .lbl{font-size:12px;color:#636E72;margin-top:2px}
+.data-div{width:1px;height:36px;background:#EAEAEA}
+
+.social-row{display:flex;justify-content:center;gap:18px;padding:0 20px 16px}
+.social-row a{cursor:pointer;opacity:.7;transition:opacity .2s;display:flex}
+.social-row a:hover{opacity:1}
+.social-row svg{width:20px;height:20px}
 
 /* Stats */
-.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;animation:fadeUp .5s ease .1s both}
-.stat-card{border-radius:var(--radius);padding:18px 12px;text-align:center}
-.stat-card .val{font-family:'Nunito';font-size:22px;font-weight:800;margin-bottom:2px}
-.stat-card .lbl{font-size:12px;color:var(--gray);font-weight:500}
+.stats-row{display:flex;gap:10px;margin-bottom:16px}
+.stat-card{flex:1;border-radius:20px;padding:16px 10px;text-align:center}
+.stat-card svg{width:24px;height:24px;margin-bottom:6px}
+.stat-card .stat-val{font-family:'Nunito',sans-serif;font-weight:800;font-size:20px;margin-bottom:2px}
+.stat-card .stat-lbl{font-size:11px;color:#636E72}
+.stat-coral{background:rgba(255,107,107,.1)}
+.stat-teal{background:rgba(78,205,196,.1)}
+.stat-amber{background:rgba(255,230,109,.18)}
 
-/* Weight Chart */
-.chart-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:24px;animation:fadeUp .5s ease .2s both}
-.chart-card h2{font-size:16px;font-weight:700;margin-bottom:16px}
+/* Badges */
+.badges-scroll{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:4px 0 8px;scrollbar-width:none}
+.badges-scroll::-webkit-scrollbar{display:none}
+.badge-card{min-width:100px;max-width:100px;scroll-snap-align:start;background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.06);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.badge-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative}
+.badge-circle svg{width:20px;height:20px}
+.badge-name{font-size:11px;font-weight:700;text-align:center;line-height:1.3;font-family:'Nunito',sans-serif;min-height:28px;display:flex;align-items:center}
+.badge-locked .badge-circle{background:#D5D5D5 !important}
+.badge-locked .badge-circle svg{color:#999;stroke:#999}
+.badge-locked{opacity:.5}
+.lock-overlay{position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.lock-overlay svg{width:10px;height:10px;color:#999;stroke:#999}
 
-/* Heatmap */
-.heatmap-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:24px;animation:fadeUp .5s ease .3s both}
-.heatmap-card h2{font-size:16px;font-weight:700;margin-bottom:14px}
-.heatmap{display:flex;gap:4px}
-.heatmap-col{display:flex;flex-direction:column;gap:4px}
-.heatmap-cell{width:20px;height:20px;border-radius:4px;transition:transform .1s}
-.heatmap-cell:hover{transform:scale(1.3)}
-.day-labels{display:flex;flex-direction:column;gap:4px;margin-right:6px;justify-content:flex-start}
-.day-labels span{height:20px;line-height:20px;font-size:10px;color:var(--gray)}
+/* Chart */
+.chart-card{padding:20px}
+.chart-card svg{width:100%;overflow:visible}
 
-/* Badges/Logros */
-.logros-section{animation:fadeUp .5s ease .4s both}
-.logros-section h2{font-size:16px;font-weight:700;margin-bottom:14px}
-.logros-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
-.logros-scroll::-webkit-scrollbar{display:none}
-.logro-card{min-width:120px;border-radius:var(--radius);padding:20px 16px;text-align:center;flex-shrink:0}
-.logro-card .logro-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
-.logro-card .logro-icon svg{width:22px;height:22px}
-.logro-card .logro-name{font-size:13px;font-weight:600}
-.logro-card.locked{opacity:.5;filter:grayscale(.8)}
+/* Habits */
+.habits-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.week-nav{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;font-family:'Nunito',sans-serif}
+.week-nav span{cursor:pointer;color:#636E72;transition:color .2s;display:flex}
+.week-nav span:hover{color:#2D3436}
+.week-nav svg{width:18px;height:18px}
+.habits-card{padding:16px}
+.habits-grid{display:grid;grid-template-columns:32px repeat(7,1fr);gap:6px;align-items:center}
+.habits-grid .day-label{font-size:10px;color:#636E72;text-align:center;font-weight:600}
+.habit-icon{display:flex;align-items:center;justify-content:center}
+.habit-icon svg{width:18px;height:18px}
+.habit-cell{width:24px;height:24px;border-radius:50%;margin:0 auto;transition:all .2s}
+.cell-done{/* color set inline */}
+.cell-miss{background:#EAEAEA}
+.cell-future{background:transparent;border:1.5px dashed #D5D5D5}
+.habits-fade{transition:opacity .2s}
 
-/* Nav */
+/* Bottom Nav */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;justify-content:space-around;padding:10px 0 20px;box-shadow:0 -2px 12px rgba(0,0,0,.04);z-index:100}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;cursor:pointer;font-size:11px;color:#B2BEC3;font-family:'Nunito',sans-serif;font-weight:600;transition:color .2s}
-.nav-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .nav-item.active{color:#FF6B6B}
+.nav-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* Animations */
+.fade-up{opacity:0;transform:translateY(18px);animation:fadeUp .5s ease forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="phone">
   <!-- Header -->
-  <div class="profile-header">
-    <div class="big-avatar"><div class="big-avatar-inner">EP</div></div>
-    <h1>Eric Ponce</h1>
-    <div class="badges">
-      <span class="badge-pill" style="background:rgba(255,107,107,.12);color:#FF6B6B">#52 ranking</span>
-      <span class="badge-pill" style="background:rgba(255,230,109,.2);color:#D4A017">12 días racha</span>
+  <div class="header fade-up" style="animation-delay:.05s">
+    <h1>Perfil</h1>
+    <span class="gear"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="card fade-up" style="animation-delay:.1s">
+    <div class="profile-top">
+      <div class="avatar-ring"><div class="avatar-inner">EP</div></div>
+      <div class="profile-name">Eric Ponce</div>
+      <div class="pills">
+        <span class="pill pill-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>#52 en el ranking</span>
+        <span class="pill pill-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>152 pts semana</span>
+        <span class="pill pill-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>487 pts totales</span>
+        <span class="pill pill-gray"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>236 reacciones</span>
+      </div>
+    </div>
+    <div class="profile-data">
+      <div class="data-col"><div class="val">187 cm</div><div class="lbl">Altura</div></div>
+      <div class="data-div"></div>
+      <div class="data-col"><div class="val">101.2 kg</div><div class="lbl">Peso</div></div>
+      <div class="data-div"></div>
+      <div class="data-col"><div class="val">Hombre</div><div class="lbl">Sexo</div></div>
+    </div>
+    <div class="social-row">
+      <a><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000" stroke="none"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#fff" stroke="none"/></svg></a>
+      <a><svg viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#FD5"/><stop offset="50%" stop-color="#FF543E"/><stop offset="100%" stop-color="#C837AB"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="url(#ig)" stroke-width="2"/><circle cx="12" cy="12" r="5" fill="none" stroke="url(#ig)" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="url(#ig)"/></svg></a>
+      <a><svg viewBox="0 0 24 24" fill="#2D3436"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
     </div>
   </div>
 
-  <!-- Stats -->
-  <div class="stats-row">
-    <div class="stat-card" style="background:#E8F4FD">
-      <div class="val" style="color:#5DADE2">101.2</div>
-      <div class="lbl">Peso (kg)</div>
+  <!-- Stats Row -->
+  <div class="stats-row fade-up" style="animation-delay:.2s">
+    <div class="stat-card stat-coral">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <div class="stat-val" style="color:#FF6B6B">-0.30 kg</div>
+      <div class="stat-lbl">Variación peso</div>
     </div>
-    <div class="stat-card" style="background:#FFF3E8">
-      <div class="val" style="color:#F0983A">18</div>
-      <div class="lbl">Mejor racha</div>
+    <div class="stat-card stat-teal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>
+      <div class="stat-val" style="color:#4ECDC4">18</div>
+      <div class="stat-lbl">Días compromiso</div>
     </div>
-    <div class="stat-card" style="background:#E8FBF8">
-      <div class="val" style="color:#4ECDC4">78%</div>
-      <div class="lbl">Cumplimiento</div>
+    <div class="stat-card stat-amber">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#D4A800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+      <div class="stat-val" style="color:#C5A000">3</div>
+      <div class="stat-lbl">Retos hechos</div>
     </div>
+  </div>
+
+  <!-- Badges -->
+  <div class="fade-up" style="animation-delay:.3s">
+    <div class="section-title">Logros</div>
+    <div class="badges-scroll" id="badges"></div>
   </div>
 
   <!-- Weight Chart -->
-  <div class="chart-card">
-    <h2>Evolución de peso</h2>
-    <svg viewBox="0 0 320 140" width="100%" style="display:block">
-      <defs>
-        <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#FF6B6B" stop-opacity=".2"/>
-          <stop offset="100%" stop-color="#FF6B6B" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <!-- Grid lines -->
-      <line x1="40" y1="20" x2="310" y2="20" stroke="#f0f0f0" stroke-width="1"/>
-      <line x1="40" y1="50" x2="310" y2="50" stroke="#f0f0f0" stroke-width="1"/>
-      <line x1="40" y1="80" x2="310" y2="80" stroke="#f0f0f0" stroke-width="1"/>
-      <line x1="40" y1="110" x2="310" y2="110" stroke="#f0f0f0" stroke-width="1"/>
-      <!-- Y labels -->
-      <text x="4" y="24" font-size="10" fill="#636E72" font-family="DM Sans">102</text>
-      <text x="4" y="54" font-size="10" fill="#636E72" font-family="DM Sans">101.5</text>
-      <text x="4" y="84" font-size="10" fill="#636E72" font-family="DM Sans">101</text>
-      <text x="4" y="114" font-size="10" fill="#636E72" font-family="DM Sans">100.5</text>
-      <!-- X labels -->
-      <text x="50" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S1</text>
-      <text x="88" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S2</text>
-      <text x="127" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S3</text>
-      <text x="165" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S4</text>
-      <text x="203" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S5</text>
-      <text x="242" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S6</text>
-      <text x="280" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S7</text>
-      <text x="305" y="135" font-size="9" fill="#636E72" font-family="DM Sans" text-anchor="middle">S8</text>
-      <!-- Fill area -->
-      <path d="M50,30 L88,22 L127,45 L165,38 L203,55 L242,62 L280,70 L305,75 L305,110 L50,110 Z" fill="url(#fillGrad)"/>
-      <!-- Line -->
-      <polyline points="50,30 88,22 127,45 165,38 203,55 242,62 280,70 305,75" fill="none" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <!-- Dots -->
-      <circle cx="50" cy="30" r="4" fill="#FF6B6B"/><circle cx="88" cy="22" r="4" fill="#FF6B6B"/>
-      <circle cx="127" cy="45" r="4" fill="#FF6B6B"/><circle cx="165" cy="38" r="4" fill="#FF6B6B"/>
-      <circle cx="203" cy="55" r="4" fill="#FF6B6B"/><circle cx="242" cy="62" r="4" fill="#FF6B6B"/>
-      <circle cx="280" cy="70" r="4" fill="#FF6B6B"/><circle cx="305" cy="75" r="5" fill="#FF6B6B" stroke="#fff" stroke-width="2"/>
-    </svg>
-  </div>
-
-  <!-- Heatmap -->
-  <div class="heatmap-card">
-    <h2>Tu constancia</h2>
-    <div style="display:flex">
-      <div class="day-labels">
-        <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
-      </div>
-      <div class="heatmap" id="heatmap"></div>
+  <div class="fade-up" style="animation-delay:.4s;margin-top:16px">
+    <div class="section-title">Progreso de peso</div>
+    <div class="card chart-card">
+      <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF6B6B" stop-opacity=".15"/><stop offset="100%" stop-color="#FF6B6B" stop-opacity="0"/></linearGradient></defs>
+        <!-- Y axis labels -->
+        <text x="0" y="18" font-size="10" fill="#636E72" font-family="DM Sans">102</text>
+        <text x="0" y="78" font-size="10" fill="#636E72" font-family="DM Sans">101</text>
+        <text x="0" y="138" font-size="10" fill="#636E72" font-family="DM Sans">100</text>
+        <!-- Grid lines -->
+        <line x1="30" y1="14" x2="330" y2="14" stroke="#EAEAEA" stroke-width=".5"/>
+        <line x1="30" y1="74" x2="330" y2="74" stroke="#EAEAEA" stroke-width=".5"/>
+        <line x1="30" y1="134" x2="330" y2="134" stroke="#EAEAEA" stroke-width=".5"/>
+        <!-- Area fill - data: 101.5, 101.8, 101.3, 101.6, 101.2, 101.4, 101.1, 101.2 -->
+        <!-- Y mapping: 102=14, 101=74, 100=134. So val => 14 + (102-val)*60 -->
+        <!-- 101.5=>44, 101.8=>26, 101.3=>56, 101.6=>38, 101.2=>62, 101.4=>50, 101.1=>68, 101.2=>62 -->
+        <polygon points="52,44 95,26 138,56 181,38 224,62 267,50 310,68 330,62 330,134 52,134" fill="url(#cg)"/>
+        <polyline points="52,44 95,26 138,56 181,38 224,62 267,50 310,68 330,62" fill="none" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Dots -->
+        <circle cx="52" cy="44" r="3.5" fill="#FF6B6B"/><circle cx="95" cy="26" r="3.5" fill="#FF6B6B"/><circle cx="138" cy="56" r="3.5" fill="#FF6B6B"/><circle cx="181" cy="38" r="3.5" fill="#FF6B6B"/><circle cx="224" cy="62" r="3.5" fill="#FF6B6B"/><circle cx="267" cy="50" r="3.5" fill="#FF6B6B"/><circle cx="310" cy="68" r="3.5" fill="#FF6B6B"/>
+        <circle cx="330" cy="62" r="5" fill="#FF6B6B"/><circle cx="330" cy="62" r="3" fill="#fff"/>
+        <text x="330" y="55" font-size="10" fill="#FF6B6B" font-family="Nunito" font-weight="700" text-anchor="middle">101.2 kg</text>
+        <!-- X labels -->
+        <text x="52" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S1</text>
+        <text x="95" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S2</text>
+        <text x="138" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S3</text>
+        <text x="181" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S4</text>
+        <text x="224" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S5</text>
+        <text x="267" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S6</text>
+        <text x="310" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S7</text>
+        <text x="330" y="152" font-size="10" fill="#636E72" font-family="DM Sans" text-anchor="middle">S8</text>
+      </svg>
     </div>
   </div>
 
-  <!-- Logros -->
-  <div class="logros-section">
-    <h2>Logros</h2>
-    <div class="logros-scroll">
-      <div class="logro-card" style="background:rgba(255,107,107,.1)">
-        <div class="logro-icon" style="background:rgba(255,107,107,.2)"><svg viewBox="0 0 24 24" fill="#FF6B6B"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-        <div class="logro-name">Primera semana</div>
-      </div>
-      <div class="logro-card" style="background:rgba(240,152,58,.1)">
-        <div class="logro-icon" style="background:rgba(240,152,58,.2)"><svg viewBox="0 0 24 24" fill="#F0983A"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg></div>
-        <div class="logro-name">Racha de 10</div>
-      </div>
-      <div class="logro-card locked" style="background:#f0f0f0">
-        <div class="logro-icon" style="background:#e0e0e0"><svg viewBox="0 0 24 24" fill="#999"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div>
-        <div class="logro-name">Sin alcohol 30d</div>
-      </div>
-      <div class="logro-card locked" style="background:#f0f0f0">
-        <div class="logro-icon" style="background:#e0e0e0"><svg viewBox="0 0 24 24" fill="#999"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg></div>
-        <div class="logro-name">Top 10</div>
+  <!-- Habits -->
+  <div class="fade-up" style="animation-delay:.5s;margin-top:16px">
+    <div class="habits-header">
+      <div class="section-title" style="margin-bottom:0">Seguimiento de hábitos</div>
+      <div class="week-nav">
+        <span id="prevWeek"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></span>
+        <span id="weekLabel" style="color:#2D3436;min-width:90px;text-align:center">Semana 9</span>
+        <span id="nextWeek"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
       </div>
     </div>
+    <div class="card habits-card">
+      <div class="habits-grid habits-fade" id="habitsGrid"></div>
+    </div>
   </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <a class="nav-item" href="75tofit-hoy.html?v=2"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Hoy</a>
+    <a class="nav-item" href="75tofit-retos.html?v=2"><svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="15" y2="11"/></svg>Retos</a>
+    <a class="nav-item" href="75tofit-ranking.html?v=2"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>Ranking</a>
+    <a class="nav-item active" href="75tofit-perfil.html?v=2"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+  </nav>
 </div>
 
-<!-- Nav -->
-
 <script>
-// Heatmap
-const heatmapData = [
-  [3,5,6,4,6,2,0],[6,6,5,6,3,4,1],[5,4,6,6,6,5,2],[4,6,3,5,6,6,3],
-  [6,5,6,4,2,6,0],[3,6,6,6,5,4,1],[6,4,5,3,6,6,2],[5,6,6,6,4,5,3],
-  [6,6,4,5,6,3,1],[4,5,6,6,3,0,0]
+// Badges
+const badges=[
+  {name:"Top 1 Ranking",color:"#D4A800",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',locked:true},
+  {name:"10 días seguidos",color:"#FF6B6B",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z"/></svg>',locked:false},
+  {name:"-1 kg bajado",color:"#4ECDC4",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>',locked:false},
+  {name:"Semana perfecta",color:"#9B7FE6",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',locked:false},
+  {name:"100 reacciones",color:"#E84393",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',locked:false},
+  {name:"Sin alcohol 30 días",color:"#95E1D3",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',locked:true},
+  {name:"Madrugador",color:"#FFE66D",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',locked:true},
+  {name:"Racha de 30",color:"#F0983A",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22c-4-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-4 8-8 11z"/></svg>',locked:true},
+  {name:"Top 10",color:"#B0B0B0",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>',locked:true},
+  {name:"Primer reto",color:"#5DADE2",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',locked:false}
 ];
-const container = document.getElementById('heatmap');
-heatmapData.forEach(week => {
-  const col = document.createElement('div');
-  col.className = 'heatmap-col';
-  week.forEach(v => {
-    const cell = document.createElement('div');
-    cell.className = 'heatmap-cell';
-    if (v === 0) cell.style.background = '#F0F0F0';
-    else if (v <= 3) cell.style.background = '#B8E6B8';
-    else cell.style.background = '#4ECDC4';
-    col.appendChild(cell);
-  });
-  container.appendChild(col);
+const lockSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
+const bc=document.getElementById('badges');
+badges.forEach(b=>{
+  const d=document.createElement('div');
+  d.className='badge-card'+(b.locked?' badge-locked':'');
+  d.innerHTML=`<div class="badge-circle" style="background:${b.locked?'#D5D5D5':b.color}">${b.icon}${b.locked?'<div class="lock-overlay">'+lockSvg+'</div>':''}</div><div class="badge-name">${b.name}</div>`;
+  bc.appendChild(d);
 });
+
+// Habits
+const habitIcons=[
+  {c:'#FF6B6B',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>'},
+  {c:'#9B7FE6',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#9B7FE6" stroke-width="2"><path d="M2 4v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-6l-2-2H4c-1.1 0-2 .9-2 2z"/></svg>'},
+  {c:'#4ECDC4',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'},
+  {c:'#5DADE2',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#5DADE2" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>'},
+  {c:'#F0983A',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#F0983A" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13 21h-2"/></svg>'},
+  {c:'#E8C820',svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#E8C820" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'}
+];
+const week9=[[1,1,1,0,0,0,0],[1,0,1,0,0,0,0],[1,1,1,0,0,0,0],[0,1,1,0,0,0,0],[1,0,0,0,0,0,0],[0,1,0,0,0,0,0]];
+const week8=[[1,1,0,1,1,0,1],[1,1,1,0,1,1,0],[1,1,1,1,1,1,1],[1,0,1,1,0,1,1],[0,1,0,1,0,1,0],[1,0,1,0,1,0,1]];
+const dayLabels=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+let currentWeek=9;
+const todayIdx=2; // Wednesday=index 2
+
+function renderHabits(){
+  const g=document.getElementById('habitsGrid');
+  const data=currentWeek===9?week9:week8;
+  const isCurrent=currentWeek===9;
+  document.getElementById('weekLabel').textContent='Semana '+currentWeek;
+  g.style.opacity=0;
+  setTimeout(()=>{
+    let h='<div></div>';
+    dayLabels.forEach(d=>h+=`<div class="day-label">${d}</div>`);
+    data.forEach((row,ri)=>{
+      h+=`<div class="habit-icon">${habitIcons[ri].svg}</div>`;
+      row.forEach((v,di)=>{
+        const future=isCurrent&&di>todayIdx;
+        const color=habitIcons[ri].c;
+        if(future) h+=`<div class="habit-cell cell-future"></div>`;
+        else if(v) h+=`<div class="habit-cell cell-done" style="background:${color}"></div>`;
+        else h+=`<div class="habit-cell cell-miss"></div>`;
+      });
+    });
+    g.innerHTML=h;
+    g.style.opacity=1;
+  },150);
+}
+document.getElementById('prevWeek').onclick=()=>{if(currentWeek>8){currentWeek--;renderHabits()}};
+document.getElementById('nextWeek').onclick=()=>{if(currentWeek<9){currentWeek++;renderHabits()}};
+renderHabits();
 </script>
-<nav class="bottom-nav">
-<a href="75tofit-hoy.html?v=2" class="nav-item ">
-<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-Hoy
-</a>
-<a href="75tofit-retos.html?v=2" class="nav-item ">
-<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-Retos
-</a>
-<a href="75tofit-ranking.html?v=2" class="nav-item ">
-<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-Ranking
-</a>
-<a href="75tofit-perfil.html?v=2" class="nav-item active">
-<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-Perfil
-</a>
-</nav>
 </body>
 </html>
