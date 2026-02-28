@@ -113,13 +113,13 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="week-day" data-day="1" style="flex:1;text-align:center;cursor:pointer">
         <div style="font-size:12px;color:var(--gray);font-weight:500;margin-bottom:4px">Mar</div>
         <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Nunito';font-weight:700;font-size:16px;position:relative">25
-          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle cx="22" cy="22" r="20" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="62.83" transform="rotate(-90 22 22)"/></svg>
+          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle cx="22" cy="22" r="20" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg>
         </div>
       </div>
       <div class="week-day active" data-day="2" style="flex:1;text-align:center;cursor:pointer">
         <div style="font-size:12px;color:var(--coral);font-weight:700;margin-bottom:4px">Mié</div>
         <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Nunito';font-weight:800;font-size:16px;color:var(--coral);position:relative">26
-          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle cx="22" cy="22" r="20" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="41.89" transform="rotate(-90 22 22)"/></svg>
+          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle id="todayRing" cx="22" cy="22" r="20" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="125.66" transform="rotate(-90 22 22)" style="transition:stroke-dashoffset .6s ease"/></svg>
         </div>
       </div>
       <div class="week-day" data-day="3" style="flex:1;text-align:center;cursor:pointer">
@@ -232,13 +232,12 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 <script>
 let doneCount = 0;
 const totalHabits = 6;
-const circumference = 2 * Math.PI * 54; // ~339.29
+const dayCircumference = 2 * Math.PI * 20; // 125.66
 
-function updateRing() {
-  const fill = document.getElementById('ringFill');
-  const offset = circumference - (doneCount / totalHabits) * circumference;
-  fill.style.strokeDashoffset = offset;
-  document.getElementById('ringNum').textContent = doneCount + '/' + totalHabits;
+function updateTodayRing() {
+  const ring = document.getElementById('todayRing');
+  const offset = dayCircumference - (doneCount / totalHabits) * dayCircumference;
+  ring.style.strokeDashoffset = offset;
   document.getElementById('ptsPill').textContent = '+' + (doneCount * 3) + ' pts hoy';
 }
 
@@ -252,18 +251,17 @@ function toggleHabit(el) {
     setTimeout(() => { fp.style.animation = ''; }, 700);
     setTimeout(() => el.classList.remove('anim'), 300);
   }
-  updateRing();
+  updateTodayRing();
 }
 
 // Animate ring on load
 window.addEventListener('load', () => {
-  // Start with 3 done
   const cards = document.querySelectorAll('.habit-card');
   [0, 2, 3].forEach(i => {
     cards[i].classList.add('done');
     doneCount++;
   });
-  setTimeout(updateRing, 100);
+  setTimeout(updateTodayRing, 100);
 });
 
 // Stagger animations for habit cards
