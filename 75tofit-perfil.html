@@ -12,17 +12,17 @@ body{background:#EFEFEF;font-family:'DM Sans',sans-serif;color:#2D3436;-webkit-f
 h1,h2,h3,.stat-num,.nav-item{font-family:'Nunito',sans-serif}
 
 /* Profile */
-.profile{text-align:center;margin-bottom:20px}
-.avatar-wrap{position:relative;display:inline-block;margin-bottom:12px}
-.avatar-ring{width:96px;height:96px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);display:flex;align-items:center;justify-content:center}
+.profile{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.avatar-wrap{position:relative;flex-shrink:0}
+.avatar-ring{width:90px;height:90px;border-radius:50%;overflow:hidden}
 .avatar-ring img{width:90px;height:90px;border-radius:50%;object-fit:cover;display:block}
 .hex-badge{position:absolute;bottom:2px;right:-2px;width:28px;height:28px;display:flex;align-items:center;justify-content:center}
 .hex-badge svg{position:absolute;width:28px;height:28px}
 .hex-badge span{position:relative;z-index:1;font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;color:#fff}
-.profile-name{font-weight:800;font-size:22px;margin-bottom:4px}
-.profile-streak{font-size:14px;color:#636E72;display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:8px}
-.profile-streak svg{width:16px;height:16px}
-.profile-pills{display:flex;justify-content:center;gap:8px}
+.profile-right{flex:1;padding-top:4px}
+.profile-name{font-weight:800;font-size:22px;margin-bottom:2px}
+.profile-streak{font-size:14px;color:#636E72;display:flex;align-items:center;gap:4px;margin-bottom:8px}
+.profile-pills{display:flex;gap:6px;flex-wrap:wrap}
 .pill{background:#F0F0F0;border-radius:20px;padding:4px 12px;font-size:12px;color:#636E72;font-weight:500}
 
 /* Level bar */
@@ -100,14 +100,14 @@ h1,h2,h3,.stat-num,.nav-item{font-family:'Nunito',sans-serif}
       <span>N7</span>
     </div>
   </div>
-  <div class="profile-name">Eric Ponce</div>
-  <div class="profile-streak">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4-2.5-7-6.5-7-11a7 7 0 0114 0c0 4.5-3 8.5-7 11z"/><path d="M12 22c-1.5-1.5-3-3.5-3-6a3 3 0 016 0c0 2.5-1.5 4.5-3 6z"/></svg>
-    Racha actual: 12 días
-  </div>
-  <div class="profile-pills">
-    <span class="pill">187 cm</span>
-    <span class="pill">101.2 kg</span>
+  <div class="profile-right">
+    <div class="profile-name">Eric Ponce</div>
+    <div class="profile-streak">⚡ Racha actual: 12 días</div>
+    <div class="profile-pills">
+      <span class="pill">187 cm</span>
+      <span class="pill">101.2 kg</span>
+      <span class="pill">Hombre</span>
+    </div>
   </div>
 </div>
 
@@ -122,10 +122,9 @@ h1,h2,h3,.stat-num,.nav-item{font-family:'Nunito',sans-serif}
 
 <!-- 3. COMPROMISO -->
 <div class="card fade-section">
-  <div class="card-title">Compromiso</div>
   <div class="stats-row">
-    <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Racha días</div></div>
-    <div class="stat-item"><div class="stat-num">459</div><div class="stat-label">Pts semana</div></div>
+    <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Compromiso</div></div>
+    <div class="stat-item"><div class="stat-num">45</div><div class="stat-label">Pts semana</div></div>
     <div class="stat-item"><div class="stat-num">#34</div><div class="stat-label">Ranking</div></div>
     <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">Retos</div></div>
   </div>
