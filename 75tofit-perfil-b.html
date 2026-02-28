@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>75toFit - Perfil B: Clean Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F7F7F2;font-family:'DM Sans',sans-serif;color:#2D3436;display:flex;justify-content:center;min-height:100vh;padding:16px 0}
+.app{width:100%;max-width:430px;padding:0 16px;padding-bottom:32px}
+h1,h2,h3{font-family:'Nunito',sans-serif}
+.card{background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:20px;margin-bottom:16px}
+
+/* Profile header */
+.profile-top{text-align:center;padding:28px 20px 20px}
+.avatar-wrap{width:90px;height:90px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);margin:0 auto 12px}
+.avatar-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.profile-name{font-family:'Nunito',sans-serif;font-size:24px;font-weight:800;margin-bottom:4px}
+.profile-sub{font-size:14px;color:#636E72}
+
+/* Highlights */
+.highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.highlight-item{text-align:center;padding:14px 8px;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.highlight-num{font-family:'Nunito',sans-serif;font-size:24px;font-weight:900}
+.highlight-num.coral{color:#FF6B6B}
+.highlight-num.teal{color:#4ECDC4}
+.highlight-num.yellow{color:#d4a017}
+.highlight-label{font-size:11px;color:#636E72;margin-top:2px;font-weight:500}
+
+/* Stats grid */
+.section-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mini-stat{padding:14px 10px;border-radius:16px;text-align:center}
+.mini-stat-icon{margin-bottom:6px}
+.mini-stat-icon svg{width:22px;height:22px}
+.mini-stat-value{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800}
+.mini-stat-label{font-size:11px;color:#636E72;margin-top:2px}
+.bg-coral{background:#FF6B6B10}.bg-teal{background:#4ECDC410}.bg-yellow{background:#FFE66D20}
+.bg-purple{background:#A29BFE15}.bg-blue{background:#0984E310}.bg-pink{background:#FD79A815}
+
+/* Consistent habit highlight */
+.habit-highlight{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#4ECDC410;border-radius:12px;margin-top:12px;font-size:13px}
+.habit-highlight svg{width:18px;height:18px;flex-shrink:0}
+.habit-highlight strong{color:#4ECDC4}
+
+/* Badges */
+.badges-scroll{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;scrollbar-width:none}
+.badges-scroll::-webkit-scrollbar{display:none}
+.badge-item{flex-shrink:0;width:72px;text-align:center;scroll-snap-align:start}
+.badge-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.badge-icon.locked{opacity:0.3;filter:grayscale(1)}
+.badge-icon svg{width:26px;height:26px}
+.badge-name{font-size:10px;color:#636E72;line-height:1.2;font-weight:500}
+
+/* Chart */
+.chart-container{position:relative;height:160px;margin-top:8px}
+.chart-container svg{width:100%;height:100%}
+
+/* Habits */
+.habits-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.week-nav{display:flex;align-items:center;gap:12px}
+.week-nav button{background:none;border:none;cursor:pointer;color:#636E72;padding:4px}
+.week-nav button svg{width:18px;height:18px}
+.week-label{font-size:14px;font-weight:600}
+.habits-grid{display:flex;flex-direction:column;gap:6px}
+.habit-row{display:flex;align-items:center;gap:8px}
+.habit-name{width:80px;font-size:11px;font-weight:600;flex-shrink:0}
+.habit-dots{display:flex;gap:4px;flex:1}
+.habit-dot{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.habit-dot.done svg{width:16px;height:16px}
+.habit-dot.empty{background:#f5f5f0}
+.day-labels{display:flex;gap:4px;margin-left:88px;margin-bottom:6px}
+.day-label{width:32px;text-align:center;font-size:10px;color:#636E72;font-weight:500}
+
+/* Bio */
+.bio-section{margin-top:12px;padding:12px;background:#F7F7F2;border-radius:12px;font-size:13px;color:#636E72;text-align:center;font-style:italic}
+
+/* Share button */
+.share-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);color:#fff;border:none;border-radius:16px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
+.share-btn svg{width:18px;height:18px}
+
+/* Animations */
+.fade-up{opacity:0;transform:translateY(20px);animation:fadeUp 0.5s ease forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.fade-up:nth-child(1){animation-delay:0.05s}
+.fade-up:nth-child(2){animation-delay:0.1s}
+.fade-up:nth-child(3){animation-delay:0.15s}
+.fade-up:nth-child(4){animation-delay:0.2s}
+.fade-up:nth-child(5){animation-delay:0.25s}
+.fade-up:nth-child(6){animation-delay:0.3s}
+.fade-up:nth-child(7){animation-delay:0.35s}
+.fade-up:nth-child(8){animation-delay:0.4s}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Profile Header -->
+<div class="card profile-top fade-up">
+  <div class="avatar-wrap"><img src="eric-avatar.jpg" alt="Eric Ponce"></div>
+  <div class="profile-name">Eric Ponce</div>
+  <div class="profile-sub">Espana · 35 anos · Hombre</div>
+  <div class="bio-section">"Camino al top 50"</div>
+</div>
+
+<!-- 3 Highlights -->
+<div class="highlights fade-up">
+  <div class="highlight-item"><div class="highlight-num yellow">#52</div><div class="highlight-label">Ranking</div></div>
+  <div class="highlight-item"><div class="highlight-num coral">12d</div><div class="highlight-label">Racha</div></div>
+  <div class="highlight-item"><div class="highlight-num teal">487</div><div class="highlight-label">Puntos</div></div>
+</div>
+
+<!-- Stats Grid -->
+<div class="card fade-up">
+  <div class="section-title">Estadisticas</div>
+  <div class="stats-grid">
+    <div class="mini-stat bg-coral">
+      <div class="mini-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <div class="mini-stat-value">101.2</div>
+      <div class="mini-stat-label">Peso (kg)</div>
+    </div>
+    <div class="mini-stat bg-teal">
+      <div class="mini-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2"><path d="M12 2v20M8 6l4-4 4 4"/></svg></div>
+      <div class="mini-stat-value">187</div>
+      <div class="mini-stat-label">Altura (cm)</div>
+    </div>
+    <div class="mini-stat bg-yellow">
+      <div class="mini-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
+      <div class="mini-stat-value">152</div>
+      <div class="mini-stat-label">Pts semana</div>
+    </div>
+    <div class="mini-stat bg-purple">
+      <div class="mini-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#A29BFE" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
+      <div class="mini-stat-value">487</div>
+      <div class="mini-stat-label">Pts total</div>
+    </div>
+    <div class="mini-stat bg-blue">
+      <div class="mini-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#0984E3" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg></div>
+      <div class="mini-stat-value">18d</div>
+      <div class="mini-stat-label">Mejor racha</div>
+    </div>
+    <div class="mini-stat bg-pink">
+      <div class="mini-stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FD79A8" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+      <div class="mini-stat-value">236</div>
+      <div class="mini-stat-label">Reacciones</div>
+    </div>
+  </div>
+  <div class="habit-highlight">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+    Habito mas consistente: <strong>Sin alcohol</strong>
+  </div>
+</div>
+
+<!-- Badges -->
+<div class="card fade-up">
+  <div class="section-title">Logros</div>
+  <div class="badges-scroll" id="badges-b"></div>
+</div>
+
+<!-- Weight Chart -->
+<div class="card fade-up">
+  <div class="section-title">Evolucion de peso</div>
+  <div class="chart-container">
+    <svg viewBox="0 0 380 150" preserveAspectRatio="none">
+      <defs><linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF6B6B" stop-opacity="0.12"/><stop offset="100%" stop-color="#FF6B6B" stop-opacity="0"/></linearGradient></defs>
+      <line x1="40" y1="15" x2="370" y2="15" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="40" y1="45" x2="370" y2="45" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="40" y1="75" x2="370" y2="75" stroke="#f0f0f0" stroke-width="1"/>
+      <line x1="40" y1="105" x2="370" y2="105" stroke="#f0f0f0" stroke-width="1"/>
+      <text x="8" y="19" font-size="10" fill="#636E72" font-family="DM Sans">101.8</text>
+      <text x="8" y="49" font-size="10" fill="#636E72" font-family="DM Sans">101.5</text>
+      <text x="8" y="79" font-size="10" fill="#636E72" font-family="DM Sans">101.3</text>
+      <text x="8" y="109" font-size="10" fill="#636E72" font-family="DM Sans">101.0</text>
+      <path d="M55,55 L102,15 L149,65 L196,35 L243,75 L290,45 L337,95 L370,75 L370,130 L55,130 Z" fill="url(#cg2)"/>
+      <polyline points="55,55 102,15 149,65 196,35 243,75 290,45 337,95 370,75" fill="none" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="55" cy="55" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="102" cy="15" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="149" cy="65" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="196" cy="35" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="243" cy="75" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="290" cy="45" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="337" cy="95" r="4" fill="#fff" stroke="#FF6B6B" stroke-width="2"/>
+      <circle cx="370" cy="75" r="4" fill="#FF6B6B"/>
+      <text x="55" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S1</text>
+      <text x="102" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S2</text>
+      <text x="149" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S3</text>
+      <text x="196" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S4</text>
+      <text x="243" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S5</text>
+      <text x="290" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S6</text>
+      <text x="337" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S7</text>
+      <text x="370" y="142" font-size="9" fill="#636E72" text-anchor="middle" font-family="DM Sans">S8</text>
+    </svg>
+  </div>
+</div>
+
+<!-- Habits Grid -->
+<div class="card fade-up">
+  <div class="habits-header">
+    <div class="section-title" style="margin-bottom:0">Habitos</div>
+    <div class="week-nav">
+      <button onclick="changeWeek(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="week-label" id="weekLabel">Semana 9</span>
+      <button onclick="changeWeek(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+  </div>
+  <div class="day-labels"><span class="day-label">L</span><span class="day-label">M</span><span class="day-label">X</span><span class="day-label">J</span><span class="day-label">V</span><span class="day-label">S</span><span class="day-label">D</span></div>
+  <div class="habits-grid" id="habitsGrid"></div>
+</div>
+
+<!-- Share Button -->
+<div class="fade-up">
+  <button class="share-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    Compartir perfil
+  </button>
+</div>
+
+</div>
+
+<script>
+const badges=[
+  {name:'Top 1 Ranking',color:'#FFE66D',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>'},
+  {name:'10 dias seguidos',color:'#FF6B6B',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg>'},
+  {name:'-1kg bajado',color:'#4ECDC4',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#2d8f88" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>'},
+  {name:'Semana perfecta',color:'#A29BFE',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>'},
+  {name:'100 reacciones',color:'#FF6B6B',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>'},
+  {name:'Sin alcohol 30d',color:'#4ECDC4',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#2d8f88" stroke-width="2"><path d="M8 2h8l-2 8h4L10 22l2-8H8z"/></svg>'},
+  {name:'Madrugador',color:'#FFE66D',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'},
+  {name:'Racha de 30',color:'#FF6B6B',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg>'},
+  {name:'Top 10',color:'#A29BFE',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2"><path d="M6 9l6-6 6 6M6 15l6 6 6-6"/></svg>'},
+  {name:'Primer reto',color:'#4ECDC4',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#2d8f88" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>'}
+];
+const bC=document.getElementById('badges-b');
+badges.forEach(b=>{
+  const d=document.createElement('div');d.className='badge-item';
+  d.innerHTML=`<div class="badge-icon ${b.locked?'locked':''}" style="background:${b.color}22">${b.icon}</div><div class="badge-name">${b.name}</div>`;
+  bC.appendChild(d);
+});
+
+const habits=[
+  {name:'Ejercicio',color:'#FF6B6B'},{name:'Meditacion',color:'#A29BFE'},{name:'Sin alcohol',color:'#4ECDC4'},
+  {name:'Dieta',color:'#0984E3'},{name:'Leer',color:'#E17055'},{name:'Agua',color:'#FFE66D'}
+];
+const weekData={
+  8:[[1,1,0,1,1,0,1],[1,0,1,1,0,1,1],[1,1,1,1,1,1,0],[0,1,1,0,1,1,1],[0,0,1,1,0,0,1],[1,1,1,0,1,1,1]],
+  9:[[1,1,1,1,1,0,0],[1,1,0,1,1,1,0],[1,1,1,1,1,1,1],[1,0,1,1,0,1,0],[0,1,0,1,0,0,0],[1,1,1,1,1,0,0]]
+};
+let currentWeek=9;
+function renderHabits(){
+  const g=document.getElementById('habitsGrid');g.innerHTML='';
+  const data=weekData[currentWeek];
+  habits.forEach((h,i)=>{
+    const row=document.createElement('div');row.className='habit-row';
+    let dots='';
+    data[i].forEach(v=>{
+      if(v)dots+=`<div class="habit-dot done" style="background:${h.color}22"><svg viewBox="0 0 24 24" fill="none" stroke="${h.color}" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>`;
+      else dots+=`<div class="habit-dot empty"></div>`;
+    });
+    row.innerHTML=`<div class="habit-name">${h.name}</div><div class="habit-dots">${dots}</div>`;
+    g.appendChild(row);
+  });
+  document.getElementById('weekLabel').textContent='Semana '+currentWeek;
+}
+function changeWeek(d){currentWeek=currentWeek+d<8?9:currentWeek+d>9?8:currentWeek+d;renderHabits();}
+renderHabits();
+</script>
+</body>
+</html>

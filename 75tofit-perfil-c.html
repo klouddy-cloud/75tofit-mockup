@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>75toFit - Perfil C: Gamified Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F7F7F2;font-family:'DM Sans',sans-serif;color:#2D3436;display:flex;justify-content:center;min-height:100vh;padding:0 0 16px}
+.app{width:100%;max-width:430px}
+.content{padding:0 16px;padding-bottom:32px}
+h1,h2,h3{font-family:'Nunito',sans-serif}
+.card{background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:20px;margin-bottom:16px}
+
+/* Banner */
+.banner{height:120px;background:linear-gradient(135deg,#FF6B6B26,#4ECDC426);position:relative;border-radius:0 0 24px 24px}
+.avatar-area{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:-50px;padding:0 16px}
+.avatar-wrap{width:90px;height:90px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.avatar-wrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.level-badge{position:absolute;top:56px;right:calc(50% - 68px);width:36px;height:40px;display:flex;align-items:center;justify-content:center}
+.level-badge svg{width:36px;height:40px;position:absolute}
+.level-badge span{position:relative;font-family:'Nunito',sans-serif;font-size:10px;font-weight:900;color:#fff;margin-top:-2px}
+.profile-name{font-family:'Nunito',sans-serif;font-size:24px;font-weight:800;margin-top:10px}
+.profile-sub{font-size:13px;color:#636E72;margin-top:2px}
+
+/* XP Bar */
+.xp-section{padding:0 16px;margin-top:16px;margin-bottom:16px}
+.xp-label{display:flex;justify-content:space-between;font-size:12px;color:#636E72;margin-bottom:6px;font-weight:500}
+.xp-bar{height:12px;background:#f0f0f0;border-radius:6px;overflow:hidden}
+.xp-fill{height:100%;width:81.2%;background:linear-gradient(90deg,#FF6B6B,#FF8E8E);border-radius:6px;transition:width 1s ease}
+
+/* Circular stats */
+.stat-circles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 16px;margin-bottom:16px}
+.circle-stat{text-align:center}
+.circle-ring{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;position:relative}
+.circle-ring::before{content:'';position:absolute;inset:0;border-radius:50%;border:3px solid currentColor;opacity:0.15}
+.circle-inner{display:flex;flex-direction:column;align-items:center}
+.circle-icon svg{width:16px;height:16px;margin-bottom:2px}
+.circle-num{font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;line-height:1}
+.circle-label{font-size:10px;color:#636E72;margin-top:4px;font-weight:500}
+
+/* Body stats inline */
+.body-stats{text-align:center;font-size:13px;color:#636E72;margin-bottom:16px;padding:0 16px}
+
+/* Streak flame */
+.streak-flame{display:inline-flex;align-items:center;gap:4px}
+.flame-anim svg{animation:flicker 1.5s ease-in-out infinite alternate}
+@keyframes flicker{0%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.1) rotate(2deg)}100%{transform:scale(1) rotate(-1deg)}}
+
+/* Badges */
+.section-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;margin-bottom:14px}
+.badge-count{font-size:13px;color:#636E72;font-weight:500;margin-left:8px}
+.badges-scroll{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;scrollbar-width:none}
+.badges-scroll::-webkit-scrollbar{display:none}
+.badge-item{flex-shrink:0;width:80px;text-align:center;scroll-snap-align:start}
+.badge-icon{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.badge-icon.locked{opacity:0.3;filter:grayscale(1)}
+.badge-icon svg{width:30px;height:30px}
+.badge-name{font-size:10px;color:#636E72;line-height:1.2;font-weight:500}
+
+/* Chart */
+.chart-container{position:relative;height:150px;margin-top:8px}
+.chart-container svg{width:100%;height:100%}
+
+/* Habits */
+.habits-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.week-nav{display:flex;align-items:center;gap:12px}
+.week-nav button{background:none;border:none;cursor:pointer;color:#636E72;padding:4px}
+.week-nav button svg{width:18px;height:18px}
+.week-label{font-size:14px;font-weight:600}
+.habits-grid{display:flex;flex-direction:column;gap:6px}
+.habit-row{display:flex;align-items:center;gap:8px}
+.habit-name{width:80px;font-size:11px;font-weight:600;flex-shrink:0}
+.habit-dots{display:flex;gap:4px;flex:1}
+.habit-dot{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.habit-dot.done svg{width:16px;height:16px}
+.habit-dot.empty{background:#f5f5f0}
+.day-labels{display:flex;gap:4px;margin-left:88px;margin-bottom:6px}
+.day-label{width:32px;text-align:center;font-size:10px;color:#636E72;font-weight:500}
+
+/* Habit warning */
+.habit-warning{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#E1705510;border-radius:12px;margin-top:12px;font-size:13px}
+.habit-warning svg{width:18px;height:18px;flex-shrink:0}
+
+/* Mini leaderboard */
+.leaderboard{margin-top:12px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;font-size:13px;margin-bottom:4px}
+.lb-row.you{background:linear-gradient(90deg,#FF6B6B10,#4ECDC410);font-weight:700}
+.lb-pos{width:30px;font-weight:700;color:#636E72}
+.lb-name{flex:1}
+.lb-pts{font-weight:600;color:#636E72}
+
+/* Rank progress */
+.rank-progress{margin-top:12px;font-size:12px;color:#636E72}
+.rank-bar{height:6px;background:#f0f0f0;border-radius:3px;margin-top:4px;overflow:hidden}
+.rank-fill{height:100%;width:90%;background:linear-gradient(90deg,#FFE66D,#FF6B6B);border-radius:3px}
+
+/* Animations */
+.fade-up{opacity:0;transform:translateY(20px);animation:fadeUp 0.5s ease forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.fade-up:nth-child(1){animation-delay:0.05s}
+.fade-up:nth-child(2){animation-delay:0.1s}
+.fade-up:nth-child(3){animation-delay:0.15s}
+.fade-up:nth-child(4){animation-delay:0.2s}
+.fade-up:nth-child(5){animation-delay:0.25s}
+.fade-up:nth-child(6){animation-delay:0.3s}
+.fade-up:nth-child(7){animation-delay:0.35s}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Banner + Avatar -->
+<div class="banner"></div>
+<div class="avatar-area fade-up">
+  <div class="avatar-wrap"><img src="eric-avatar.jpg" alt="Eric Ponce"></div>
+  <div class="level-badge">
+    <svg viewBox="0 0 36 40" fill="none"><path d="M18 0L35 10V30L18 40L1 30V10L18 0Z" fill="#FF6B6B"/></svg>
+    <span>Nv 7</span>
+  </div>
+  <div class="profile-name">Eric Ponce</div>
+  <div class="profile-sub">
+    <span class="streak-flame">
+      <span class="flame-anim"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg></span>
+      Racha activa: 12 dias
+    </span>
+  </div>
+</div>
+
+<!-- XP Bar -->
+<div class="xp-section fade-up">
+  <div class="xp-label"><span>487 / 600 XP</span><span>Nivel 8</span></div>
+  <div class="xp-bar"><div class="xp-fill"></div></div>
+</div>
+
+<!-- 4 Circular Stats -->
+<div class="stat-circles fade-up">
+  <div class="circle-stat">
+    <div class="circle-ring" style="color:#FFE66D">
+      <div class="circle-inner">
+        <div class="circle-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2"><path d="M6 9l6-6 6 6M6 15l6 6 6-6"/></svg></div>
+        <div class="circle-num">#52</div>
+      </div>
+    </div>
+    <div class="circle-label">Ranking</div>
+  </div>
+  <div class="circle-stat">
+    <div class="circle-ring" style="color:#FF6B6B">
+      <div class="circle-inner">
+        <div class="circle-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg></div>
+        <div class="circle-num">12</div>
+      </div>
+    </div>
+    <div class="circle-label">Racha</div>
+  </div>
+  <div class="circle-stat">
+    <div class="circle-ring" style="color:#4ECDC4">
+      <div class="circle-inner">
+        <div class="circle-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
+        <div class="circle-num">487</div>
+      </div>
+    </div>
+    <div class="circle-label">Puntos</div>
+  </div>
+  <div class="circle-stat">
+    <div class="circle-ring" style="color:#A29BFE">
+      <div class="circle-inner">
+        <div class="circle-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#A29BFE" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div class="circle-num">236</div>
+      </div>
+    </div>
+    <div class="circle-label">Reacciones</div>
+  </div>
+</div>
+
+<!-- Body stats -->
+<div class="body-stats fade-up">187 cm · 101.2 kg · Hombre · Mejor racha: 18d · Pts semana: 152</div>
+
+<div class="content">
+
+<!-- Badges -->
+<div class="card fade-up">
+  <div class="section-title">Logros <span class="badge-count">5/10 desbloqueados</span></div>
+  <div class="badges-scroll" id="badges-c"></div>
+</div>
+
+<!-- Weight Chart -->
+<div class="card fade-up">
+  <div class="section-title">Peso</div>
+  <div class="chart-container">
+    <svg viewBox="0 0 380 140" preserveAspectRatio="none">
+      <defs><linearGradient id="cg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF6B6B" stop-opacity="0.12"/><stop offset="100%" stop-color="#FF6B6B" stop-opacity="0"/></linearGradient></defs>
+      <line x1="40" y1="10" x2="370" y2="10" stroke="#f0f0f0"/><line x1="40" y1="40" x2="370" y2="40" stroke="#f0f0f0"/>
+      <line x1="40" y1="70" x2="370" y2="70" stroke="#f0f0f0"/><line x1="40" y1="100" x2="370" y2="100" stroke="#f0f0f0"/>
+      <text x="8" y="14" font-size="9" fill="#636E72" font-family="DM Sans">101.8</text>
+      <text x="8" y="44" font-size="9" fill="#636E72" font-family="DM Sans">101.5</text>
+      <text x="8" y="74" font-size="9" fill="#636E72" font-family="DM Sans">101.3</text>
+      <text x="8" y="104" font-size="9" fill="#636E72" font-family="DM Sans">101.0</text>
+      <path d="M55,50 L102,10 L149,60 L196,30 L243,70 L290,40 L337,90 L370,70 L370,120 L55,120 Z" fill="url(#cg3)"/>
+      <polyline points="55,50 102,10 149,60 196,30 243,70 290,40 337,90 370,70" fill="none" stroke="#FF6B6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="55" cy="50" r="3.5" fill="#FF6B6B"/><circle cx="102" cy="10" r="3.5" fill="#FF6B6B"/>
+      <circle cx="149" cy="60" r="3.5" fill="#FF6B6B"/><circle cx="196" cy="30" r="3.5" fill="#FF6B6B"/>
+      <circle cx="243" cy="70" r="3.5" fill="#FF6B6B"/><circle cx="290" cy="40" r="3.5" fill="#FF6B6B"/>
+      <circle cx="337" cy="90" r="3.5" fill="#FF6B6B"/><circle cx="370" cy="70" r="3.5" fill="#FF6B6B"/>
+      <text x="55" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S1</text>
+      <text x="102" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S2</text>
+      <text x="149" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S3</text>
+      <text x="196" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S4</text>
+      <text x="243" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S5</text>
+      <text x="290" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S6</text>
+      <text x="337" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S7</text>
+      <text x="370" y="132" font-size="8" fill="#636E72" text-anchor="middle" font-family="DM Sans">S8</text>
+    </svg>
+  </div>
+</div>
+
+<!-- Habits Grid -->
+<div class="card fade-up">
+  <div class="habits-header">
+    <div class="section-title" style="margin-bottom:0">Habitos</div>
+    <div class="week-nav">
+      <button onclick="changeWeek(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="week-label" id="weekLabel">Semana 9</span>
+      <button onclick="changeWeek(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+  </div>
+  <div class="day-labels"><span class="day-label">L</span><span class="day-label">M</span><span class="day-label">X</span><span class="day-label">J</span><span class="day-label">V</span><span class="day-label">S</span><span class="day-label">D</span></div>
+  <div class="habits-grid" id="habitsGrid"></div>
+  <div class="habit-warning">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#E17055" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <span>Habito mas debil: <strong style="color:#E17055">Leer</strong> — solo 2/7 esta semana</span>
+  </div>
+</div>
+
+<!-- Mini Leaderboard + Rank Progress -->
+<div class="card fade-up">
+  <div class="section-title">Tu posicion</div>
+  <div class="leaderboard">
+    <div class="lb-row"><span class="lb-pos">#51</span><span class="lb-name">Oscar M.</span><span class="lb-pts">491 pts</span></div>
+    <div class="lb-row you"><span class="lb-pos" style="color:#FF6B6B">#52</span><span class="lb-name">Eric Ponce</span><span class="lb-pts" style="color:#FF6B6B">487 pts</span></div>
+    <div class="lb-row"><span class="lb-pos">#53</span><span class="lb-name">Laura G.</span><span class="lb-pts">482 pts</span></div>
+  </div>
+  <div class="rank-progress">
+    <span>Progreso al Top 50 — te faltan 8 pts</span>
+    <div class="rank-bar"><div class="rank-fill"></div></div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+const badges=[
+  {name:'Top 1 Ranking',color:'#FFE66D',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>'},
+  {name:'10 dias seguidos',color:'#FF6B6B',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg>'},
+  {name:'-1kg bajado',color:'#4ECDC4',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#2d8f88" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>'},
+  {name:'Semana perfecta',color:'#A29BFE',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>'},
+  {name:'100 reacciones',color:'#FF6B6B',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>'},
+  {name:'Sin alcohol 30d',color:'#4ECDC4',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#2d8f88" stroke-width="2"><path d="M8 2h8l-2 8h4L10 22l2-8H8z"/></svg>'},
+  {name:'Madrugador',color:'#FFE66D',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'},
+  {name:'Racha de 30',color:'#FF6B6B',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2"><path d="M12 2c1 3 4 5 4 9a4 4 0 11-8 0c0-4 3-6 4-9z"/></svg>'},
+  {name:'Top 10',color:'#A29BFE',locked:true,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2"><path d="M6 9l6-6 6 6M6 15l6 6 6-6"/></svg>'},
+  {name:'Primer reto',color:'#4ECDC4',locked:false,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#2d8f88" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>'}
+];
+const bC=document.getElementById('badges-c');
+badges.forEach(b=>{
+  const d=document.createElement('div');d.className='badge-item';
+  d.innerHTML=`<div class="badge-icon ${b.locked?'locked':''}" style="background:${b.color}22">${b.icon}</div><div class="badge-name">${b.name}</div>`;
+  bC.appendChild(d);
+});
+
+const habits=[
+  {name:'Ejercicio',color:'#FF6B6B'},{name:'Meditacion',color:'#A29BFE'},{name:'Sin alcohol',color:'#4ECDC4'},
+  {name:'Dieta',color:'#0984E3'},{name:'Leer',color:'#E17055'},{name:'Agua',color:'#FFE66D'}
+];
+const weekData={
+  8:[[1,1,0,1,1,0,1],[1,0,1,1,0,1,1],[1,1,1,1,1,1,0],[0,1,1,0,1,1,1],[0,0,1,1,0,0,1],[1,1,1,0,1,1,1]],
+  9:[[1,1,1,1,1,0,0],[1,1,0,1,1,1,0],[1,1,1,1,1,1,1],[1,0,1,1,0,1,0],[0,1,0,1,0,0,0],[1,1,1,1,1,0,0]]
+};
+let currentWeek=9;
+function renderHabits(){
+  const g=document.getElementById('habitsGrid');g.innerHTML='';
+  const data=weekData[currentWeek];
+  habits.forEach((h,i)=>{
+    const row=document.createElement('div');row.className='habit-row';
+    let dots='';
+    data[i].forEach(v=>{
+      if(v)dots+=`<div class="habit-dot done" style="background:${h.color}22"><svg viewBox="0 0 24 24" fill="none" stroke="${h.color}" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></div>`;
+      else dots+=`<div class="habit-dot empty"></div>`;
+    });
+    row.innerHTML=`<div class="habit-name">${h.name}</div><div class="habit-dots">${dots}</div>`;
+    g.appendChild(row);
+  });
+  document.getElementById('weekLabel').textContent='Semana '+currentWeek;
+}
+function changeWeek(d){currentWeek=currentWeek+d<8?9:currentWeek+d>9?8:currentWeek+d;renderHabits();}
+renderHabits();
+</script>
+</body>
+</html>
