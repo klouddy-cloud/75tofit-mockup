@@ -4,213 +4,275 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>75toFit — Retos</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F7F7F2;--card:#FFFFFF;--coral:#FF6B6B;--teal:#4ECDC4;--yellow:#FFE66D;--green:#95E1D3;--text:#2D3436;--gray:#636E72;--shadow:0 2px 12px rgba(0,0,0,0.06);--radius:20px}
-body{font-family:'DM Sans',sans-serif;background:#EFEFEF;color:var(--text);min-height:100vh;display:flex;justify-content:center}
-.phone{width:100%;max-width:430px;background:var(--bg);min-height:100vh;position:relative;padding:24px 20px 100px;overflow-x:hidden}
-h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
-button{cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
-
-/* Hero */
-.hero{background:linear-gradient(135deg,rgba(255,107,107,.08),rgba(255,230,109,.1));border-radius:var(--radius);padding:24px 20px;margin-bottom:24px;animation:fadeUp .5s ease}
-.hero .badge{display:inline-block;background:#F0983A;color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:12px;font-family:'Nunito'}
-.hero h1{font-size:22px;font-weight:800;line-height:1.3;margin-bottom:14px}
-.hero .coach{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:14px;color:var(--gray)}
-.hero .coach .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#a8e6cf,#88d8b0);display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;color:#fff;font-size:12px}
-.hero .countdown{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--text);margin-bottom:8px;font-weight:500}
-.hero .countdown svg{width:18px;height:18px;fill:var(--coral)}
-.hero .stats{font-size:13px;color:var(--gray);margin-bottom:16px}
-.hero .cta{width:100%;background:var(--coral);color:#fff;font-size:15px;font-weight:700;padding:14px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s,box-shadow .2s}
-.hero .cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,107,107,.3)}
-.hero .cta svg{width:20px;height:20px;fill:#fff}
-
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#EFEFEF;font-family:'DM Sans',sans-serif;color:#2D3436;min-height:100vh;display:flex;justify-content:center}
+.app{width:100%;max-width:430px;background:#F7F7F2;min-height:100vh;position:relative;padding-bottom:80px;overflow-x:hidden}
+h1,h2,h3,.nunito{font-family:'Nunito',sans-serif}
+.header{padding:20px 20px 12px;text-align:center}
+.header h1{font-size:22px;font-weight:800}
+.header-back{display:flex;align-items:center;padding:20px 20px 12px}
+.header-back .back-btn{width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.header-back h1{flex:1;text-align:center;font-size:22px;font-weight:800;margin-right:38px}
+.card{background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:20px;margin:0 16px 14px}
+.pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif}
+.pill-coral{background:#FF6B6B22;color:#FF6B6B}
+.pill-teal{background:#4ECDC422;color:#4ECDC4}
+.pill-gold{background:#FFE66D44;color:#B8860B;font-size:10px;padding:2px 8px}
+.hero-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:20px;margin:12px 0 6px;line-height:1.3}
+.hero-sub{color:#636E72;font-size:13px;margin-bottom:12px}
+.stats-row{display:flex;gap:16px;margin-bottom:16px}
+.stat-item{display:flex;align-items:center;gap:5px;color:#636E72;font-size:12px}
+.stat-item svg{width:14px;height:14px;fill:none;stroke:#636E72;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-coral{width:100%;padding:14px;background:#FF6B6B;color:#fff;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:opacity .2s}
+.btn-coral:active{opacity:.85}
+.section-title{font-family:'Nunito',sans-serif;font-weight:700;font-size:18px;margin:20px 16px 10px}
+.past-card{background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:14px 16px;margin:0 16px 10px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .2s}
+.past-card:active{transform:scale(.98)}
+.week-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0}
+.past-info{flex:1;min-width:0}
+.past-name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.past-meta{color:#636E72;font-size:12px;margin-top:2px}
+.past-arrow{flex-shrink:0;width:20px;height:20px}
+.past-arrow svg{width:20px;height:20px;fill:none;stroke:#B2BEC3;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Detail view */
+.coach-row{display:flex;align-items:center;gap:10px;margin:14px 0 10px}
+.avatar-sm{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;color:#fff;flex-shrink:0}
+.coach-name{font-weight:700;font-size:14px}
+.coach-date{color:#636E72;font-size:12px}
+.desc{color:#636E72;font-size:14px;line-height:1.5;margin-bottom:14px}
+.countdown-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;background:#4ECDC418;color:#4ECDC4;font-size:13px;font-weight:600;margin-bottom:10px}
+.countdown-pill svg{width:14px;height:14px;fill:none;stroke:#4ECDC4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.detail-stats{color:#636E72;font-size:12px;margin-top:6px}
+/* Submit */
+.upload-area{border:2px dashed #DFE6E9;border-radius:14px;padding:28px;text-align:center;color:#B2BEC3;margin-bottom:14px;cursor:pointer;transition:border-color .2s}
+.upload-area:hover{border-color:#4ECDC4}
+.upload-area svg{width:36px;height:36px;fill:none;stroke:#B2BEC3;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px}
+.upload-area p{font-size:13px}
+.input-field{width:100%;padding:12px 16px;border:none;background:#F0F0F0;border-radius:14px;font-family:'DM Sans',sans-serif;font-size:14px;color:#2D3436;margin-bottom:14px;outline:none}
+.toggle-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;font-size:13px;color:#636E72}
+.toggle-row svg{width:18px;height:18px;fill:none;stroke:#636E72;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.toggle-text{flex:1}
+.toggle-switch{width:44px;height:24px;border-radius:12px;background:#4ECDC4;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle-switch.off{background:#DFE6E9}
+.toggle-switch::after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;top:2px;left:22px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.toggle-switch.off::after{left:2px}
 /* Filters */
-.filters{display:flex;gap:8px;margin-bottom:18px;animation:fadeUp .5s ease .1s both}
-.filter-pill{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:var(--card);color:var(--gray);box-shadow:var(--shadow)}
-.filter-pill.active{background:var(--coral);color:#fff}
-
-/* Participaciones */
-.section-title{font-size:18px;font-weight:700;margin-bottom:14px}
-.video-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
-.video-card .top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.video-card .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;color:#fff;font-size:13px;flex-shrink:0}
-.video-card .name{font-weight:600;font-size:14px}
-.video-card .time-ago{font-size:12px;color:var(--gray)}
-.video-card .best-badge{display:inline-block;background:linear-gradient(135deg,#FFD700,#FFA500);color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-left:8px}
-.video-placeholder{width:100%;height:160px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;position:relative}
-.play-btn{width:48px;height:48px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer}
-.play-btn svg{width:22px;height:22px;fill:var(--text);margin-left:3px}
-.result-time{font-size:15px;font-weight:700;color:var(--teal);margin-bottom:10px;font-family:'Nunito'}
-.reactions{display:flex;gap:12px}
-.reaction{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--gray);cursor:pointer;padding:4px 10px;border-radius:12px;transition:all .2s;user-select:none}
-.reaction:hover,.reaction.active{background:rgba(255,107,107,.1);color:var(--coral)}
-.reaction svg{width:18px;height:18px}
-.reaction.active svg{fill:var(--coral)}
-
-/* Previous */
-.prev-section{margin-top:24px;animation:fadeUp .5s ease .3s both}
-.prev-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch}
-.prev-scroll::-webkit-scrollbar{display:none}
-.prev-card{min-width:200px;border-radius:var(--radius);padding:18px;flex-shrink:0;cursor:pointer;transition:transform .2s}
-.prev-card:hover{transform:translateY(-2px)}
-.prev-card .week{font-size:12px;font-weight:700;opacity:.7;margin-bottom:6px;font-family:'Nunito'}
-.prev-card h3{font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.3}
-.prev-card .pcount{font-size:12px;opacity:.6}
-
-/* Modal */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center}
-.modal-overlay.show{display:flex}
-.modal{background:var(--card);border-radius:var(--radius);padding:28px 24px;width:90%;max-width:380px;position:relative}
-.modal .close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
-.modal .close:hover{background:#e0e0e0}
-.modal .close svg{width:16px;height:16px;fill:var(--gray)}
-.modal h2{font-size:20px;font-weight:800;margin-bottom:20px}
-.upload-area{border:2px dashed #ddd;border-radius:16px;padding:40px 20px;text-align:center;margin-bottom:18px;cursor:pointer;transition:border-color .2s}
-.upload-area:hover{border-color:var(--coral)}
-.upload-area svg{width:40px;height:40px;fill:var(--gray);margin-bottom:8px}
-.upload-area p{font-size:14px;color:var(--gray)}
-.modal input{width:100%;padding:14px 16px;border:2px solid #f0f0f0;border-radius:14px;font-size:15px;font-family:'DM Sans';margin-bottom:16px;outline:none;transition:border-color .2s}
-.modal input:focus{border-color:var(--coral)}
-.modal .submit-btn{width:100%;background:var(--coral);color:#fff;font-size:15px;font-weight:700;padding:14px;border-radius:14px;cursor:pointer;transition:transform .2s}
-.modal .submit-btn:hover{transform:translateY(-1px)}
-
-/* Nav */
-.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:390px;background:var(--card);border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.08);display:flex;justify-content:space-around;padding:10px 8px;z-index:100}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 14px;border-radius:16px;transition:all .2s;text-decoration:none;color:var(--gray);font-size:11px;font-weight:600}
-.nav-item svg{width:22px;height:22px;fill:var(--gray);transition:fill .2s}
-.nav-item.active{color:var(--coral);background:rgba(255,107,107,.08)}
-.nav-item.active svg{fill:var(--coral)}
-.nav-item .nav-label{display:none}
-.nav-item.active .nav-label{display:block}
-
+.filter-row{display:flex;align-items:center;gap:8px;margin:0 16px 12px;flex-wrap:wrap}
+.filter-pill{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;font-family:'Nunito',sans-serif;background:#F0F0F0;color:#636E72;cursor:pointer;border:none;transition:all .2s}
+.filter-pill.active{background:#FF6B6B;color:#fff}
+/* Participation */
+.entry{background:#fff;border-radius:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:12px 14px;margin:0 16px 10px;display:flex;align-items:center;gap:10px;opacity:0;transform:translateY(16px);transition:opacity .35s,transform .35s}
+.entry.visible{opacity:1;transform:translateY(0)}
+.pos{width:26px;height:26px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;color:#636E72;flex-shrink:0}
+.entry-info{flex:1;min-width:0}
+.entry-name{font-weight:700;font-size:14px}
+.entry-time{font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;color:#4ECDC4;display:inline-flex;align-items:center;gap:6px}
+.entry-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.fire-btn{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:#636E72;transition:color .2s;user-select:none}
+.fire-btn.active{color:#FF6B6B}
+.fire-btn svg{width:16px;height:16px;transition:fill .2s,stroke .2s}
+.fire-btn:not(.active) svg{fill:none;stroke:#636E72;stroke-width:2}
+.fire-btn.active svg{fill:#FF6B6B;stroke:#FF6B6B;stroke-width:2}
+.video-btn{cursor:pointer;display:flex;align-items:center}
+.video-btn svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.video-btn.public svg{stroke:#4ECDC4}
+.video-btn.private svg{stroke:#B2BEC3}
+.video-btn.private{cursor:default}
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;justify-content:space-around;padding:10px 0 20px;box-shadow:0 -2px 12px rgba(0,0,0,.04);z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;cursor:pointer;font-size:11px;color:#B2BEC3;font-family:'Nunito',sans-serif;font-weight:600;transition:color .2s}
+.nav-item.active{color:#FF6B6B}
+.nav-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
-<div class="phone">
-  <!-- Hero -->
-  <div class="hero">
-    <span class="badge">SEMANA 9</span>
-    <h1>100 burpees en el menor tiempo posible</h1>
-    <div class="coach"><div class="av">CD</div><span>Coach Dani</span></div>
-    <div class="countdown">
-      <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-      Quedan 3 días 14h
-    </div>
-    <div class="stats">47 participantes · 128 reacciones</div>
-    <button class="cta" onclick="openModal()">
-      <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-      Subir mi vídeo
-    </button>
-  </div>
+<div class="app">
 
-  <!-- Filters -->
-  <div class="filters">
-    <div class="filter-pill active" onclick="setFilter(this)">Recientes</div>
-    <div class="filter-pill" onclick="setFilter(this)">Más votados</div>
-  </div>
+<!-- ===== VIEW 1: RETOS LIST ===== -->
+<div id="retosListView">
+<div class="header"><h1>Retos</h1></div>
 
-  <!-- Participaciones -->
-  <h2 class="section-title" style="animation:fadeUp .5s ease .15s both">Participaciones</h2>
-
-  <div id="videoFeed"></div>
-
-  <!-- Previous Challenges -->
-  <div class="prev-section">
-    <h2 class="section-title">Retos anteriores</h2>
-    <div class="prev-scroll">
-      <div class="prev-card" style="background:linear-gradient(135deg,#E8F4FD,#C8E6F9)">
-        <div class="week">SEMANA 8</div>
-        <h3>5km en menos de 30 min</h3>
-        <div class="pcount">62 participantes</div>
-      </div>
-      <div class="prev-card" style="background:linear-gradient(135deg,#F3EEFF,#E0D4FF)">
-        <div class="week">SEMANA 7</div>
-        <h3>50 flexiones seguidas</h3>
-        <div class="pcount">71 participantes</div>
-      </div>
-      <div class="prev-card" style="background:linear-gradient(135deg,#E8FBF8,#C4F0EB)">
-        <div class="week">SEMANA 6</div>
-        <h3>Plancha 3 minutos</h3>
-        <div class="pcount">55 participantes</div>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<span class="pill pill-coral">EN CURSO</span>
+<div class="hero-title">100 burpees en el menor tiempo posible</div>
+<div class="hero-sub">Semana 9 · Coach Dani</div>
+<div class="stats-row">
+<div class="stat-item">
+<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+47 participantes
+</div>
+<div class="stat-item">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+3 días restantes
+</div>
+</div>
+<button class="btn-coral" onclick="showDetail()">Ver reto</button>
 </div>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <div class="close" onclick="closeModal()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
-    <h2>Subir vídeo</h2>
-    <div class="upload-area">
-      <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-      <p>Toca para seleccionar vídeo</p>
-    </div>
-    <input type="text" placeholder="Tu tiempo (ej: 4:32)">
-    <button class="submit-btn">Enviar</button>
-  </div>
+<div class="section-title">Retos anteriores</div>
+
+<div class="past-card">
+<div class="week-circle" style="background:#4ECDC4">8</div>
+<div class="past-info"><div class="past-name">5km en menos de 30 min</div><div class="past-meta">62 participantes</div></div>
+<div class="past-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+</div>
+<div class="past-card">
+<div class="week-circle" style="background:#A29BFE">7</div>
+<div class="past-info"><div class="past-name">50 flexiones seguidas</div><div class="past-meta">71 participantes</div></div>
+<div class="past-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+</div>
+<div class="past-card">
+<div class="week-circle" style="background:#FDCB6E">6</div>
+<div class="past-info"><div class="past-name">Plancha 3 minutos</div><div class="past-meta">55 participantes</div></div>
+<div class="past-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+</div>
+<div class="past-card">
+<div class="week-circle" style="background:#FF6B6B">5</div>
+<div class="past-info"><div class="past-name">200 sentadillas</div><div class="past-meta">48 participantes</div></div>
+<div class="past-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+</div>
 </div>
 
-<!-- Nav -->
+<!-- ===== VIEW 2: CHALLENGE DETAIL ===== -->
+<div id="retoDetailView" style="display:none">
+<div class="header-back">
+<div class="back-btn" onclick="showList()">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D3436" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+</div>
+<h1>Semana 9</h1>
+</div>
+
+<div class="card">
+<span class="pill pill-coral">EN CURSO</span>
+<div class="hero-title">100 burpees en el menor tiempo posible</div>
+<div class="coach-row">
+<div class="avatar-sm" style="background:#FF6B6B">CD</div>
+<div><div class="coach-name">Coach Dani</div><div class="coach-date">Propuesto hace 4 días</div></div>
+</div>
+<p class="desc">Completa 100 burpees lo más rápido posible. Grábate en vídeo y sube tu tiempo. ¡El más rápido gana!</p>
+<div class="countdown-pill">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+Quedan 3 días 14h
+</div>
+<div class="detail-stats">47 participantes · 128 reacciones</div>
+</div>
+
+<div class="card">
+<h3 class="nunito" style="font-weight:700;font-size:16px;margin-bottom:14px">Tu participación</h3>
+<div class="upload-area">
+<svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 3V1m10 2V1"/></svg>
+<p>Grábate y sube tu vídeo</p>
+</div>
+<input class="input-field" type="text" placeholder="ej: 4:32">
+<div class="toggle-row">
+<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+<span class="toggle-text" id="toggleLabel">Vídeo público para la comunidad</span>
+<div class="toggle-switch" id="videoToggle" onclick="toggleVideo()"></div>
+</div>
+<button class="btn-coral">Enviar participación</button>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin:20px 16px 12px">
+<h3 class="nunito" style="font-weight:700;font-size:18px">Participaciones</h3>
+<div style="display:flex;gap:6px">
+<button class="filter-pill active" onclick="setFilter(this)">Recientes</button>
+<button class="filter-pill" onclick="setFilter(this)">Mejor tiempo</button>
+</div>
+</div>
+
+<div id="entriesContainer"></div>
+</div>
+
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <a class="nav-item" href="75tofit-hoy.html"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span class="nav-label">Hoy</span></a>
-  <a class="nav-item active" href="75tofit-retos.html"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span class="nav-label">Retos</span></a>
-  <a class="nav-item" href="75tofit-ranking.html"><svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg><span class="nav-label">Ranking</span></a>
-  <a class="nav-item" href="75tofit-perfil.html"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span class="nav-label">Perfil</span></a>
+<a href="75tofit-hoy.html" class="nav-item">
+<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+Hoy
+</a>
+<a href="75tofit-retos.html" class="nav-item active">
+<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+Retos
+</a>
+<a href="75tofit-ranking.html" class="nav-item">
+<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+Ranking
+</a>
+<a href="75tofit-perfil.html" class="nav-item">
+<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+Perfil
+</a>
 </nav>
+</div>
 
 <script>
-const entries = [
-  {name:'Carlos Ruiz',initials:'CR',color:'#5DADE2',time:'2h',result:'4:32 min',fire:34,clap:22,muscle:18,best:false,grad:'linear-gradient(135deg,#dbeafe,#bfdbfe)'},
-  {name:'María López',initials:'ML',color:'#E67EC2',time:'5h',result:'5:15 min',fire:28,clap:19,muscle:12,best:false,grad:'linear-gradient(135deg,#fce7f3,#fbcfe8)'},
-  {name:'Adrián Vega',initials:'AV',color:'#F0983A',time:'8h',result:'3:58 min',fire:56,clap:41,muscle:33,best:true,grad:'linear-gradient(135deg,#ffedd5,#fed7aa)'},
-  {name:'Laura Chen',initials:'LC',color:'#4ECDC4',time:'1d',result:'6:02 min',fire:15,clap:8,muscle:6,best:false,grad:'linear-gradient(135deg,#ccfbf1,#a7f3d0)'},
-  {name:'Pablo Moreno',initials:'PM',color:'#9B7FE6',time:'1d',result:'4:45 min',fire:21,clap:14,muscle:9,best:false,grad:'linear-gradient(135deg,#ede9fe,#ddd6fe)'}
+const entries=[
+{name:"Adrián Vega",init:"A",color:"#FF6B6B",time:"3:58",fire:56,pub:true,best:true},
+{name:"Carlos Ruiz",init:"C",color:"#4ECDC4",time:"4:32",fire:34,pub:true,best:false},
+{name:"Pablo Moreno",init:"P",color:"#A29BFE",time:"4:45",fire:21,pub:false,best:false},
+{name:"María López",init:"M",color:"#FDCB6E",time:"5:15",fire:28,pub:true,best:false},
+{name:"Laura Chen",init:"L",color:"#95E1D3",time:"6:02",fire:15,pub:false,best:false},
+{name:"Sergio Torres",init:"S",color:"#FF6B6B",time:"6:18",fire:12,pub:true,best:false},
+{name:"Ana Martín",init:"A",color:"#A29BFE",time:"6:45",fire:9,pub:false,best:false},
+{name:"David Ruiz",init:"D",color:"#4ECDC4",time:"7:01",fire:7,pub:true,best:false},
+{name:"Nadia Cano",init:"N",color:"#FDCB6E",time:"7:30",fire:5,pub:true,best:false},
+{name:"Marcos Gil",init:"M",color:"#95E1D3",time:"8:12",fire:3,pub:false,best:false}
 ];
 
-function renderFeed(){
-  const feed=document.getElementById('videoFeed');
-  feed.innerHTML=entries.map((e,i)=>`
-    <div class="video-card" style="animation:fadeUp .4s ease ${.2+i*.08}s both">
-      <div class="top">
-        <div class="av" style="background:${e.color}">${e.initials}</div>
-        <div><span class="name">${e.name}</span>${e.best?'<span class="best-badge">Mejor tiempo</span>':''}<br><span class="time-ago">Hace ${e.time}</span></div>
-      </div>
-      <div class="video-placeholder" style="background:${e.grad}">
-        <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      </div>
-      <div class="result-time">${e.result}</div>
-      <div class="reactions">
-        <div class="reaction" onclick="this.classList.toggle('active')">
-          <svg viewBox="0 0 24 24" fill="#FF6B6B"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg>
-          <span>${e.fire}</span>
-        </div>
-        <div class="reaction" onclick="this.classList.toggle('active')">
-          <svg viewBox="0 0 24 24" fill="#636E72"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          <span>${e.clap}</span>
-        </div>
-        <div class="reaction" onclick="this.classList.toggle('active')">
-          <svg viewBox="0 0 24 24" fill="#636E72"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg>
-          <span>${e.muscle}</span>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
+const fireSVG='<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c-4.97 0-7-3.58-7-7 0-2.47 1.3-4.73 2.78-6.44A9.8 9.8 0 0 0 10 4.52c.28 2.24 1.5 3.2 2.72 2.2C14.4 5.3 14.5 3 13.5 1c2.5 1 5.5 3.5 6.5 7 .5 1.5.5 3 0 4.5C19.5 15.5 17 18 14 19.5c-1 .6-2 1-2 2.5"/></svg>';
+const videoSVG='<svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>';
+const videoOffSVG='<svg viewBox="0 0 24 24"><path d="M16 16V5a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11"/><polygon points="23 7 16 12 23 17 23 7"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
 
+const container=document.getElementById('entriesContainer');
+entries.forEach((e,i)=>{
+const div=document.createElement('div');
+div.className='entry';
+div.innerHTML=`
+<div class="pos">#${i+1}</div>
+<div class="avatar-sm" style="background:${e.color}">${e.init}</div>
+<div class="entry-info">
+<div class="entry-name">${e.name}</div>
+<div class="entry-time">${e.time} min ${e.best?'<span class="pill pill-gold">Mejor tiempo</span>':''}</div>
+</div>
+<div class="entry-actions">
+<div class="fire-btn" data-count="${e.fire}" onclick="toggleFire(this)">${fireSVG}<span>${e.fire}</span></div>
+<div class="video-btn ${e.pub?'public':'private'}">${e.pub?videoSVG:videoOffSVG}</div>
+</div>`;
+container.appendChild(div);
+setTimeout(()=>div.classList.add('visible'),80*(i+1));
+});
+
+function showDetail(){
+document.getElementById('retosListView').style.display='none';
+document.getElementById('retoDetailView').style.display='block';
+window.scrollTo(0,0);
+document.querySelectorAll('.entry').forEach((el,i)=>{
+el.classList.remove('visible');
+setTimeout(()=>el.classList.add('visible'),80*(i+1));
+});
+}
+function showList(){
+document.getElementById('retoDetailView').style.display='none';
+document.getElementById('retosListView').style.display='block';
+window.scrollTo(0,0);
+}
 function setFilter(el){
-  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
+el.parentElement.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+el.classList.add('active');
 }
-function openModal(){document.getElementById('modal').classList.add('show')}
-function closeModal(){document.getElementById('modal').classList.remove('show')}
-document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
-
-renderFeed();
+function toggleFire(el){
+const span=el.querySelector('span');
+let c=parseInt(el.dataset.count);
+if(el.classList.toggle('active')){span.textContent=c+1}else{span.textContent=c}
+}
+function toggleVideo(){
+const t=document.getElementById('videoToggle');
+const l=document.getElementById('toggleLabel');
+t.classList.toggle('off');
+l.textContent=t.classList.contains('off')?'Vídeo oculto — solo se verá tu tiempo':'Vídeo público para la comunidad';
+}
 </script>
 </body>
 </html>
