@@ -18,28 +18,28 @@ h1,h2,h3,.section-title{font-family:'Nunito',sans-serif}
 .section-title{font-size:18px;font-weight:700;margin-bottom:12px}
 
 /* Profile Card */
-.profile-top{background:linear-gradient(135deg,rgba(255,107,107,.12),rgba(255,230,109,.10));padding:24px 20px 18px;display:flex;flex-direction:column;align-items:center}
-.avatar-ring{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);padding:3px;margin-bottom:10px}
-.avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FFE66D);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:24px;color:#fff}
-.profile-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:22px;margin-bottom:10px}
-.pills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.pill{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:4px}
+.profile-top{background:linear-gradient(135deg,rgba(255,107,107,.12),rgba(255,230,109,.10));padding:20px;display:flex;gap:16px;align-items:flex-start}
+.avatar-ring{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);padding:3px;flex-shrink:0}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FFE66D);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:28px;color:#fff}
+.profile-right{flex:1;min-width:0}
+.profile-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:20px;margin-bottom:8px}
+.pills-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pill{padding:4px 8px;border-radius:10px;font-size:10px;font-weight:600;display:flex;align-items:center;gap:4px;white-space:nowrap;overflow:hidden}
 .pill-coral{background:rgba(255,107,107,.15);color:#FF6B6B}
 .pill-teal{background:rgba(78,205,196,.15);color:#3DBDB5}
 .pill-amber{background:rgba(255,230,109,.25);color:#C5A000}
 .pill-gray{background:rgba(99,110,114,.1);color:#636E72}
-.pill svg{width:12px;height:12px}
+.pill svg{width:11px;height:11px;flex-shrink:0}
 
-.profile-data{display:flex;align-items:center;justify-content:center;padding:18px 20px}
-.data-col{flex:1;text-align:center}
-.data-col .val{font-family:'Nunito',sans-serif;font-weight:800;font-size:18px}
-.data-col .lbl{font-size:12px;color:#636E72;margin-top:2px}
-.data-div{width:1px;height:36px;background:#EAEAEA}
+.profile-body{display:flex;gap:8px;padding:14px 16px}
+.body-box{flex:1;background:#F7F7F2;border-radius:14px;padding:12px 8px;text-align:center}
+.body-box .val{font-family:'Nunito',sans-serif;font-weight:800;font-size:17px}
+.body-box .lbl{font-size:11px;color:#636E72;margin-top:2px}
 
-.social-row{display:flex;justify-content:center;gap:18px;padding:0 20px 16px}
-.social-row a{cursor:pointer;opacity:.7;transition:opacity .2s;display:flex}
+.social-row{display:flex;gap:16px;padding:0 16px 14px}
+.social-row a{cursor:pointer;opacity:.6;transition:opacity .2s;display:flex}
 .social-row a:hover{opacity:1}
-.social-row svg{width:20px;height:20px}
+.social-row svg{width:18px;height:18px}
 
 /* Stats */
 .stats-row{display:flex;gap:10px;margin-bottom:16px}
@@ -108,20 +108,20 @@ h1,h2,h3,.section-title{font-family:'Nunito',sans-serif}
   <div class="card fade-up" style="animation-delay:.1s">
     <div class="profile-top">
       <div class="avatar-ring"><div class="avatar-inner">EP</div></div>
-      <div class="profile-name">Eric Ponce</div>
-      <div class="pills">
-        <span class="pill pill-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>#52 en el ranking</span>
-        <span class="pill pill-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>152 pts semana</span>
-        <span class="pill pill-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>487 pts totales</span>
-        <span class="pill pill-gray"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>236 reacciones</span>
+      <div class="profile-right">
+        <div class="profile-name">Eric Ponce</div>
+        <div class="pills-grid">
+          <span class="pill pill-coral"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>#52 ranking</span>
+          <span class="pill pill-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>152 pts semana</span>
+          <span class="pill pill-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>487 pts total</span>
+          <span class="pill pill-gray"><svg viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>236 reacciones</span>
+        </div>
       </div>
     </div>
-    <div class="profile-data">
-      <div class="data-col"><div class="val">187 cm</div><div class="lbl">Altura</div></div>
-      <div class="data-div"></div>
-      <div class="data-col"><div class="val">101.2 kg</div><div class="lbl">Peso</div></div>
-      <div class="data-div"></div>
-      <div class="data-col"><div class="val">Hombre</div><div class="lbl">Sexo</div></div>
+    <div class="profile-body">
+      <div class="body-box"><div class="val">187 cm</div><div class="lbl">Altura</div></div>
+      <div class="body-box"><div class="val">101.2 kg</div><div class="lbl">Peso</div></div>
+      <div class="body-box"><div class="val">Hombre</div><div class="lbl">Sexo</div></div>
     </div>
     <div class="social-row">
       <a><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" fill="#FF0000" stroke="none"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#fff" stroke="none"/></svg></a>
