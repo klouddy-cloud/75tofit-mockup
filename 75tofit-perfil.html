@@ -20,7 +20,8 @@ h1,h2,h3,.section-title{font-family:'Nunito',sans-serif}
 /* Profile Card */
 .profile-top{background:linear-gradient(135deg,rgba(255,107,107,.12),rgba(255,230,109,.10));padding:20px;display:flex;gap:16px;align-items:flex-start}
 .avatar-ring{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#4ECDC4);padding:3px;flex-shrink:0}
-.avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FFE66D);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:28px;color:#fff}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#FF6B6B,#FFE66D);display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:28px;color:#fff;overflow:hidden}
+.avatar-inner img{width:100%;height:100%;object-fit:cover}
 .profile-right{flex:1;min-width:0}
 .profile-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:20px;margin-bottom:8px}
 .pills-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
@@ -107,7 +108,7 @@ h1,h2,h3,.section-title{font-family:'Nunito',sans-serif}
   <!-- Profile Card -->
   <div class="card fade-up" style="animation-delay:.1s">
     <div class="profile-top">
-      <div class="avatar-ring"><div class="avatar-inner">EP</div></div>
+      <div class="avatar-ring"><div class="avatar-inner"><img src="eric-avatar.jpg" alt="Eric Ponce"></div></div>
       <div class="profile-right">
         <div class="profile-name">Eric Ponce</div>
         <div class="pills-grid">
