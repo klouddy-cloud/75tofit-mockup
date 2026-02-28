@@ -44,7 +44,7 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 .habit-card .lbl{font-size:14px;font-weight:600;transition:color .2s}
 .habit-card .check{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0);transition:all .25s}
 .habit-card .check svg{width:14px;height:14px}
-.habit-card .float-pts{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Nunito';font-weight:800;font-size:18px;opacity:0;pointer-events:none}
+.habit-card .float-pts{position:absolute;top:30%;left:50%;transform:translate(-50%,0);font-family:'Nunito';font-weight:800;font-size:26px;opacity:0;pointer-events:none;text-shadow:0 2px 8px rgba(0,0,0,0.2)}
 .habit-card.done{transform:scale(1.03)}
 .habit-card.done .check{opacity:1;transform:scale(1)}
 .habit-card.anim{animation:pop .3s ease}
@@ -87,7 +87,11 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1.03)}}
-@keyframes floatUp{0%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-50%,-120%)}}
+@keyframes floatUp{0%{opacity:1;transform:translate(-50%,0) scale(1)}60%{opacity:1;transform:translate(-50%,-40px) scale(1.2)}100%{opacity:0;transform:translate(-50%,-60px) scale(0.8)}}
+
+/* Confetti */
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;top:-10px;z-index:9999;pointer-events:none;animation:confettiFall 1.2s ease-out forwards}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}100%{opacity:0;transform:translateY(100vh) rotate(720deg) scale(0.3)}}
 </style>
 </head>
 <body>
@@ -253,15 +257,33 @@ function updateTodayRing() {
   document.getElementById('ptsPill').textContent = '+' + (doneCount * 3) + ' pts hoy';
 }
 
+function spawnConfetti() {
+  const colors = ['#FF6B6B','#4ECDC4','#FFE66D','#9B7FE6','#5DADE2','#F0983A','#95E1D3'];
+  for (let i = 0; i < 30; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 2000);
+  }
+}
+
 function toggleHabit(el) {
   const isDone = el.classList.toggle('done');
   doneCount += isDone ? 1 : -1;
   if (isDone) {
     el.classList.add('anim');
     const fp = el.querySelector('.float-pts');
-    fp.style.animation = 'floatUp .7s ease forwards';
-    setTimeout(() => { fp.style.animation = ''; }, 700);
+    fp.style.animation = 'floatUp .9s ease forwards';
+    setTimeout(() => { fp.style.animation = ''; }, 900);
     setTimeout(() => el.classList.remove('anim'), 300);
+    spawnConfetti();
   }
   updateTodayRing();
 }
