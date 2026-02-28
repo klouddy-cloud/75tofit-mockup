@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>75toFit — Ranking</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0F;color:#F1F1F1;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;justify-content:center}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+.app{width:100%;max-width:430px;min-height:100vh;position:relative;padding:24px 20px 160px;background:#0A0A0F}
+.page-title{font-size:24px;font-weight:700;margin-bottom:20px;font-family:'Space Grotesk',sans-serif}
+
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:24px;padding:0 10px}
+.podium-item{display:flex;flex-direction:column;align-items:center;gap:6px;animation:fadeInUp .4s ease backwards}
+.podium-item:nth-child(1){animation-delay:.1s}
+.podium-item:nth-child(2){animation-delay:0s}
+.podium-item:nth-child(3){animation-delay:.15s}
+.podium-avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#0A0A0F;position:relative}
+.podium-item.first .podium-avatar{width:72px;height:72px;font-size:20px;background:#FFD700;box-shadow:0 0 30px rgba(255,215,0,0.3)}
+.podium-item.second .podium-avatar{width:56px;height:56px;font-size:16px;background:#C0C0C0}
+.podium-item.third .podium-avatar{width:56px;height:56px;font-size:16px;background:#CD7F32}
+.podium-name{font-size:12px;font-weight:600;text-align:center;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.podium-pts{font-size:11px;color:#8B8B9E;font-weight:500}
+.podium-base{border-radius:8px 8px 0 0;width:90px;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px}
+.podium-item.first .podium-base{height:80px;background:linear-gradient(180deg,rgba(255,215,0,0.2),rgba(255,215,0,0.05));color:#FFD700}
+.podium-item.second .podium-base{height:60px;background:linear-gradient(180deg,rgba(192,192,192,0.15),rgba(192,192,192,0.03));color:#C0C0C0}
+.podium-item.third .podium-base{height:45px;background:linear-gradient(180deg,rgba(205,127,50,0.15),rgba(205,127,50,0.03));color:#CD7F32}
+.crown{position:absolute;top:-16px}
+
+.filters{margin-bottom:16px}
+.filter-row{display:flex;gap:0;margin-bottom:8px;background:#14141F;border-radius:12px;padding:3px;border:1px solid rgba(255,255,255,0.06)}
+.filter-btn{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:500;color:#8B8B9E;cursor:pointer;border-radius:10px;transition:all .15s;border:none;background:none;font-family:'DM Sans',sans-serif}
+.filter-btn.active{background:rgba(74,222,128,0.12);color:#4ADE80}
+
+.rank-list{display:flex;flex-direction:column;gap:2px}
+.rank-row{display:flex;align-items:center;padding:14px 12px;border-radius:12px;gap:12px;animation:fadeInUp .35s ease backwards}
+.rank-row:nth-child(odd){background:rgba(255,255,255,0.02)}
+.rank-row:nth-child(1){animation-delay:.05s}
+.rank-row:nth-child(2){animation-delay:.1s}
+.rank-row:nth-child(3){animation-delay:.15s}
+.rank-row:nth-child(4){animation-delay:.2s}
+.rank-row:nth-child(5){animation-delay:.25s}
+.rank-pos{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;color:#8B8B9E;width:24px;text-align:center}
+.rank-avatar{width:36px;height:36px;border-radius:50%;background:#1e1e30;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.rank-name{flex:1;font-size:14px;font-weight:500}
+.rank-pts{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;color:#F59E0B}
+.rank-streak{display:flex;align-items:center;gap:3px;font-size:11px;color:#8B8B9E}
+.rank-streak svg{width:12px;height:12px;stroke:#F59E0B}
+
+.your-pos{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#14141F;border-top:1px solid rgba(74,222,128,0.2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:99;cursor:pointer}
+.your-pos-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px}
+.your-pos-text .pos{color:#4ADE80}
+.your-pos-pts{color:#4ADE80;font-family:'Space Grotesk',sans-serif;font-weight:700}
+
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#0d0d14;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;padding:12px 0 max(12px,env(safe-area-inset-bottom));z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#8B8B9E;font-size:11px;font-weight:500;cursor:pointer;transition:color .15s}
+.nav-item.active{color:#4ADE80}
+.nav-item.active svg{stroke:#4ADE80}
+.nav-item svg{width:22px;height:22px;stroke:#8B8B9E;transition:stroke .15s}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1 class="page-title">Ranking</h1>
+
+  <div class="podium">
+    <div class="podium-item second">
+      <div class="podium-avatar">NM</div>
+      <div class="podium-name">Nico Martínez</div>
+      <div class="podium-pts">1068 pts</div>
+      <div class="podium-base">2</div>
+    </div>
+    <div class="podium-item first">
+      <div class="podium-avatar" style="position:relative">
+        <svg class="crown" width="24" height="24" viewBox="0 0 24 24" fill="#FFD700" stroke="none"><path d="M2 4l3 12h14l3-12-5 4-5-8-5 8-3-4z"/></svg>
+        JA
+      </div>
+      <div class="podium-name">Juan Antonio</div>
+      <div class="podium-pts">1077 pts</div>
+      <div class="podium-base">1</div>
+    </div>
+    <div class="podium-item third">
+      <div class="podium-avatar">D</div>
+      <div class="podium-name">Daniel</div>
+      <div class="podium-pts">1065 pts</div>
+      <div class="podium-base">3</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-row">
+      <button class="filter-btn active">General</button>
+      <button class="filter-btn">Mis Amigos</button>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn active">Global</button>
+      <button class="filter-btn">Hombres</button>
+      <button class="filter-btn">Mujeres</button>
+    </div>
+  </div>
+
+  <div class="rank-list">
+    <div class="rank-row"><div class="rank-pos">4</div><div class="rank-avatar">IG</div><div class="rank-name">Israel González</div><div class="rank-streak"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2c1 3 4 6 4 10a4 4 0 0 1-8 0c0-4 3-7 4-10z"/></svg>9</div><div class="rank-pts">1053</div></div>
+    <div class="rank-row"><div class="rank-pos">5</div><div class="rank-avatar">NC</div><div class="rank-name">Nadia Cano</div><div class="rank-streak"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2c1 3 4 6 4 10a4 4 0 0 1-8 0c0-4 3-7 4-10z"/></svg>15</div><div class="rank-pts">1047</div></div>
+    <div class="rank-row"><div class="rank-pos">6</div><div class="rank-avatar">DG</div><div class="rank-name">Daniel G.</div><div class="rank-streak"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2c1 3 4 6 4 10a4 4 0 0 1-8 0c0-4 3-7 4-10z"/></svg>3</div><div class="rank-pts">949</div></div>
+    <div class="rank-row"><div class="rank-pos">7</div><div class="rank-avatar">L</div><div class="rank-name">Lucy</div><div class="rank-streak"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2c1 3 4 6 4 10a4 4 0 0 1-8 0c0-4 3-7 4-10z"/></svg>7</div><div class="rank-pts">929</div></div>
+    <div class="rank-row"><div class="rank-pos">8</div><div class="rank-avatar">LB</div><div class="rank-name">Lluis Bramon</div><div class="rank-streak"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 2c1 3 4 6 4 10a4 4 0 0 1-8 0c0-4 3-7 4-10z"/></svg>11</div><div class="rank-pts">910</div></div>
+  </div>
+</div>
+
+<div class="your-pos">
+  <div class="your-pos-text">Tú: <span class="pos">#52</span></div>
+  <div class="your-pos-pts">152 pts</div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="75tofit-hoy.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Hoy
+  </a>
+  <a href="75tofit-ranking.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+    Ranking
+  </a>
+  <a href="75tofit-perfil.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Perfil
+  </a>
+</nav>
+
+<script>
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.parentElement.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
