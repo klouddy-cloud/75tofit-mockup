@@ -4,144 +4,233 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>75toFit — Hoy</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0A0A0F;color:#F1F1F1;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;justify-content:center}
-h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
-.app{width:100%;max-width:430px;min-height:100vh;position:relative;padding:24px 20px 100px;background:#0A0A0F}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.greeting{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700}
-.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#4ADE80,#059669);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;cursor:pointer}
-.stats-row{display:flex;gap:16px;align-items:center;margin-bottom:24px;color:#8B8B9E;font-size:14px}
-.stat{display:flex;align-items:center;gap:6px}
-.stat svg{width:18px;height:18px}
-.stat.pts{color:#4ADE80;font-weight:600}
-.habits-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.habit-card{background:#14141F;border:1px solid rgba(255,255,255,0.06);border-radius:16px;height:108px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .2s ease;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;user-select:none}
-.habit-card svg{width:28px;height:28px;stroke:#8B8B9E;transition:all .2s ease}
-.habit-card .label{font-size:13px;color:#8B8B9E;font-weight:500;transition:color .2s ease}
-.habit-card:active{transform:scale(0.95)}
-.habit-card.checked{background:rgba(74,222,128,0.12);border-color:rgba(74,222,128,0.3);box-shadow:0 0 30px rgba(74,222,128,0.1)}
-.habit-card.checked svg{stroke:#fff}
-.habit-card.checked .label{color:#F1F1F1}
-.habit-card .check-overlay{position:absolute;top:8px;right:8px;opacity:0;transform:scale(0);transition:all .25s cubic-bezier(.34,1.56,.64,1)}
-.habit-card.checked .check-overlay{opacity:1;transform:scale(1)}
-.habit-card .pts-popup{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:#4ADE80;opacity:0;pointer-events:none}
-.pts-popup.show{animation:ptsUp .7s ease forwards}
-@keyframes ptsUp{0%{opacity:1;transform:translate(-50%,-50%) scale(0.5)}30%{opacity:1;transform:translate(-50%,-80%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-120%) scale(0.8)}}
-.ranking-teaser{background:#14141F;border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:1px solid transparent;background-image:linear-gradient(#14141F,#14141F),linear-gradient(135deg,#4ADE80,#F59E0B);background-origin:border-box;background-clip:padding-box,border-box;transition:transform .15s ease;margin-bottom:20px;text-decoration:none;color:inherit}
-.ranking-teaser:active{transform:scale(0.98)}
-.ranking-teaser .teaser-text{font-size:13px;color:#8B8B9E;line-height:1.5}
-.ranking-teaser .teaser-text strong{color:#F1F1F1;font-weight:600}
-.ranking-teaser .teaser-text .pos{color:#F59E0B;font-family:'Space Grotesk',sans-serif;font-weight:700}
-.ranking-teaser svg{stroke:#8B8B9E;flex-shrink:0;margin-left:12px}
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#0d0d14;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-around;padding:12px 0 max(12px,env(safe-area-inset-bottom));z-index:100}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#8B8B9E;font-size:11px;font-weight:500;cursor:pointer;transition:color .15s}
-.nav-item.active{color:#4ADE80}
-.nav-item.active svg{stroke:#4ADE80}
-.nav-item svg{width:22px;height:22px;stroke:#8B8B9E;transition:stroke .15s}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.habit-card{animation:fadeInUp .4s ease backwards}
-.habit-card:nth-child(1){animation-delay:.05s}
-.habit-card:nth-child(2){animation-delay:.1s}
-.habit-card:nth-child(3){animation-delay:.15s}
-.habit-card:nth-child(4){animation-delay:.2s}
-.habit-card:nth-child(5){animation-delay:.25s}
-.habit-card:nth-child(6){animation-delay:.3s}
-.ranking-teaser{animation:fadeInUp .4s ease .35s backwards}
+:root{
+--bg:#F7F7F2;--card:#FFFFFF;--coral:#FF6B6B;--teal:#4ECDC4;--yellow:#FFE66D;--green:#95E1D3;
+--text:#2D3436;--gray:#636E72;--shadow:0 2px 12px rgba(0,0,0,0.06);--radius:20px;
+}
+body{font-family:'DM Sans',sans-serif;background:#EFEFEF;color:var(--text);min-height:100vh;display:flex;justify-content:center}
+.phone{width:100%;max-width:430px;background:var(--bg);min-height:100vh;position:relative;padding:24px 20px 100px;overflow-x:hidden}
+h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+[class*="cursor"],button,.habit-card,.nav-item,.ranking-teaser{cursor:pointer}
+
+/* Header */
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;animation:fadeUp .5s ease}
+.greeting h1{font-size:24px;font-weight:800;display:flex;align-items:center;gap:8px}
+.greeting p{font-size:14px;color:var(--gray);display:flex;align-items:center;gap:6px;margin-top:4px}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--teal));padding:3px;flex-shrink:0}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;color:#fff;font-size:18px;background:linear-gradient(135deg,#f8a;#8df)}
+
+/* Progress Ring */
+.progress-section{text-align:center;margin-bottom:24px;animation:fadeUp .5s ease .1s both}
+.ring-wrap{position:relative;width:130px;height:130px;margin:0 auto 12px}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:#F0F0F0;stroke-width:10}
+.ring-fill{fill:none;stroke:var(--coral);stroke-width:10;stroke-linecap:round;stroke-dasharray:339.292;stroke-dashoffset:339.292;transition:stroke-dashoffset 1.2s ease}
+.ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-text .num{font-family:'Nunito';font-size:32px;font-weight:800;line-height:1}
+.ring-text .label{font-size:13px;color:var(--gray)}
+.pts-pill{display:inline-block;background:var(--coral);color:#fff;font-size:13px;font-weight:600;padding:4px 14px;border-radius:20px;margin-top:4px}
+
+/* Habits Grid */
+.habits-title{font-size:18px;font-weight:700;margin-bottom:14px;animation:fadeUp .5s ease .2s both}
+.habits-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.habit-card{border-radius:var(--radius);padding:20px 14px;text-align:center;transition:all .2s ease;position:relative;overflow:hidden;user-select:none}
+.habit-card .icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;transition:all .2s}
+.habit-card .icon svg{width:24px;height:24px;transition:all .2s}
+.habit-card .lbl{font-size:14px;font-weight:600;transition:color .2s}
+.habit-card .check{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(0);transition:all .25s}
+.habit-card .check svg{width:14px;height:14px}
+.habit-card .float-pts{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Nunito';font-weight:800;font-size:18px;opacity:0;pointer-events:none}
+.habit-card.done{transform:scale(1.03)}
+.habit-card.done .check{opacity:1;transform:scale(1)}
+.habit-card.anim{animation:pop .3s ease}
+
+/* Per-habit colors */
+.h-coral{background:#FFF0F0}.h-coral .icon{background:#FFD4D4}.h-coral .icon svg{fill:#FF6B6B}
+.h-coral.done{background:#FF6B6B}.h-coral.done .icon{background:rgba(255,255,255,.3)}.h-coral.done .icon svg{fill:#fff}.h-coral.done .lbl{color:#fff}.h-coral .check{background:rgba(255,255,255,.4)}.h-coral .check svg{fill:#fff}.h-coral .float-pts{color:#fff}
+
+.h-purple{background:#F3EEFF}.h-purple .icon{background:#E0D4FF}.h-purple .icon svg{fill:#9B7FE6}
+.h-purple.done{background:#9B7FE6}.h-purple.done .icon{background:rgba(255,255,255,.3)}.h-purple.done .icon svg{fill:#fff}.h-purple.done .lbl{color:#fff}.h-purple .check{background:rgba(255,255,255,.4)}.h-purple .check svg{fill:#fff}.h-purple .float-pts{color:#fff}
+
+.h-teal{background:#E8FBF8}.h-teal .icon{background:#C4F0EB}.h-teal .icon svg{fill:#4ECDC4}
+.h-teal.done{background:#4ECDC4}.h-teal.done .icon{background:rgba(255,255,255,.3)}.h-teal.done .icon svg{fill:#fff}.h-teal.done .lbl{color:#fff}.h-teal .check{background:rgba(255,255,255,.4)}.h-teal .check svg{fill:#fff}.h-teal .float-pts{color:#fff}
+
+.h-blue{background:#E8F4FD}.h-blue .icon{background:#C8E6F9}.h-blue .icon svg{fill:#5DADE2}
+.h-blue.done{background:#5DADE2}.h-blue.done .icon{background:rgba(255,255,255,.3)}.h-blue.done .icon svg{fill:#fff}.h-blue.done .lbl{color:#fff}.h-blue .check{background:rgba(255,255,255,.4)}.h-blue .check svg{fill:#fff}.h-blue .float-pts{color:#fff}
+
+.h-orange{background:#FFF3E8}.h-orange .icon{background:#FFDDC1}.h-orange .icon svg{fill:#F0983A}
+.h-orange.done{background:#F0983A}.h-orange.done .icon{background:rgba(255,255,255,.3)}.h-orange.done .icon svg{fill:#fff}.h-orange.done .lbl{color:#fff}.h-orange .check{background:rgba(255,255,255,.4)}.h-orange .check svg{fill:#fff}.h-orange .float-pts{color:#fff}
+
+.h-yellow{background:#FFFCE8}.h-yellow .icon{background:#FFF3B0}.h-yellow .icon svg{fill:#D4A017}
+.h-yellow.done{background:#E8C820}.h-yellow.done .icon{background:rgba(255,255,255,.3)}.h-yellow.done .icon svg{fill:#fff}.h-yellow.done .lbl{color:#fff}.h-yellow .check{background:rgba(255,255,255,.4)}.h-yellow .check svg{fill:#fff}.h-yellow .float-pts{color:#fff}
+
+/* Ranking teaser */
+.ranking-teaser{background:linear-gradient(135deg,rgba(255,107,107,.08),rgba(78,205,196,.08));border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:12px;margin-bottom:20px;animation:fadeUp .5s ease .4s both;cursor:pointer;text-decoration:none;color:var(--text);transition:transform .2s}
+.ranking-teaser:hover{transform:translateY(-1px)}
+.ranking-teaser .trophy svg{width:28px;height:28px;fill:var(--yellow)}
+.ranking-teaser .info{flex:1;font-size:14px;font-weight:500}
+.ranking-teaser .info strong{font-family:'Nunito';font-weight:700}
+.ranking-teaser .arrow svg{width:20px;height:20px;fill:var(--gray)}
+
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:390px;background:var(--card);border-radius:28px;box-shadow:0 4px 20px rgba(0,0,0,0.08);display:flex;justify-content:space-around;padding:10px 8px;z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 14px;border-radius:16px;transition:all .2s;text-decoration:none;color:var(--gray);font-size:11px;font-weight:600}
+.nav-item svg{width:22px;height:22px;fill:var(--gray);transition:fill .2s}
+.nav-item.active{color:var(--coral);background:rgba(255,107,107,.08)}
+.nav-item.active svg{fill:var(--coral)}
+.nav-item .nav-label{display:none}
+.nav-item.active .nav-label{display:block}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1.03)}}
+@keyframes floatUp{0%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-50%,-120%)}}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="phone">
+  <!-- Header -->
   <div class="header">
-    <h1 class="greeting">Buenos días, Eric</h1>
-    <div class="avatar">EP</div>
-  </div>
-  <div class="stats-row">
-    <div class="stat">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 3 4 6 4 10a4 4 0 0 1-8 0c0-4 3-7 4-10z"/></svg>
-      <span style="color:#F59E0B;font-weight:600">12 días</span>
+    <div class="greeting">
+      <h1>Buenos días, Eric <svg width="24" height="24" viewBox="0 0 24 24" fill="#FFD93D"><path d="M7.5 15.5c0-1.58 1.06-2.9 2.5-3.32V6.5a1.5 1.5 0 0 1 3 0v.17a1.5 1.5 0 0 1 2.5.83v.17A1.5 1.5 0 0 1 18 9v5.5a4.5 4.5 0 0 1-4.5 4.5h-1A4.5 4.5 0 0 1 8 14.5m-.5 1c0 0-1.5-1-1.5-3V11a1 1 0 0 1 2 0"/></svg></h1>
+      <p><svg width="16" height="16" viewBox="0 0 24 24" fill="#FF6B6B"><path d="M12 23c-1.5 0-7-5.5-7-12.5C5 5.5 8.1 2 12 2s7 3.5 7 8.5c0 7-5.5 12.5-7 12.5zm0-18c-2.2 0-4 2.5-4 5.5 0 4.8 3 8.5 4 9.5 1-1 4-4.7 4-9.5C16 7.5 14.2 5 12 5z"/></svg> Llevas 12 días de racha</p>
     </div>
-    <div class="stat pts">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
-      42 pts hoy
+    <div class="avatar"><div class="avatar-inner">EP</div></div>
+  </div>
+
+  <!-- Progress Ring -->
+  <div class="progress-section">
+    <div class="ring-wrap">
+      <svg width="130" height="130" viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="54"/>
+        <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="54"/>
+      </svg>
+      <div class="ring-text">
+        <span class="num" id="ringNum">0/6</span>
+        <span class="label">hábitos hoy</span>
+      </div>
+    </div>
+    <span class="pts-pill" id="ptsPill">+0 pts hoy</span>
+  </div>
+
+  <!-- Habits -->
+  <h2 class="habits-title">Mis hábitos</h2>
+  <div class="habits-grid" id="habitsGrid">
+    <!-- Comer sano -->
+    <div class="habit-card h-coral" data-habit="0" onclick="toggleHabit(this)">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M7 2v9a4 4 0 0 0 3 3.87V22h2V14.87A4 4 0 0 0 15 11V2h-2v8a2 2 0 0 1-2 2 2 2 0 0 1-2-2V2H7zm10 0v20h2V2h-2z"/></svg></div>
+      <div class="lbl">Comer sano</div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+      <div class="float-pts">+3</div>
+    </div>
+    <!-- Dormir -->
+    <div class="habit-card h-purple" data-habit="1" onclick="toggleHabit(this)">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8A9.06 9.06 0 0 0 12 3z"/></svg></div>
+      <div class="lbl">Dormir 7/8h</div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+      <div class="float-pts">+3</div>
+    </div>
+    <!-- Sin alcohol -->
+    <div class="habit-card h-teal" data-habit="2" onclick="toggleHabit(this)">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M6 2l6 7 6-7v2l-5 5.5V17h3v2H8v-2h3V9.5L6 4V2zm13.46.88l1.08 1.08L3.08 21.42 2 20.34 19.46 2.88z"/></svg></div>
+      <div class="lbl">Sin alcohol</div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+      <div class="float-pts">+3</div>
+    </div>
+    <!-- Agua -->
+    <div class="habit-card h-blue" data-habit="3" onclick="toggleHabit(this)">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2c-5.33 8-8 12-8 15a8 8 0 0 0 16 0c0-3-2.67-7-8-15z"/></svg></div>
+      <div class="lbl">1.5L agua</div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+      <div class="float-pts">+3</div>
+    </div>
+    <!-- Ejercicio -->
+    <div class="habit-card h-orange" data-habit="4" onclick="toggleHabit(this)">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43 1.43 1.43 2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/></svg></div>
+      <div class="lbl">Ejercicio</div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+      <div class="float-pts">+3</div>
+    </div>
+    <!-- Leer -->
+    <div class="habit-card h-yellow" data-habit="5" onclick="toggleHabit(this)">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg></div>
+      <div class="lbl">Leer</div>
+      <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+      <div class="float-pts">+3</div>
     </div>
   </div>
 
-  <div class="habits-grid">
-    <div class="habit-card" data-habit="comer">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-      <span class="label">Comer sano</span>
-      <div class="check-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pts-popup">+3 pts</div>
-    </div>
-    <div class="habit-card" data-habit="dormir">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-      <span class="label">Dormir 7/8h</span>
-      <div class="check-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pts-popup">+3 pts</div>
-    </div>
-    <div class="habit-card" data-habit="alcohol">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8h14z"/><line x1="1" y1="1" x2="23" y2="23" stroke-width="2"/></svg>
-      <span class="label">Sin alcohol</span>
-      <div class="check-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pts-popup">+3 pts</div>
-    </div>
-    <div class="habit-card" data-habit="agua">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-      <span class="label">1.5L agua</span>
-      <div class="check-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pts-popup">+3 pts</div>
-    </div>
-    <div class="habit-card" data-habit="ejercicio">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>
-      <span class="label">Ejercicio</span>
-      <div class="check-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pts-popup">+3 pts</div>
-    </div>
-    <div class="habit-card" data-habit="leer">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-      <span class="label">Leer</span>
-      <div class="check-overlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="pts-popup">+3 pts</div>
-    </div>
-  </div>
-
-  <a href="75tofit-ranking.html" class="ranking-teaser">
-    <div class="teaser-text">Estás <span class="pos">#52</span> en el ranking — a <strong>14 pts</strong> del #51 (Oscar)</div>
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  <!-- Ranking Teaser -->
+  <a class="ranking-teaser" href="75tofit-ranking.html">
+    <div class="trophy"><svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg></div>
+    <div class="info">Estás <strong>#52</strong> — a 14 pts de Oscar</div>
+    <div class="arrow"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></div>
   </a>
 </div>
 
+<!-- Bottom Nav -->
 <nav class="bottom-nav">
-  <a href="75tofit-hoy.html" class="nav-item active">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Hoy
+  <a class="nav-item active" href="75tofit-hoy.html">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span class="nav-label">Hoy</span>
   </a>
-  <a href="75tofit-ranking.html" class="nav-item">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5C7 4 7 7 7 7"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5C17 4 17 7 17 7"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-    Ranking
+  <a class="nav-item" href="75tofit-retos.html">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+    <span class="nav-label">Retos</span>
   </a>
-  <a href="75tofit-perfil.html" class="nav-item">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    Perfil
+  <a class="nav-item" href="75tofit-ranking.html">
+    <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+    <span class="nav-label">Ranking</span>
+  </a>
+  <a class="nav-item" href="75tofit-perfil.html">
+    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    <span class="nav-label">Perfil</span>
   </a>
 </nav>
 
 <script>
-document.querySelectorAll('.habit-card').forEach(card=>{
-  card.addEventListener('click',()=>{
-    card.classList.toggle('checked');
-    if(card.classList.contains('checked')){
-      card.style.transform='scale(1.05)';
-      setTimeout(()=>card.style.transform='',150);
-      const p=card.querySelector('.pts-popup');
-      p.classList.remove('show');
-      void p.offsetWidth;
-      p.classList.add('show');
-    }
+let doneCount = 0;
+const totalHabits = 6;
+const circumference = 2 * Math.PI * 54; // ~339.29
+
+function updateRing() {
+  const fill = document.getElementById('ringFill');
+  const offset = circumference - (doneCount / totalHabits) * circumference;
+  fill.style.strokeDashoffset = offset;
+  document.getElementById('ringNum').textContent = doneCount + '/' + totalHabits;
+  document.getElementById('ptsPill').textContent = '+' + (doneCount * 3) + ' pts hoy';
+}
+
+function toggleHabit(el) {
+  const isDone = el.classList.toggle('done');
+  doneCount += isDone ? 1 : -1;
+  if (isDone) {
+    el.classList.add('anim');
+    const fp = el.querySelector('.float-pts');
+    fp.style.animation = 'floatUp .7s ease forwards';
+    setTimeout(() => { fp.style.animation = ''; }, 700);
+    setTimeout(() => el.classList.remove('anim'), 300);
+  }
+  updateRing();
+}
+
+// Animate ring on load
+window.addEventListener('load', () => {
+  // Start with 3 done
+  const cards = document.querySelectorAll('.habit-card');
+  [0, 2, 3].forEach(i => {
+    cards[i].classList.add('done');
+    doneCount++;
   });
+  setTimeout(updateRing, 100);
+});
+
+// Stagger animations for habit cards
+document.querySelectorAll('.habit-card').forEach((card, i) => {
+  card.style.animation = `fadeUp .4s ease ${.25 + i * .06}s both`;
 });
 </script>
 </body>
