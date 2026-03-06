@@ -9,6 +9,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
 --bg:#F7F7F2;--card:#FFFFFF;--coral:#FF6B6B;--teal:#4ECDC4;--yellow:#FFE66D;--green:#95E1D3;
+--amber:#F59E0B;--amber-light:#FFF8E1;--amber-dark:#D97706;
 --text:#2D3436;--gray:#636E72;--shadow:0 2px 12px rgba(0,0,0,0.06);--radius:20px;
 }
 body{font-family:'DM Sans',sans-serif;background:#EFEFEF;color:var(--text);min-height:100vh;display:flex;justify-content:center}
@@ -22,7 +23,7 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 .greeting h1{font-size:24px;font-weight:800;display:flex;align-items:center;gap:8px}
 .greeting p{font-size:14px;color:var(--gray);display:flex;align-items:center;gap:6px;margin-top:4px}
 .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--teal));padding:3px;flex-shrink:0}
-.avatar-inner{width:100%;height:100%;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;color:#fff;font-size:18px;background:linear-gradient(135deg,#f8a;#8df)}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-family:'Nunito';font-weight:800;color:#fff;font-size:18px;background:linear-gradient(135deg,#f8a,#8df)}
 
 /* Progress Ring */
 .progress-section{text-align:center;margin-bottom:24px;animation:fadeUp .5s ease .1s both}
@@ -49,24 +50,65 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 .habit-card.done .check{opacity:1;transform:scale(1)}
 .habit-card.anim{animation:pop .3s ease}
 
+/* Wildcard state for habit cards */
+.habit-card.wildcarded{transform:scale(1.03)}
+.habit-card.wildcarded .check{opacity:1;transform:scale(1);background:var(--amber) !important}
+.habit-card.wildcarded .check svg{fill:#fff !important}
+.habit-card .wildcard-btn{position:absolute;bottom:8px;right:8px;width:24px;height:24px;border-radius:50%;border:2px dashed var(--amber);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:all .25s;background:transparent;z-index:5}
+.habit-card .wildcard-btn svg{width:12px;height:12px;fill:var(--amber)}
+.habit-card:not(.done):not(.wildcarded) .wildcard-btn{opacity:1}
+.habit-card .wildcard-btn:hover{background:var(--amber-light);border-style:solid}
+
+/* Wildcard badge on card */
+.habit-card .wc-badge-card{position:absolute;top:8px;left:8px;display:flex;align-items:center;gap:3px;font-size:10px;font-weight:700;font-family:'Nunito',sans-serif;color:var(--amber-dark);background:var(--amber-light);padding:2px 8px;border-radius:8px;opacity:0;transform:scale(0);transition:all .25s}
+.habit-card .wc-badge-card svg{width:10px;height:10px;fill:var(--amber)}
+.habit-card.wildcarded .wc-badge-card{opacity:1;transform:scale(1)}
+
 /* Per-habit colors */
 .h-coral{background:#FFF0F0}.h-coral .icon{background:#FFD4D4}.h-coral .icon svg{fill:#FF6B6B}
 .h-coral.done{background:#FF6B6B}.h-coral.done .icon{background:rgba(255,255,255,.3)}.h-coral.done .icon svg{fill:#fff}.h-coral.done .lbl{color:#fff}.h-coral .check{background:rgba(255,255,255,.4)}.h-coral .check svg{fill:#fff}.h-coral .float-pts{color:#fff}
+.h-coral.wildcarded{background:linear-gradient(135deg,#FFF0F0,var(--amber-light))}.h-coral.wildcarded .icon{background:#FFE8C8}.h-coral.wildcarded .icon svg{fill:var(--amber)}.h-coral.wildcarded .lbl{color:var(--amber-dark)}
 
 .h-purple{background:#F3EEFF}.h-purple .icon{background:#E0D4FF}.h-purple .icon svg{fill:#9B7FE6}
 .h-purple.done{background:#9B7FE6}.h-purple.done .icon{background:rgba(255,255,255,.3)}.h-purple.done .icon svg{fill:#fff}.h-purple.done .lbl{color:#fff}.h-purple .check{background:rgba(255,255,255,.4)}.h-purple .check svg{fill:#fff}.h-purple .float-pts{color:#fff}
+.h-purple.wildcarded{background:linear-gradient(135deg,#F3EEFF,var(--amber-light))}.h-purple.wildcarded .icon{background:#FFE8C8}.h-purple.wildcarded .icon svg{fill:var(--amber)}.h-purple.wildcarded .lbl{color:var(--amber-dark)}
 
 .h-teal{background:#E8FBF8}.h-teal .icon{background:#C4F0EB}.h-teal .icon svg{fill:#4ECDC4}
 .h-teal.done{background:#4ECDC4}.h-teal.done .icon{background:rgba(255,255,255,.3)}.h-teal.done .icon svg{fill:#fff}.h-teal.done .lbl{color:#fff}.h-teal .check{background:rgba(255,255,255,.4)}.h-teal .check svg{fill:#fff}.h-teal .float-pts{color:#fff}
+.h-teal.wildcarded{background:linear-gradient(135deg,#E8FBF8,var(--amber-light))}.h-teal.wildcarded .icon{background:#FFE8C8}.h-teal.wildcarded .icon svg{fill:var(--amber)}.h-teal.wildcarded .lbl{color:var(--amber-dark)}
 
 .h-blue{background:#E8F4FD}.h-blue .icon{background:#C8E6F9}.h-blue .icon svg{fill:#5DADE2}
 .h-blue.done{background:#5DADE2}.h-blue.done .icon{background:rgba(255,255,255,.3)}.h-blue.done .icon svg{fill:#fff}.h-blue.done .lbl{color:#fff}.h-blue .check{background:rgba(255,255,255,.4)}.h-blue .check svg{fill:#fff}.h-blue .float-pts{color:#fff}
+.h-blue.wildcarded{background:linear-gradient(135deg,#E8F4FD,var(--amber-light))}.h-blue.wildcarded .icon{background:#FFE8C8}.h-blue.wildcarded .icon svg{fill:var(--amber)}.h-blue.wildcarded .lbl{color:var(--amber-dark)}
 
 .h-orange{background:#FFF3E8}.h-orange .icon{background:#FFDDC1}.h-orange .icon svg{fill:#F0983A}
 .h-orange.done{background:#F0983A}.h-orange.done .icon{background:rgba(255,255,255,.3)}.h-orange.done .icon svg{fill:#fff}.h-orange.done .lbl{color:#fff}.h-orange .check{background:rgba(255,255,255,.4)}.h-orange .check svg{fill:#fff}.h-orange .float-pts{color:#fff}
+.h-orange.wildcarded{background:linear-gradient(135deg,#FFF3E8,var(--amber-light))}.h-orange.wildcarded .icon{background:#FFE8C8}.h-orange.wildcarded .icon svg{fill:var(--amber)}.h-orange.wildcarded .lbl{color:var(--amber-dark)}
 
 .h-yellow{background:#FFFCE8}.h-yellow .icon{background:#FFF3B0}.h-yellow .icon svg{fill:#D4A017}
 .h-yellow.done{background:#E8C820}.h-yellow.done .icon{background:rgba(255,255,255,.3)}.h-yellow.done .icon svg{fill:#fff}.h-yellow.done .lbl{color:#fff}.h-yellow .check{background:rgba(255,255,255,.4)}.h-yellow .check svg{fill:#fff}.h-yellow .float-pts{color:#fff}
+.h-yellow.wildcarded{background:linear-gradient(135deg,#FFFCE8,var(--amber-light))}.h-yellow.wildcarded .icon{background:#FFE8C8}.h-yellow.wildcarded .icon svg{fill:var(--amber)}.h-yellow.wildcarded .lbl{color:var(--amber-dark)}
+
+/* ===== WILDCARD BANNER ===== */
+.wildcard-banner{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;margin-bottom:20px;animation:fadeUp .5s ease .07s both;position:relative;overflow:hidden}
+.wildcard-banner::before{content:'';position:absolute;top:-30px;right:-10px;width:100px;height:100px;background:radial-gradient(circle,rgba(245,158,11,0.12),transparent 70%);pointer-events:none}
+.wb-row{display:flex;align-items:center;justify-content:space-between}
+.wb-left{display:flex;align-items:center;gap:10px}
+.wb-icon{width:38px;height:38px;border-radius:12px;background:var(--amber-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wb-icon svg{width:20px;height:20px}
+.wb-info .wb-title{font-family:'Nunito',sans-serif;font-size:15px;font-weight:700}
+.wb-info .wb-sub{font-size:12px;color:var(--gray)}
+.wb-tokens{display:flex;gap:6px}
+.wb-token{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s ease;flex-shrink:0}
+.wb-token svg{width:14px;height:14px}
+.wb-token.available{background:linear-gradient(135deg,var(--amber),var(--amber-dark));box-shadow:0 2px 10px rgba(245,158,11,0.35)}
+.wb-token.available svg{fill:#fff;stroke:none}
+.wb-token.used{background:#F0F0F0;box-shadow:none}
+.wb-token.used svg{fill:none;stroke:var(--gray);stroke-width:2.5}
+.wb-bar-row{display:flex;align-items:center;gap:10px;margin-top:10px}
+.wb-bar-track{flex:1;height:5px;background:#F0F0F0;border-radius:99px;overflow:hidden}
+.wb-bar-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--amber-dark));border-radius:99px;transition:width .6s ease}
+.wb-bar-label{font-size:11px;color:var(--gray);white-space:nowrap}
 
 /* Weekly Challenge */
 .weekly-challenge{background:#FFFFFF;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;cursor:pointer;border-left:4px solid #F59E0B;animation:fadeUp .5s ease .08s both;transition:all .3s ease}
@@ -92,6 +134,33 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 .ranking-teaser .info strong{font-family:'Nunito';font-weight:700}
 .ranking-teaser .arrow svg{width:20px;height:20px;fill:var(--gray)}
 
+/* ===== BOTTOM SHEET ===== */
+.sheet-overlay{position:fixed;inset:0;background:rgba(45,52,54,0.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.sheet-overlay.open{opacity:1;pointer-events:auto}
+.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:430px;background:var(--bg);border-radius:24px 24px 0 0;padding:16px 24px 40px;z-index:201;transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,0.15)}
+.sheet-overlay.open .sheet{transform:translateX(-50%) translateY(0)}
+.sheet-handle{width:36px;height:4px;border-radius:99px;background:#E0E0E0;margin:0 auto 20px}
+.sheet-head{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.sheet-head-icon{width:48px;height:48px;border-radius:16px;background:var(--amber-light);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(245,158,11,0.2)}
+.sheet-head-icon svg{width:26px;height:26px}
+.sheet-head-text h3{font-size:20px;font-weight:800}
+.sheet-head-text p{font-size:13px;color:var(--gray);margin-top:2px}
+.sheet-habit{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border-radius:16px;box-shadow:var(--shadow);margin-bottom:16px}
+.sheet-habit-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sheet-habit-name{font-family:'Nunito',sans-serif;font-size:15px;font-weight:700}
+.sheet-habit-day{font-size:12px;color:var(--gray)}
+.sheet-stats{display:flex;gap:10px;margin-bottom:16px}
+.sheet-stat{flex:1;padding:14px 10px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);text-align:center}
+.sheet-stat-num{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;color:var(--text)}
+.sheet-stat-label{font-size:11px;color:var(--gray);margin-top:2px}
+.sheet-note{padding:14px 16px;background:var(--amber-light);border-radius:14px;font-size:13px;color:var(--amber-dark);line-height:1.5;margin-bottom:20px}
+.sheet-note strong{font-weight:700}
+.sheet-btn{width:100%;padding:16px;border:none;border-radius:16px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all .2s}
+.sheet-btn.primary{background:linear-gradient(135deg,var(--amber),var(--amber-dark));color:#fff;box-shadow:0 4px 20px rgba(245,158,11,0.35)}
+.sheet-btn.primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(245,158,11,0.45)}
+.sheet-btn.primary:active{transform:scale(.98)}
+.sheet-btn.secondary{background:transparent;color:var(--gray);margin-top:8px}
+
 /* Bottom Nav */
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;justify-content:space-around;padding:10px 0 20px;box-shadow:0 -2px 12px rgba(0,0,0,.04);z-index:100}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;cursor:pointer;font-size:11px;color:#B2BEC3;font-family:'Nunito',sans-serif;font-weight:600;transition:color .2s}
@@ -101,6 +170,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1.03)}}
 @keyframes floatUp{0%{opacity:1;transform:translate(-50%,0) scale(1)}60%{opacity:1;transform:translate(-50%,-40px) scale(1.2)}100%{opacity:0;transform:translate(-50%,-60px) scale(0.8)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.wb-token.available{background:linear-gradient(90deg,var(--amber) 0%,#FFD060 50%,var(--amber) 100%);background-size:200% 100%;animation:shimmer 3s ease infinite}
 
 /* Confetti */
 .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;top:-10px;z-index:9999;pointer-events:none;animation:confettiFall 1.2s ease-out forwards}
@@ -133,16 +204,19 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
           <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle cx="22" cy="22" r="20" fill="none" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="0" transform="rotate(-90 22 22)"/></svg>
         </div>
       </div>
-      <div class="week-day active" data-day="2" style="flex:1;text-align:center;cursor:pointer">
-        <div style="font-size:12px;color:var(--coral);font-weight:700;margin-bottom:4px">Mié</div>
-        <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Nunito';font-weight:800;font-size:16px;color:var(--coral);position:relative">26
-          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle id="todayRing" cx="22" cy="22" r="20" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="125.66" transform="rotate(-90 22 22)" style="transition:stroke-dashoffset .6s ease"/></svg>
+      <!-- Miércoles: día con comodín usado -->
+      <div class="week-day" data-day="2" style="flex:1;text-align:center;cursor:pointer">
+        <div style="font-size:12px;color:var(--amber);font-weight:700;margin-bottom:4px">Mié</div>
+        <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Nunito';font-weight:700;font-size:16px;position:relative;background:var(--amber-light)">26
+          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle cx="22" cy="22" r="20" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="20.94" transform="rotate(-90 22 22)"/></svg>
+          <svg style="position:absolute;top:-4px;right:-4px;width:14px;height:14px" viewBox="0 0 24 24" fill="var(--amber)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
       </div>
-      <div class="week-day" data-day="3" style="flex:1;text-align:center;cursor:pointer">
-        <div style="font-size:12px;color:var(--gray);font-weight:500;margin-bottom:4px">Jue</div>
-        <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Nunito';font-weight:700;font-size:16px;color:var(--gray);position:relative">27
-          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/></svg>
+      <!-- Jueves: hoy -->
+      <div class="week-day active" data-day="3" style="flex:1;text-align:center;cursor:pointer">
+        <div style="font-size:12px;color:var(--coral);font-weight:700;margin-bottom:4px">Jue</div>
+        <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-family:'Nunito';font-weight:800;font-size:16px;color:var(--coral);position:relative">27
+          <svg style="position:absolute;inset:-2px;width:44px;height:44px" viewBox="0 0 44 44"><circle cx="22" cy="22" r="20" fill="none" stroke="#F0F0F0" stroke-width="3"/><circle id="todayRing" cx="22" cy="22" r="20" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="125.66" transform="rotate(-90 22 22)" style="transition:stroke-dashoffset .6s ease"/></svg>
         </div>
       </div>
       <div class="week-day" data-day="4" style="flex:1;text-align:center;cursor:pointer">
@@ -166,9 +240,35 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
     </div>
   </div>
 
+  <!-- Wildcard Banner -->
+  <div class="wildcard-banner">
+    <div class="wb-row">
+      <div class="wb-left">
+        <div class="wb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="wb-info">
+          <div class="wb-title">Comodines</div>
+          <div class="wb-sub" id="wbSub">1 de 2 usados esta semana</div>
+        </div>
+      </div>
+      <div class="wb-tokens">
+        <div class="wb-token used" id="wcToken1">
+          <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <div class="wb-token available" id="wcToken2">
+          <svg viewBox="0 0 24 24" fill="#fff"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="wb-bar-row">
+      <div class="wb-bar-track"><div class="wb-bar-fill" id="wbBar" style="width:50%"></div></div>
+      <div class="wb-bar-label">Se renuevan el lunes</div>
+    </div>
+  </div>
+
   <!-- Weekly Challenge -->
   <div class="weekly-challenge" id="weeklyChallenge" onclick="completeWeekly()">
-    <!-- Expanded state -->
     <div class="wc-expanded" id="wcExpanded">
       <div class="wc-header">
         <div class="wc-badge">
@@ -186,7 +286,6 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
         <div class="wc-btn">Completar</div>
       </div>
     </div>
-    <!-- Compact state (hidden by default) -->
     <div class="wc-compact" id="wcCompact" style="display:none">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       <span class="wc-compact-text">Reto semanal completado</span>
@@ -203,6 +302,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="lbl">Comer sano</div>
       <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
       <div class="float-pts">+3</div>
+      <div class="wildcard-btn" onclick="event.stopPropagation(); openSheet(this.closest('.habit-card'))"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="wc-badge-card"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Comodín</div>
     </div>
     <!-- Dormir -->
     <div class="habit-card h-purple" data-habit="1" onclick="toggleHabit(this)">
@@ -210,6 +311,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="lbl">Dormir 7/8h</div>
       <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
       <div class="float-pts">+3</div>
+      <div class="wildcard-btn" onclick="event.stopPropagation(); openSheet(this.closest('.habit-card'))"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="wc-badge-card"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Comodín</div>
     </div>
     <!-- Sin alcohol -->
     <div class="habit-card h-teal" data-habit="2" onclick="toggleHabit(this)">
@@ -217,6 +320,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="lbl">Sin alcohol</div>
       <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
       <div class="float-pts">+3</div>
+      <div class="wildcard-btn" onclick="event.stopPropagation(); openSheet(this.closest('.habit-card'))"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="wc-badge-card"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Comodín</div>
     </div>
     <!-- Agua -->
     <div class="habit-card h-blue" data-habit="3" onclick="toggleHabit(this)">
@@ -224,6 +329,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="lbl">1.5L agua</div>
       <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
       <div class="float-pts">+3</div>
+      <div class="wildcard-btn" onclick="event.stopPropagation(); openSheet(this.closest('.habit-card'))"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="wc-badge-card"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Comodín</div>
     </div>
     <!-- Ejercicio -->
     <div class="habit-card h-orange" data-habit="4" onclick="toggleHabit(this)">
@@ -231,6 +338,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="lbl">Ejercicio</div>
       <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
       <div class="float-pts">+3</div>
+      <div class="wildcard-btn" onclick="event.stopPropagation(); openSheet(this.closest('.habit-card'))"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="wc-badge-card"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Comodín</div>
     </div>
     <!-- Leer -->
     <div class="habit-card h-yellow" data-habit="5" onclick="toggleHabit(this)">
@@ -238,6 +347,8 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
       <div class="lbl">Leer</div>
       <div class="check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
       <div class="float-pts">+3</div>
+      <div class="wildcard-btn" onclick="event.stopPropagation(); openSheet(this.closest('.habit-card'))"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="wc-badge-card"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Comodín</div>
     </div>
   </div>
 
@@ -249,25 +360,96 @@ h1,h2,h3,.bold{font-family:'Nunito',sans-serif}
   </a>
 </div>
 
+<!-- Bottom Sheet -->
+<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div class="sheet-head-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="sheet-head-text">
+        <h3>Usar comodín</h3>
+        <p>Protege tu racha sin completar el hábito</p>
+      </div>
+    </div>
+    <div class="sheet-habit" id="sheetHabit">
+      <div class="sheet-habit-icon" id="sheetHabitIcon" style="background:#FFD4D4">
+        <svg id="sheetHabitSvg" viewBox="0 0 24 24" width="22" height="22" style="fill:#FF6B6B"><path d="M7 2v9a4 4 0 0 0 3 3.87V22h2V14.87A4 4 0 0 0 15 11V2h-2v8a2 2 0 0 1-2 2 2 2 0 0 1-2-2V2H7zm10 0v20h2V2h-2z"/></svg>
+      </div>
+      <div>
+        <div class="sheet-habit-name" id="sheetHabitName">Comer sano</div>
+        <div class="sheet-habit-day">Jueves 27 de febrero</div>
+      </div>
+    </div>
+    <div class="sheet-stats">
+      <div class="sheet-stat">
+        <div class="sheet-stat-num" id="sheetRemaining">1</div>
+        <div class="sheet-stat-label">Comodín restante</div>
+      </div>
+      <div class="sheet-stat">
+        <div class="sheet-stat-num">12</div>
+        <div class="sheet-stat-label">Días de racha</div>
+      </div>
+      <div class="sheet-stat">
+        <div class="sheet-stat-num">94%</div>
+        <div class="sheet-stat-label">Tasa mensual</div>
+      </div>
+    </div>
+    <div class="sheet-note">
+      <strong>☆ Tu racha de 12 días se mantiene.</strong> El día contará como completado en tu calendario y estadísticas. Te quedará 0 comodines hasta el lunes.
+    </div>
+    <button class="sheet-btn primary" onclick="useWildcard()">☆ Usar comodín</button>
+    <button class="sheet-btn secondary" onclick="closeSheet()">Cancelar</button>
+  </div>
+</div>
+
 <!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a class="nav-item active" href="75tofit-hoy.html">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Hoy
+  </a>
+  <a class="nav-item" href="75tofit-retos.html">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Retos
+  </a>
+  <a class="nav-item" href="75tofit-comunidad.html">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    Comunidad
+  </a>
+  <a class="nav-item" href="75tofit-ranking.html">
+    <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+    Ranking
+  </a>
+  <a class="nav-item" href="75tofit-perfil.html">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Perfil
+  </a>
+</nav>
 
 <script>
 let doneCount = 0;
+let wildcardCount = 0;
 const totalHabits = 6;
-const dayCircumference = 2 * Math.PI * 20; // 125.66
+const maxWildcards = 2;
+let wildcardUsed = 1; // 1 already used (Wednesday)
+let currentSheetCard = null;
+const dayCircumference = 2 * Math.PI * 20;
+
+const habitNames = ['Comer sano', 'Dormir 7/8h', 'Sin alcohol', '1.5L agua', 'Ejercicio', 'Leer'];
 
 function updateTodayRing() {
   const ring = document.getElementById('todayRing');
-  const pct = doneCount / totalHabits;
+  const effectiveCount = doneCount + wildcardCount;
+  const pct = effectiveCount / totalHabits;
   const offset = dayCircumference - pct * dayCircumference;
   ring.style.strokeDashoffset = offset;
-  // Color by percentage
   let color;
   if (pct <= 0.3) color = '#EF4444';
   else if (pct <= 0.7) color = '#F59E0B';
   else color = '#4ECDC4';
   ring.style.stroke = color;
-  // If 100%, fill bg green + white number
   const dayEl = document.querySelector('.week-day.active > div:last-child');
   if (pct >= 1) {
     dayEl.style.background = '#4ECDC4';
@@ -277,7 +459,6 @@ function updateTodayRing() {
     dayEl.style.background = 'transparent';
     dayEl.style.color = 'var(--coral)';
   }
-  document.getElementById('ptsPill').textContent = '+' + (doneCount * 3) + ' pts hoy';
 }
 
 function completeWeekly() {
@@ -307,6 +488,7 @@ function spawnConfetti() {
 }
 
 function toggleHabit(el) {
+  if (el.classList.contains('wildcarded')) return; // can't toggle wildcarded habits
   const isDone = el.classList.toggle('done');
   doneCount += isDone ? 1 : -1;
   if (isDone) {
@@ -320,7 +502,53 @@ function toggleHabit(el) {
   updateTodayRing();
 }
 
-// Animate ring on load
+function openSheet(card) {
+  if (wildcardUsed >= maxWildcards) return; // no wildcards left
+  if (card.classList.contains('done') || card.classList.contains('wildcarded')) return;
+  currentSheetCard = card;
+  const name = card.querySelector('.lbl').textContent;
+  document.getElementById('sheetHabitName').textContent = name;
+  const remaining = maxWildcards - wildcardUsed;
+  document.getElementById('sheetRemaining').textContent = remaining;
+  document.getElementById('sheetOverlay').classList.add('open');
+}
+
+function closeSheet() {
+  document.getElementById('sheetOverlay').classList.remove('open');
+  currentSheetCard = null;
+}
+
+function useWildcard() {
+  if (!currentSheetCard) return;
+  const card = currentSheetCard;
+  
+  // Mark as wildcarded
+  card.classList.add('wildcarded');
+  card.classList.add('anim');
+  setTimeout(() => card.classList.remove('anim'), 300);
+  
+  wildcardUsed++;
+  wildcardCount++;
+  
+  // Update banner
+  document.getElementById('wbSub').textContent = wildcardUsed + ' de ' + maxWildcards + ' usados esta semana';
+  document.getElementById('wbBar').style.width = (wildcardUsed / maxWildcards * 100) + '%';
+  
+  // Update tokens
+  if (wildcardUsed >= 2) {
+    const t2 = document.getElementById('wcToken2');
+    t2.classList.remove('available');
+    t2.classList.add('used');
+    t2.innerHTML = '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
+    t2.style.animation = 'none';
+  }
+  
+  updateTodayRing();
+  closeSheet();
+  spawnConfetti();
+}
+
+// Init: 3 habits pre-done
 window.addEventListener('load', () => {
   const cards = document.querySelectorAll('.habit-card');
   [0, 2, 3].forEach(i => {
@@ -330,32 +558,9 @@ window.addEventListener('load', () => {
   setTimeout(updateTodayRing, 100);
 });
 
-// Stagger animations for habit cards
 document.querySelectorAll('.habit-card').forEach((card, i) => {
-  card.style.animation = `fadeUp .4s ease ${.25 + i * .06}s both`;
+  card.style.animation = 'fadeUp .4s ease ' + (.25 + i * .06) + 's both';
 });
 </script>
-<nav class="bottom-nav">
-    <a class="nav-item active" href="75tofit-hoy.html">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Hoy
-    </a>
-    <a class="nav-item" href="75tofit-retos.html">
-      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      Retos
-    </a>
-    <a class="nav-item" href="75tofit-comunidad.html">
-      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-      Comunidad
-    </a>
-    <a class="nav-item" href="75tofit-ranking.html">
-      <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-      Ranking
-    </a>
-    <a class="nav-item" href="75tofit-perfil.html">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Perfil
-    </a>
-  </nav>
 </body>
 </html>
